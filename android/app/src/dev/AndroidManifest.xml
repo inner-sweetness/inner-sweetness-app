@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="meditofoundation.medito">
+    package="com.abbey.inner_sweetness_app">
     <application
         android:icon="@mipmap/ic_launcher">
     </application>

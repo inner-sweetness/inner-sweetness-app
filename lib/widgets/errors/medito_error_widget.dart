@@ -30,7 +30,7 @@ class MeditoErrorWidget extends ConsumerWidget {
     var textStyle = Theme.of(context).textTheme.headlineSmall?.copyWith(
           fontSize: 16,
           color: ColorConstants.white,
-          fontFamily: sourceSerif,
+          fontFamily: SourceSerif,
         );
 
     var mainBody = _mainBody(

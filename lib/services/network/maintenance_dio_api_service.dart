@@ -16,7 +16,8 @@ class MaintenanceDioApiService {
     dio = Dio()
       ..options = BaseOptions(
         baseUrl: HTTPConstants.maintenance,
-      );
+      )
+    ;
   }
 
   Future<Map<String, Object?>?> getRequest() async {

@@ -145,7 +145,7 @@ class DioApiService {
 
   CustomException _returnDioErrorResponse(DioException error) {
     var data = error.response?.data;
-    String? message;
+    var message;
     if (data is! String) {
       message = data?[_errorKey] ?? data?[_messageKey];
     }

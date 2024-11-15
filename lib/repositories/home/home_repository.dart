@@ -42,9 +42,53 @@ class HomeRepositoryImpl extends HomeRepository {
 
   @override
   Future<HomeModel> fetchHome() async {
-    var response = await client.getRequest(HTTPConstants.home);
-
-    return HomeModel.fromJson(response);
+    return HomeModel(
+      id: 'home_model_1',
+      title: 'Tema',
+      coverUrl: '',
+      subTitle: 'Sub Titulo del Tema',
+      shortcuts: List.generate(
+        4,
+        (index) => ShortcutsModel(
+            id: '$index',
+            type: 'TYPE ${index % 2}',
+            title: 'Titulo $index',
+            path: null,
+            icon: null),
+      ),
+      carousel: const <HomeCarouselModel>[
+        HomeCarouselModel(
+          id: 'home-carouse-model-1',
+          title: 'Artículo',
+          subtitle: 'Sub Título',
+          coverUrl: '',
+          path: 'article_1',
+          type: TypeConstants.article,
+        ),
+        HomeCarouselModel(
+          id: 'home-carouse-model-2',
+          title: 'Podcast',
+          subtitle: 'Could you be Love',
+          coverUrl: '',
+          path: 'track_1',
+          type: TypeConstants.track,
+        ),
+        HomeCarouselModel(
+          id: 'home-carouse-model-3',
+          title: 'Sweet Challenge',
+          subtitle: 'An energy without words.',
+          coverUrl: '',
+          path: 'track_2',
+          type: TypeConstants.track,
+        ),
+      ],
+      todayQuote: const HomeQuoteModel(
+          id: 'HomeQuote1',
+          quote: 'Quote? Yes Quote!',
+          author: 'Quote Author, unexpected...'),
+    );
+    // var response = await client.getRequest(HTTPConstants.home);
+    // return HomeModel.fromJson(response);
   }
 
   @override

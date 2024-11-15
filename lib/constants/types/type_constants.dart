@@ -1,5 +1,6 @@
 class TypeConstants {
   static const String link = 'link';
+  static const String theme = 'theme';
   static const String pack = 'pack';
   static const String track = 'track';
   static const String email = 'email';

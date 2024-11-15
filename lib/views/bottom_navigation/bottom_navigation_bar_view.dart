@@ -4,7 +4,6 @@ import 'package:medito/constants/constants.dart';
 import 'package:medito/views/explore/widgets/explore_view.dart';
 import 'package:medito/views/home/home_view.dart';
 import 'package:medito/views/player/widgets/bottom_actions/bottom_action_bar.dart';
-import 'package:medito/views/settings/settings_screen.dart';
 import 'package:medito/widgets/medito_huge_icon.dart';
 
 class BottomNavigationBarView extends ConsumerStatefulWidget {
@@ -28,8 +27,6 @@ class _BottomNavigationBarViewState
     _pages = [
       const HomeView(),
       ExploreView(searchFocusNode: _searchFocusNode),
-      // const PathView(),
-      const SettingsScreen(),
     ];
   }
 
@@ -50,54 +47,38 @@ class _BottomNavigationBarViewState
       child: Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         bottomNavigationBar: BottomActionBar(
-          leftItem: BottomActionBarItem(
-            child: MeditoHugeIcon(
-              icon: _currentPageIndex == 0 ? 'filledhome' : 'duohome',
-              color: _currentPageIndex == 0
-                  ? ColorConstants.lightPurple
-                  : ColorConstants.white,
-            ),
-            onTap: () => _onDestinationSelected(0),
-          ),
-          leftCenterItem: BottomActionBarItem(
-            child: GestureDetector(
-              onDoubleTap: () {
-                if (_currentPageIndex == 1) {
-                  _searchFocusNode.requestFocus();
-                } else {
-                  _onDestinationSelected(1);
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    _searchFocusNode.requestFocus();
-                  });
-                }
-              },
+          children: <BottomActionBarItem>[
+            BottomActionBarItem(
               child: MeditoHugeIcon(
-                icon: _currentPageIndex == 1 ? 'filledSearch' : 'duoSearch',
-                color: _currentPageIndex == 1
+                icon: _currentPageIndex == 0 ? 'filledhome' : 'duohome',
+                color: _currentPageIndex == 0
                     ? ColorConstants.lightPurple
                     : ColorConstants.white,
               ),
+              onTap: () => _onDestinationSelected(0),
             ),
-            onTap: () => _onDestinationSelected(1),
-          ),
-          // rightCenterItem: BottomActionBarItem(
-          //   child: MeditoHugeIcon(
-          //     icon: _currentPageIndex == 2 ? 'filledPath' : 'duoPath',
-          //     color: _currentPageIndex == 2
-          //         ? ColorConstants.lightPurple
-          //         : ColorConstants.white,
-          //   ),
-          //   onTap: () => _onDestinationSelected(2),
-          // ),
-          rightItem: BottomActionBarItem(
-            child: MeditoHugeIcon(
-              icon: _currentPageIndex == 2 ? 'filledSettings' : 'duoSettings',
-              color: _currentPageIndex == 2
-                  ? ColorConstants.lightPurple
-                  : ColorConstants.white,
+            BottomActionBarItem(
+              child: GestureDetector(
+                onDoubleTap: () {
+                  if (_currentPageIndex == 1) {
+                    _searchFocusNode.requestFocus();
+                  } else {
+                    _onDestinationSelected(1);
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      _searchFocusNode.requestFocus();
+                    });
+                  }
+                },
+                child: MeditoHugeIcon(
+                  icon: _currentPageIndex == 1 ? 'filledSearch' : 'duoSearch',
+                  color: _currentPageIndex == 1
+                      ? ColorConstants.lightPurple
+                      : ColorConstants.white,
+                ),
+              ),
+              onTap: () => _onDestinationSelected(1),
             ),
-            onTap: () => _onDestinationSelected(2),
-          ),
+          ],
         ),
         body: IndexedStack(
           index: _currentPageIndex,

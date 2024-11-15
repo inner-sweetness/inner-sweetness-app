@@ -42,7 +42,7 @@ class AudioDownloadWidget extends ConsumerWidget {
     String downloadFileKey,
   ) {
     if (downloadAudioProvider.audioDownloadState[downloadFileKey] ==
-        AudioDownloadState.downloaded) {
+        AudioDownloadState.DOWNLOADED) {
       return IconButton(
         onPressed: () =>
             _handleRemoveDownload(downloadAudioProvider, ref, context),
@@ -52,7 +52,7 @@ class AudioDownloadWidget extends ConsumerWidget {
         ),
       );
     } else if (downloadAudioProvider.audioDownloadState[downloadFileKey] ==
-        AudioDownloadState.downloading) {
+        AudioDownloadState.DOWNLOADING) {
       return showDownloadProgress(downloadAudioProvider, downloadFileKey);
     } else {
       return IconButton(

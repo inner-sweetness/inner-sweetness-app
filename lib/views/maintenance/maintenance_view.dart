@@ -26,67 +26,69 @@ class _MaintenanceViewState extends ConsumerState<MaintenanceView> {
           fontWeight: FontWeight.w400,
         );
 
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(
-              height: 24,
-            ),
-            const Text(
-              StringConstants.hey,
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-            MarkdownWidget(
-              body: widget.maintenanceModel.message ?? '',
-              textAlign: WrapAlignment.start,
-              a: markDownTheme?.copyWith(
-                decoration: TextDecoration.underline,
-                fontWeight: FontWeight.w700,
+    return Material(
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 24,
               ),
-              p: markDownTheme?.copyWith(
-                fontWeight: FontWeight.w500,
+              const Text(
+                StringConstants.hey,
               ),
-            ),
-            const SizedBox(
-              height: 24,
-            ),
-            SizedBox(
-              width: double.infinity,
-              child: MaterialButton(
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                onPressed: onPressed,
-                color: ColorConstants.white,
-                splashColor: ColorConstants.transparent,
-                padding: const EdgeInsets.symmetric(
-                  vertical: padding14,
-                  horizontal: padding16,
+              const SizedBox(
+                height: 12,
+              ),
+              MarkdownWidget(
+                body: widget.maintenanceModel.message ?? '',
+                textAlign: WrapAlignment.start,
+                a: markDownTheme?.copyWith(
+                  decoration: TextDecoration.underline,
+                  fontWeight: FontWeight.w700,
                 ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(14),
-                ),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Text(
-                      widget.maintenanceModel.ctaLabel ?? '',
-                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            fontFamily: sourceSerif,
-                            fontSize: 20,
-                            color: ColorConstants.ebony,
-                            fontWeight: FontWeight.w700,
-                          ),
-                    ),
-                  ],
+                p: markDownTheme?.copyWith(
+                  fontWeight: FontWeight.w500,
                 ),
               ),
-            ),
-          ],
+              const SizedBox(
+                height: 24,
+              ),
+              SizedBox(
+                width: double.infinity,
+                child: MaterialButton(
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  onPressed: onPressed,
+                  color: ColorConstants.white,
+                  splashColor: ColorConstants.transparent,
+                  padding: const EdgeInsets.symmetric(
+                    vertical: padding14,
+                    horizontal: padding16,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Text(
+                        widget.maintenanceModel.ctaLabel ?? '',
+                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                          fontFamily: SourceSerif,
+                          fontSize: 20,
+                          color: ColorConstants.ebony,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

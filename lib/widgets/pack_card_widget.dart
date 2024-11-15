@@ -94,7 +94,7 @@ class PackCardWidget extends StatelessWidget {
     return Text(
       title,
       style: textTheme.displayLarge?.copyWith(
-        fontFamily: dmSans,
+        fontFamily: DmSans,
         height: 1.2,
         color: color,
       ),

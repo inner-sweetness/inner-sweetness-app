@@ -9,7 +9,6 @@ class ExploreListItem with _$ExploreListItem {
     required String title,
     required String subtitle,
     required String coverUrl,
-    required String path,
   }) = TrackItem;
 
   const factory ExploreListItem.pack({
@@ -17,6 +16,5 @@ class ExploreListItem with _$ExploreListItem {
     required String title,
     required String subtitle,
     required String coverUrl,
-    required String path,
   }) = PackItem;
 }

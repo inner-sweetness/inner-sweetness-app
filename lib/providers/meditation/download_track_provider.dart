@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:medito/repositories/downloader/downloader_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -47,9 +46,8 @@ Future<void> deleteTrackFromPreference(DeleteTrackFromPreferenceRef ref,
 
     ref.invalidate(downloadedTracksProvider);
   } catch (e) {
-    if (kDebugMode) {
-      print('Error in deleteTrackFromPreference: $e');
-    }
+    // Handle or log the error
+    print('Error in deleteTrackFromPreference: $e');
   }
 }
 

@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hugeicons/hugeicons.dart';
+// import 'package:hugeicons/hugeicons.dart';
 import 'package:medito/constants/constants.dart';
 import 'package:medito/providers/notification/reminder_provider.dart';
 import 'package:medito/providers/providers.dart';
@@ -51,18 +51,20 @@ class SettingsScreen extends ConsumerWidget {
       SettingsItem(
         type: 'url',
         title: StringConstants.faqTitle,
-        icon: HugeIcon(
-            icon: HugeIcons.solidRoundedNews01, color: ColorConstants.white),
+        icon: const Icon(Icons.play_arrow),
+        // icon: HugeIcon(
+        //     icon: HugeIcons.solidRoundedNews01, color: ColorConstants.white),
         path:
             'https://medito.notion.site/FAQ-3edb3f0a4b984c069b9c401308d874bc?pvs=4',
       ),
       SettingsItem(
         type: 'url',
         title: StringConstants.editStatsTitle,
-        icon: HugeIcon(
-          icon: HugeIcons.solidRoundedQuestion,
-          color: ColorConstants.white,
-        ),
+        icon: const Icon(Icons.play_arrow),
+        // icon: HugeIcon(
+        //   icon: HugeIcons.solidRoundedQuestion,
+        //   color: ColorConstants.white,
+        // ),
         path: statsAsyncValue.when(
           data: (stats) {
             var timeList = stats.audioCompleted
@@ -78,22 +80,25 @@ class SettingsScreen extends ConsumerWidget {
       SettingsItem(
         type: 'url',
         title: StringConstants.telegramTitle,
-        icon: HugeIcon(
-            icon: HugeIcons.solidRoundedTelegram, color: ColorConstants.white),
+        icon: const Icon(Icons.play_arrow),
+        // icon: HugeIcon(
+        //     icon: HugeIcons.solidRoundedTelegram, color: ColorConstants.white),
         path: 'https://t.me/meditoapp',
       ),
       SettingsItem(
         type: 'url',
         title: StringConstants.donateTitle,
-        icon: HugeIcon(
-            icon: HugeIcons.solidSharpFavourite, color: ColorConstants.white),
+        icon: const Icon(Icons.play_arrow),
+        // icon: HugeIcon(
+        //     icon: HugeIcons.solidSharpFavourite, color: ColorConstants.white),
         path: 'https://donate.meditofoundation.org',
       ),
       SettingsItem(
         type: 'url',
         title: StringConstants.contactUsTitle,
-        icon: HugeIcon(
-            icon: HugeIcons.solidRoundedMessage01, color: ColorConstants.white),
+        icon: const Icon(Icons.play_arrow),
+        // icon: HugeIcon(
+        //     icon: HugeIcons.solidRoundedMessage01, color: ColorConstants.white),
         path: deviceInfoAsyncValue.when(
           data: (deviceInfo) {
             final platform = Uri.encodeComponent(deviceInfo.platform);
@@ -111,9 +116,10 @@ class SettingsScreen extends ConsumerWidget {
       SettingsItem(
         type: 'account',
         title: StringConstants.accountTitle,
-        icon: HugeIcon(
-            icon: HugeIcons.solidRoundedUserAccount,
-            color: ColorConstants.white),
+        icon: const Icon(Icons.play_arrow),
+        // icon: HugeIcon(
+        //     icon: HugeIcons.solidRoundedUserAccount,
+        //     color: ColorConstants.white),
         path: 'account',
       ),
     ];
@@ -179,10 +185,11 @@ class SettingsScreen extends ConsumerWidget {
   Widget _buildDebugTile(BuildContext context, WidgetRef ref) {
     return RowItemWidget(
       enableInteractiveSelection: false,
-      icon: HugeIcon(
-          icon: HugeIcons.strokeRoundedHelpCircle,
-          size: 24,
-          color: Colors.white),
+      icon: const Icon(Icons.play_arrow),
+      // icon: HugeIcon(
+      //     icon: HugeIcons.strokeRoundedHelpCircle,
+      //     size: 24,
+      //     color: Colors.white),
       title: StringConstants.debugInfo,
       hasUnderline: true,
       onTap: () => _showDebugBottomSheet(context, ref),
@@ -198,11 +205,12 @@ class SettingsScreen extends ConsumerWidget {
       color: ColorConstants.onyx,
       child: RowItemWidget(
         enableInteractiveSelection: false,
-        icon: HugeIcon(
-          icon: HugeIcons.solidRoundedNotification03,
-          size: 24,
-          color: Colors.white,
-        ),
+        icon: const Icon(Icons.play_arrow),
+        // icon: HugeIcon(
+        //   icon: HugeIcons.solidRoundedNotification03,
+        //   size: 24,
+        //   color: Colors.white,
+        // ),
         title: StringConstants.dailyReminderTitle,
         subTitle: reminderTime != null
             ? ('${StringConstants.setFor} ${reminderTime.format(context)}')

@@ -14,12 +14,12 @@ class HomeHeaderWidget extends StatelessWidget implements PreferredSizeWidget {
     return Text(
       greeting,
       style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-            color: ColorConstants.white,
-            height: 0,
-            fontSize: 28,
-            fontWeight: FontWeight.w700,
-            fontFamily: sourceSerif,
-          ),
+        color: ColorConstants.white,
+        height: 0,
+        fontSize: 28,
+        fontWeight: FontWeight.w700,
+        fontFamily: SourceSerif,
+      ),
     );
   }
 

@@ -28,30 +28,32 @@ class PlayerActionBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomActionBar(
       showBackground: true,
-      leftItem: BottomActionBarItem(
-        child: const Icon(
-          Icons.close,
-          color: ColorConstants.white,
+      children: <BottomActionBarItem?>[
+        BottomActionBarItem(
+          child: const Icon(
+            Icons.close,
+            color: ColorConstants.white,
+          ),
+          onTap: onClosePressed,
         ),
-        onTap: onClosePressed,
-      ),
-      leftCenterItem: BottomActionBarItem(
-        child: AudioDownloadWidget(
-          trackModel: trackModel,
-          file: file,
+        BottomActionBarItem(
+          child: AudioDownloadWidget(
+            trackModel: trackModel,
+            file: file,
+          ),
+          onTap: () {}, // The AudioDownloadWidget handles its own tap
         ),
-        onTap: () {}, // The AudioDownloadWidget handles its own tap
-      ),
-      rightCenterItem: BottomActionBarItem(
-        child: _buildBackgroundSoundWidget(),
-        onTap: trackModel.hasBackgroundSound
-            ? () {}
-            : _showBackgroundSoundDisabledMessage,
-      ),
-      rightItem: BottomActionBarItem(
-        child: AudioSpeedWidget(onSpeedChanged: onSpeedChanged),
-        onTap: () {}, // The AudioSpeedWidget likely its own tap
-      ),
+        BottomActionBarItem(
+          child: _buildBackgroundSoundWidget(),
+          onTap: trackModel.hasBackgroundSound
+              ? () {}
+              : _showBackgroundSoundDisabledMessage,
+        ),
+        BottomActionBarItem(
+          child: AudioSpeedWidget(onSpeedChanged: onSpeedChanged),
+          onTap: () {}, // The AudioSpeedWidget likely its own tap
+        )
+      ],
     );
   }
 

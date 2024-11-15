@@ -89,6 +89,9 @@ class HTTPConstants {
   // MAINTENANCE END POINTS
   static String maintenance = '${contentBaseUrl}maintenance';
 
+  // TIME END POINTS
+  static String time = 'https://timeapi.io/api/time/current/zone?timeZone=America%2FLima';
+
   // EVENT END POINTS
   static const String audio = '/audio';
   static const String announcementEvent = '/announcements';

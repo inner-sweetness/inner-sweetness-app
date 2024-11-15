@@ -1,4 +1,4 @@
-import 'package:hugeicons/hugeicons.dart';
+// import 'package:hugeicons/hugeicons.dart';
 import 'package:medito/constants/constants.dart';
 import 'package:medito/models/local_audio_completed.dart';
 import 'package:medito/models/models.dart';
@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'widgets/donation_widget.dart';
-import '../../../providers/donation/donation_page_provider.dart';
-import '../../../providers/stats_provider.dart';
+import '../../../providers/donation/donation_page_provider.dart'; // Import the provider
+import '../../../providers/stats_provider.dart'; // Import the stats provider
 
 class EndScreenView extends ConsumerStatefulWidget {
   final TrackModel trackModel;
@@ -27,15 +27,6 @@ class _EndScreenViewState extends ConsumerState<EndScreenView> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     ref.invalidate(fetchDonationPageProvider);
-    ref.invalidate(statsProvider);
-  }
-
-  @override
-  void didUpdateWidget(EndScreenView oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.trackModel != widget.trackModel) {
-      ref.invalidate(statsProvider);
-    }
   }
 
   @override
@@ -49,7 +40,7 @@ class _EndScreenViewState extends ConsumerState<EndScreenView> {
         child: SafeArea(
           child: Column(
             children: [
-              _buildStatsArea(),
+              _buildStatsArea(), // Call the stats area here
               _buildCard(),
             ],
           ),
@@ -73,7 +64,8 @@ class _EndScreenViewState extends ConsumerState<EndScreenView> {
   }
 
   Widget _buildStatsArea() {
-    var statsAsyncValue = ref.watch(statsProvider);
+    final statsAsyncValue =
+        ref.watch(statsProvider); // Watch the stats provider
 
     return statsAsyncValue.when(
       loading: () => const SizedBox(
@@ -85,67 +77,36 @@ class _EndScreenViewState extends ConsumerState<EndScreenView> {
         child: Center(child: Text('Error: $err')),
       ),
       data: (localAllStats) {
-        var streak = localAllStats.streakCurrent;
-        var daysMeditated = _getDaysMeditated(localAllStats.audioCompleted);
-        var lastFiveDays = List.generate(
-          5,
-          (index) => DateTime.now().subtract(Duration(days: index)),
-        );
+        final streak = localAllStats.streakCurrent;
+        final daysMeditated = _getDaysMeditated(localAllStats.audioCompleted);
+        final lastFiveDays = List.generate(
+            5, (index) => DateTime.now().subtract(Duration(days: index)));
 
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            AnimatedSwitcher(
-              duration: const Duration(milliseconds: 500),
-              transitionBuilder: (Widget child, Animation<double> animation) {
-                return FadeTransition(
-                  opacity: animation,
-                  child: ScaleTransition(
-                    scale: Tween<double>(begin: 0.8, end: 1.0).animate(
-                      CurvedAnimation(
-                        parent: animation,
-                        curve: Curves.easeOutBack,
-                      ),
-                    ),
-                    child: child,
-                  ),
-                );
-              },
-              child: Container(
-                key: ValueKey<int>(streak),
-                child: Text(
-                  streak.toString(),
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontFamily: dmSerif,
-                    fontSize: 100,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  textAlign: TextAlign.left,
-                ),
+            Text(
+              streak.toString(),
+              style: const TextStyle(
+                fontFamily: DmSerif,
+                fontSize: 100,
+                fontWeight: FontWeight.w400,
               ),
+              textAlign: TextAlign.left,
             ),
             const Text(
               StringConstants.dayStreak,
               style: TextStyle(
-                fontFamily: teachers,
-                fontSize: 40,
-                fontWeight: FontWeight.w400,
-                height: 1,
-                color: ColorConstants.lightPurple,
-              ),
+                  fontFamily: Teachers,
+                  fontSize: 40,
+                  fontWeight: FontWeight.w400,
+                  height: 1,
+                  color: ColorConstants.lightPurple),
               textAlign: TextAlign.left,
             ),
             const SizedBox(height: 24),
-            AnimatedSwitcher(
-              duration: const Duration(seconds: 1),
-              child: _buildDayLettersAndIcons(
-                lastFiveDays,
-                daysMeditated,
-                key: ValueKey(daysMeditated.join()),
-              ),
-            ),
+            _buildDayLettersAndIcons(lastFiveDays, daysMeditated),
             const SizedBox(height: 24),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -153,7 +114,7 @@ class _EndScreenViewState extends ConsumerState<EndScreenView> {
                 StringConstants.dailyPracticeMessage,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontFamily: teachers,
+                  fontFamily: 'Teachers',
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
                   height: 1.3,
@@ -178,37 +139,34 @@ class _EndScreenViewState extends ConsumerState<EndScreenView> {
   }
 
   Widget _buildDayLettersAndIcons(
-      List<DateTime> lastFiveDays, List<String> daysMeditated,
-      {Key? key}) {
-    lastFiveDays = lastFiveDays.reversed.toList();
-
-    var dayLetters = lastFiveDays.map((day) {
+      List<DateTime> lastFiveDays, List<String> daysMeditated) {
+    // Calculate the actual day letters based on the last five days
+    final dayLetters = lastFiveDays.map((day) {
       switch (day.weekday) {
         case 1:
-          return StringConstants.monday;
+          return StringConstants.monday; // Monday
         case 2:
-          return StringConstants.tuesday;
+          return StringConstants.tuesday; // Tuesday
         case 3:
-          return StringConstants.wednesday;
+          return StringConstants.wednesday; // Wednesday
         case 4:
-          return StringConstants.thursday;
+          return StringConstants.thursday; // Thursday
         case 5:
-          return StringConstants.friday;
+          return StringConstants.friday; // Friday
         case 6:
-          return StringConstants.saturday;
+          return StringConstants.saturday; // Saturday
         case 7:
-          return StringConstants.sunday;
+          return StringConstants.sunday; // Sunday
         default:
           return '';
       }
     }).toList();
 
     return Row(
-      key: key,
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(dayLetters.length, (index) {
         DateTime day = lastFiveDays[index];
-        var isMeditated =
+        final isMeditated =
             daysMeditated.contains(day.toIso8601String().split('T')[0]);
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -218,7 +176,7 @@ class _EndScreenViewState extends ConsumerState<EndScreenView> {
               Text(
                 dayLetters[index],
                 style: TextStyle(
-                  fontFamily: teachers,
+                  fontFamily: 'Teachers',
                   fontSize: 14,
                   fontWeight: isMeditated ? FontWeight.w600 : FontWeight.w500,
                   height: 1.2,
@@ -229,14 +187,17 @@ class _EndScreenViewState extends ConsumerState<EndScreenView> {
               ),
               const SizedBox(height: 4),
               isMeditated
-                  ? HugeIcon(
-                      size: 32,
-                      icon: HugeIcons.solidSharpCheckmarkCircle02,
-                      color: ColorConstants.lightPurple)
-                  : HugeIcon(
-                      size: 32,
-                      icon: HugeIcons.solidSharpCircle,
-                      color: ColorConstants.moon),
+                  ? const Icon(Icons.pause)
+                    // HugeIcon(
+                    //   size: 32,
+                    //   icon: HugeIcons.solidSharpCheckmarkCircle02,
+                    //   color: ColorConstants.lightPurple)
+                  : const Icon(Icons.play_arrow)
+                    // HugeIcon(
+                    //   size: 32,
+                    //   icon: HugeIcons.solidSharpCircle,
+                    //   color: ColorConstants.moon)
+              ,
             ],
           ),
         );

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 class AllStats {
+  final int streakCurrent;
   final int streakLongest;
   final int totalTracksCompleted;
   final int totalTimeListened;
@@ -9,6 +10,7 @@ class AllStats {
   final int updated;
 
   AllStats({
+    required this.streakCurrent,
     required this.streakLongest,
     required this.totalTracksCompleted,
     required this.totalTimeListened,
@@ -19,6 +21,7 @@ class AllStats {
 
   factory AllStats.fromJson(Map<String, dynamic> json) {
     return AllStats(
+      streakCurrent: json['streak_current'] as int? ?? 0,
       streakLongest: json['streak_longest'] as int? ?? 0,
       totalTracksCompleted: json['total_tracks_completed'] as int? ?? 0,
       totalTimeListened: json['total_time_listened'] as int? ?? 0,
@@ -32,6 +35,7 @@ class AllStats {
 
   Map<String, dynamic> toJson() {
     return {
+      'streak_current': streakCurrent,
       'streak_longest': streakLongest,
       'total_tracks_completed': totalTracksCompleted,
       'total_time_listened': totalTimeListened,
@@ -46,6 +50,7 @@ class AllStats {
       identical(this, other) ||
       other is AllStats &&
           runtimeType == other.runtimeType &&
+          streakCurrent == other.streakCurrent &&
           streakLongest == other.streakLongest &&
           totalTracksCompleted == other.totalTracksCompleted &&
           totalTimeListened == other.totalTimeListened &&
@@ -55,6 +60,7 @@ class AllStats {
 
   @override
   int get hashCode =>
+      streakCurrent.hashCode ^
       streakLongest.hashCode ^
       totalTracksCompleted.hashCode ^
       totalTimeListened.hashCode ^

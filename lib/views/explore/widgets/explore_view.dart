@@ -122,6 +122,7 @@ class ExploreContentWidget extends ConsumerWidget {
     return exploreItems.when(
       data: (data) => _buildContent(context, ref, data),
       error: (err, stack) => MeditoErrorWidget(
+        isScaffold: false,
         message: err.toString(),
         onTap: () => ref.invalidate(exploreListProvider(searchQuery)),
       ),
@@ -183,8 +184,8 @@ class ExploreContentWidget extends ConsumerWidget {
                 onTap: () {
                   onPackTapped();
                   handleNavigation(
-                    TypeConstants.pack,
-                    [item.id, item.path],
+                    TypeConstants.theme,
+                    [item.id],
                     context,
                     ref: ref,
                   );
@@ -229,8 +230,8 @@ class ExploreContentWidget extends ConsumerWidget {
           onTap: () {
             onPackTapped();
             handleNavigation(
-              TypeConstants.track,
-              [item.id, item.path],
+              TypeConstants.theme,
+              [item.id],
               context,
               ref: ref,
             );
@@ -259,8 +260,8 @@ class ExploreContentWidget extends ConsumerWidget {
               onTap: () {
                 onPackTapped();
                 handleNavigation(
-                  TypeConstants.track,
-                  [item.id, item.path],
+                  TypeConstants.theme,
+                  [item.id],
                   context,
                   ref: ref,
                 );
