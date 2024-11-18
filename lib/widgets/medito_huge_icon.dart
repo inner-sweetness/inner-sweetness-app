@@ -48,6 +48,8 @@ class MeditoHugeIcon extends StatelessWidget {
       case 'duoSearch':
       case 'filledSearch':
         return Icons.search;
+      case 'favorite':
+        return Icons.favorite;
     //   case 'duoSettings':
     //   case 'filledSettings':
     //     return HugeIcons.solidRoundedSettings01;

@@ -231,6 +231,10 @@ class _ParentWidgetState extends ConsumerState<ParentWidget>
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp(
       debugShowCheckedModeBanner: kDebugMode,
       scaffoldMessengerKey: scaffoldMessengerKey,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:medito/constants/constants.dart';
 import 'package:medito/views/explore/widgets/explore_view.dart';
+import 'package:medito/views/favorite/favorite_view.dart';
 import 'package:medito/views/home/home_view.dart';
 import 'package:medito/views/player/widgets/bottom_actions/bottom_action_bar.dart';
 import 'package:medito/widgets/medito_huge_icon.dart';
@@ -27,6 +28,7 @@ class _BottomNavigationBarViewState
     _pages = [
       const HomeView(),
       ExploreView(searchFocusNode: _searchFocusNode),
+      const FavoriteView(),
     ];
   }
 
@@ -77,6 +79,27 @@ class _BottomNavigationBarViewState
                 ),
               ),
               onTap: () => _onDestinationSelected(1),
+            ),
+            BottomActionBarItem(
+              child: GestureDetector(
+                onDoubleTap: () {
+                  if (_currentPageIndex == 2) {
+                    _searchFocusNode.requestFocus();
+                  } else {
+                    _onDestinationSelected(2);
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      _searchFocusNode.requestFocus();
+                    });
+                  }
+                },
+                child: MeditoHugeIcon(
+                  icon: _currentPageIndex == 2 ? 'favorite' : 'favorite',
+                  color: _currentPageIndex == 2
+                      ? ColorConstants.lightPurple
+                      : ColorConstants.white,
+                ),
+              ),
+              onTap: () => _onDestinationSelected(2),
             ),
           ],
         ),

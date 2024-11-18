@@ -50,53 +50,8 @@ class SettingsScreen extends ConsumerWidget {
     final List<SettingsItem> settingsItems = [
       SettingsItem(
         type: 'url',
-        title: StringConstants.faqTitle,
-        icon: const Icon(Icons.play_arrow),
-        // icon: HugeIcon(
-        //     icon: HugeIcons.solidRoundedNews01, color: ColorConstants.white),
-        path:
-            'https://medito.notion.site/FAQ-3edb3f0a4b984c069b9c401308d874bc?pvs=4',
-      ),
-      SettingsItem(
-        type: 'url',
-        title: StringConstants.editStatsTitle,
-        icon: const Icon(Icons.play_arrow),
-        // icon: HugeIcon(
-        //   icon: HugeIcons.solidRoundedQuestion,
-        //   color: ColorConstants.white,
-        // ),
-        path: statsAsyncValue.when(
-          data: (stats) {
-            var timeList = stats.audioCompleted
-                    ?.map((audio) => audio.timestamp)
-                    .join(',') ??
-                '';
-            return 'https://tally.so/r/wQYKyp?userid=$userId&streakcurrent=${stats.streakCurrent}&streaklongest=${stats.streakLongest}&trackscompleted=${stats.totalTracksCompleted}&timelist=$timeList';
-          },
-          loading: () => 'https://tally.so/r/wQYKyp?userid=$userId',
-          error: (_, __) => 'https://tally.so/r/wQYKyp?userid=$userId',
-        ),
-      ),
-      SettingsItem(
-        type: 'url',
-        title: StringConstants.telegramTitle,
-        icon: const Icon(Icons.play_arrow),
-        // icon: HugeIcon(
-        //     icon: HugeIcons.solidRoundedTelegram, color: ColorConstants.white),
-        path: 'https://t.me/meditoapp',
-      ),
-      SettingsItem(
-        type: 'url',
-        title: StringConstants.donateTitle,
-        icon: const Icon(Icons.play_arrow),
-        // icon: HugeIcon(
-        //     icon: HugeIcons.solidSharpFavourite, color: ColorConstants.white),
-        path: 'https://donate.meditofoundation.org',
-      ),
-      SettingsItem(
-        type: 'url',
         title: StringConstants.contactUsTitle,
-        icon: const Icon(Icons.play_arrow),
+        icon: const Icon(Icons.contact_support_outlined),
         // icon: HugeIcon(
         //     icon: HugeIcons.solidRoundedMessage01, color: ColorConstants.white),
         path: deviceInfoAsyncValue.when(
@@ -114,13 +69,22 @@ class SettingsScreen extends ConsumerWidget {
         ),
       ),
       SettingsItem(
-        type: 'account',
-        title: StringConstants.accountTitle,
-        icon: const Icon(Icons.play_arrow),
-        // icon: HugeIcon(
-        //     icon: HugeIcons.solidRoundedUserAccount,
-        //     color: ColorConstants.white),
-        path: 'account',
+        type: 'url',
+        title: StringConstants.followUsTitle,
+        icon: const Icon(Icons.open_in_new),
+        path: 'https://medito.notion.site/FAQ-3edb3f0a4b984c069b9c401308d874bc?pvs=4',
+      ),
+      SettingsItem(
+        type: 'url',
+        title: StringConstants.shareTitle,
+        icon: const Icon(Icons.share),
+        path: 'https://medito.notion.site/FAQ-3edb3f0a4b984c069b9c401308d874bc?pvs=4',
+      ),
+      SettingsItem(
+        type: 'url',
+        title: StringConstants.logoutTitle,
+        icon: const Icon(Icons.logout),
+        path: 'https://medito.notion.site/FAQ-3edb3f0a4b984c069b9c401308d874bc?pvs=4',
       ),
     ];
 
@@ -157,10 +121,36 @@ class SettingsScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildDailyNotificationTile(context, ref),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  const Text(
+                    'Hi User!',
+                    style: TextStyle(
+                      fontFamily: 'Fixed',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 24.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Text(
+                    'Silver Plan',
+                    style: TextStyle(
+                      fontFamily: 'Fixed',
+                      fontWeight: FontWeight.w400,
+                      fontSize: 18.0,
+                      color: Colors.white.withOpacity(.4),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             if (_isHealthSyncAvailable) const HealthSyncTile(),
-            ...settingsItems
-                .map((item) => _buildMenuItemTile(context, ref, item)),
+            ...settingsItems.map((item) => _buildMenuItemTile(context, ref, item)),
             _buildDebugTile(context, ref),
           ],
         ),
@@ -186,49 +176,9 @@ class SettingsScreen extends ConsumerWidget {
     return RowItemWidget(
       enableInteractiveSelection: false,
       icon: const Icon(Icons.play_arrow),
-      // icon: HugeIcon(
-      //     icon: HugeIcons.strokeRoundedHelpCircle,
-      //     size: 24,
-      //     color: Colors.white),
       title: StringConstants.debugInfo,
       hasUnderline: true,
       onTap: () => _showDebugBottomSheet(context, ref),
-    );
-  }
-
-  Widget _buildDailyNotificationTile(BuildContext context, WidgetRef ref) {
-    final reminderTime = ref.watch(reminderTimeProvider);
-
-    return Card(
-      borderOnForeground: true,
-      margin: const EdgeInsets.symmetric(horizontal: 16.0),
-      color: ColorConstants.onyx,
-      child: RowItemWidget(
-        enableInteractiveSelection: false,
-        icon: const Icon(Icons.play_arrow),
-        // icon: HugeIcon(
-        //   icon: HugeIcons.solidRoundedNotification03,
-        //   size: 24,
-        //   color: Colors.white,
-        // ),
-        title: StringConstants.dailyReminderTitle,
-        subTitle: reminderTime != null
-            ? ('${StringConstants.setFor} ${reminderTime.format(context)}')
-            : null,
-        hasUnderline: true,
-        isSwitch: true,
-        onTap: () {
-          _selectTime(context, ref);
-        },
-        switchValue: reminderTime != null,
-        onSwitchChanged: (value) {
-          if (value) {
-            _selectTime(context, ref);
-          } else {
-            _clearReminder(context, ref);
-          }
-        },
-      ),
     );
   }
 
@@ -243,16 +193,6 @@ class SettingsScreen extends ConsumerWidget {
       context,
       ref: ref,
     );
-  }
-
-  void _clearReminder(BuildContext context, WidgetRef ref) async {
-    final reminders = ref.read(reminderProvider);
-    final prefs = ref.read(sharedPreferencesProvider);
-
-    await reminders.cancelDailyNotification();
-    await _clearSavedTime(prefs);
-    ref.read(reminderTimeProvider.notifier).state = null;
-    _showClearReminderSnackBar(context);
   }
 
   Future<void> _clearSavedTime(SharedPreferences prefs) async {

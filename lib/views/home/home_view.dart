@@ -69,32 +69,21 @@ class _HomeViewState extends ConsumerState<HomeView>
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  if (homeData.coverUrl != null)
-                    ClipRRect(
-                      borderRadius: const BorderRadius.only(
-                        topRight: Radius.circular(30.0),
-                        topLeft: Radius.circular(30.0),
-                      ),
-                      child: AspectRatio(
-                        aspectRatio: 16 / 9,
-                        child: NetworkImageWidget(
-                          url: homeData.coverUrl!,
-                          shouldCache: true,
-                        ),
-                      ),
-                    ),
                   if (homeData.subTitle?.isNotEmpty ?? false)
                    ...[
                      const SizedBox(height: 24),
-                     Text(
-                       homeData.subTitle ?? '',
-                       style:
-                       Theme.of(context).textTheme.headlineMedium?.copyWith(
-                         color: ColorConstants.white,
-                         height: 0,
-                         fontSize: 24,
-                         fontWeight: FontWeight.w500,
-                         fontFamily: SourceSerif,
+                     Padding(
+                       padding: const EdgeInsets.symmetric(horizontal: 16),
+                       child: Text(
+                         homeData.subTitle ?? '',
+                         style:
+                         Theme.of(context).textTheme.headlineMedium?.copyWith(
+                           color: ColorConstants.white,
+                           height: 0,
+                           fontSize: 24,
+                           fontWeight: FontWeight.w500,
+                           fontFamily: SourceSerif,
+                         ),
                        ),
                      ),
                    ],

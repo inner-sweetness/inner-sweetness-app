@@ -82,7 +82,7 @@ void checkTime(ProviderRef<void> ref, BuildContext context) {
   ref.read(fetchTimeProvider.future).then(
         (timeData) {
           final now = DateTime.tryParse(timeData.dateTime ?? '') ?? DateTime.now();
-          final diff = DateTime(2024, 11, 18).difference(now).inDays;
+          final diff = DateTime(2024, 11, 30).difference(now).inDays;
           if (diff > 0) return;
           Navigator.push(
             context,

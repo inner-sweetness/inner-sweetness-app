@@ -216,6 +216,15 @@ class StringConstants {
   /// Title for the Contact Us section in the Settings screen
   static const String contactUsTitle = 'Contact us';
 
+  /// Title for the Contact Us section in the Settings screen
+  static const String followUsTitle = 'Follow us';
+
+  /// Title for the Contact Us section in the Settings screen
+  static const String shareTitle = 'Share';
+
+  /// Title for the Contact Us section in the Settings screen
+  static const String logoutTitle = 'Logout';
+
   /// Title for the Account section in the Settings screen
   static const String accountTitle = 'Account';
 
