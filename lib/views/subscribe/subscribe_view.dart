@@ -15,6 +15,19 @@ class SubscribeView extends ConsumerStatefulWidget {
 }
 
 class _SubscribeViewState extends ConsumerState<SubscribeView> {
+
+  Future<void> initializeUser() async {
+    await ref.read(authRepositoryProvider).initializeUser();
+    await StatsManager().sync();
+    await Navigator.of(context).pushReplacement(
+      FadePageRoute(
+        builder: (context) => const RootPageView(
+          firstChild: BottomNavigationBarView(),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,6 +38,21 @@ class _SubscribeViewState extends ConsumerState<SubscribeView> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 24),
+                child: GestureDetector(
+                  onTap: initializeUser,
+                  behavior: HitTestBehavior.opaque,
+                  child: const Icon(
+                    Icons.close,
+                    color: Colors.white,
+                    size: 32,
+                  ),
+                ),
+              ),
+            ),
             const SizedBox(height: 36),
             const Text(
               'If it resonates',
@@ -129,19 +157,9 @@ class _SubscribeViewState extends ConsumerState<SubscribeView> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: AppButton(
-                text: 'HOME',
+                text: 'PAY NOW!',
                 radius: 40,
-                onTap: () async {
-                  await ref.read(authRepositoryProvider).initializeUser();
-                  await StatsManager().sync();
-                  await Navigator.of(context).pushReplacement(
-                    FadePageRoute(
-                      builder: (context) => const RootPageView(
-                        firstChild: BottomNavigationBarView(),
-                      ),
-                    ),
-                  );
-                },
+                onTap: initializeUser,
               ),
             ),
           ],
