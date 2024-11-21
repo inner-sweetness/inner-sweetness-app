@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:medito/constants/constants.dart';
+import 'package:medito/views/bottom_navigation/bottom_navigation_item.dart';
 import 'package:medito/views/explore/widgets/explore_view.dart';
 import 'package:medito/views/favorite/favorite_view.dart';
 import 'package:medito/views/home/home_view.dart';
 import 'package:medito/views/player/widgets/bottom_actions/bottom_action_bar.dart';
+import 'package:medito/views/settings/settings_screen.dart';
 import 'package:medito/widgets/medito_huge_icon.dart';
 
 class BottomNavigationBarView extends ConsumerStatefulWidget {
@@ -51,53 +53,26 @@ class _BottomNavigationBarViewState
         bottomNavigationBar: BottomActionBar(
           children: <BottomActionBarItem>[
             BottomActionBarItem(
-              child: MeditoHugeIcon(
-                icon: _currentPageIndex == 0 ? 'filledhome' : 'duohome',
-                color: _currentPageIndex == 0
-                    ? ColorConstants.lightPurple
-                    : ColorConstants.white,
+              child: BottomNavigationItem(
+                icon: Icons.home,
+                label: 'Home',
+                selected: _currentPageIndex == 0,
               ),
               onTap: () => _onDestinationSelected(0),
             ),
             BottomActionBarItem(
-              child: GestureDetector(
-                onDoubleTap: () {
-                  if (_currentPageIndex == 1) {
-                    _searchFocusNode.requestFocus();
-                  } else {
-                    _onDestinationSelected(1);
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      _searchFocusNode.requestFocus();
-                    });
-                  }
-                },
-                child: MeditoHugeIcon(
-                  icon: _currentPageIndex == 1 ? 'filledSearch' : 'duoSearch',
-                  color: _currentPageIndex == 1
-                      ? ColorConstants.lightPurple
-                      : ColorConstants.white,
-                ),
+              child: BottomNavigationItem(
+                icon: Icons.search,
+                label: 'Search',
+                selected: _currentPageIndex == 1,
               ),
               onTap: () => _onDestinationSelected(1),
             ),
             BottomActionBarItem(
-              child: GestureDetector(
-                onDoubleTap: () {
-                  if (_currentPageIndex == 2) {
-                    _searchFocusNode.requestFocus();
-                  } else {
-                    _onDestinationSelected(2);
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      _searchFocusNode.requestFocus();
-                    });
-                  }
-                },
-                child: MeditoHugeIcon(
-                  icon: _currentPageIndex == 2 ? 'favorite' : 'favorite',
-                  color: _currentPageIndex == 2
-                      ? ColorConstants.lightPurple
-                      : ColorConstants.white,
-                ),
+              child: BottomNavigationItem(
+                icon: Icons.favorite,
+                label: 'Favorites',
+                selected: _currentPageIndex == 2,
               ),
               onTap: () => _onDestinationSelected(2),
             ),

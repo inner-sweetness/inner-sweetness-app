@@ -1,22 +1,13 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:medito/constants/constants.dart';
-import 'package:medito/providers/notification/reminder_provider.dart';
 import 'package:medito/providers/providers.dart';
-import 'package:medito/providers/stats_provider.dart';
-import 'package:medito/repositories/auth/auth_repository.dart';
-import 'package:medito/routes/routes.dart';
-import 'package:medito/utils/permission_handler.dart';
-import 'package:medito/utils/utils.dart';
-import 'package:medito/views/home/widgets/bottom_sheet/debug/debug_bottom_sheet_widget.dart';
-import 'package:medito/views/home/widgets/bottom_sheet/row_item_widget.dart';
-import 'package:medito/views/settings/health_sync_tile.dart';
-import 'package:medito/widgets/widgets.dart';
+import 'package:medito/utils/fade_page_route.dart';
+import 'package:medito/views/edit_account/edit_account_screen.dart';
+import 'package:medito/views/submit_feedback/submit_feedback_screen.dart';
+import 'package:medito/views/unsubscribe/unsubscribe_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../home/widgets/header/home_header_widget.dart';
 
 final reminderTimeProvider = StateProvider<TimeOfDay?>((ref) {
   final prefs = ref.watch(sharedPreferencesProvider);
@@ -36,120 +27,179 @@ TimeOfDay? _getReminderTimeFromPrefs(SharedPreferences prefs) {
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({Key? key}) : super(key: key);
 
-  static final _isHealthSyncAvailable = Platform.isIOS;
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const userId = '';
-    final deviceInfoAsyncValue = ref.watch(deviceAndAppInfoProvider);
-    final statsAsyncValue = ref.watch(statsProvider);
-
     final List<SettingsItem> settingsItems = [
       SettingsItem(
         type: 'url',
-        title: StringConstants.contactUsTitle,
-        icon: const Icon(Icons.contact_support_outlined),
-        // icon: HugeIcon(
-        //     icon: HugeIcons.solidRoundedMessage01, color: ColorConstants.white),
-        path: deviceInfoAsyncValue.when(
-          data: (deviceInfo) {
-            final platform = Uri.encodeComponent(deviceInfo.platform);
-            final language = Uri.encodeComponent(deviceInfo.languageCode);
-            final model = Uri.encodeComponent(deviceInfo.model);
-            final appVersion = Uri.encodeComponent(deviceInfo.appVersion);
-            final os = Uri.encodeComponent(deviceInfo.os);
-
-            return 'https://tally.so/r/wLGBaO?userId=$userId&platform=$platform&language=$language&model=$model&appVersion=$appVersion&os=$os';
-          },
-          loading: () => 'https://tally.so/r/wLGBaO?userId=$userId',
-          error: (_, __) => 'https://tally.so/r/wLGBaO?userId=$userId',
+        title: 'Edit account details',
+        onTap: () => Navigator.of(context).push(
+          FadePageRoute(
+            builder: (context) => const EditAccountScreen(),
+          ),
         ),
       ),
       SettingsItem(
         type: 'url',
-        title: StringConstants.followUsTitle,
-        icon: const Icon(Icons.open_in_new),
-        path: 'https://medito.notion.site/FAQ-3edb3f0a4b984c069b9c401308d874bc?pvs=4',
+        title: 'Share the application',
+        onTap: () {},
       ),
       SettingsItem(
         type: 'url',
-        title: StringConstants.shareTitle,
-        icon: const Icon(Icons.share),
-        path: 'https://medito.notion.site/FAQ-3edb3f0a4b984c069b9c401308d874bc?pvs=4',
-      ),
-      SettingsItem(
-        type: 'url',
-        title: StringConstants.logoutTitle,
-        icon: const Icon(Icons.logout),
-        path: 'https://medito.notion.site/FAQ-3edb3f0a4b984c069b9c401308d874bc?pvs=4',
+        title: 'Submit Feedback',
+        onTap: () => Navigator.of(context).push(
+          FadePageRoute(
+            builder: (context) => const SubmitFeedbackScreen(),
+          ),
+        ),
       ),
     ];
 
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
-        backgroundColor: ColorConstants.ebony,
-        toolbarHeight: 56.0,
-        title: const Column(
-          children: [
-            HomeHeaderWidget(greeting: StringConstants.settings),
-          ],
-        ),
-        elevation: 0.0,
-      ),
-      body: SafeArea(child: _buildMain(context, ref, settingsItems)),
-    );
-  }
-
-  Widget _buildMain(
-      BuildContext context, WidgetRef ref, List<SettingsItem> settingsItems) {
-    return _buildSettingsList(context, ref, settingsItems);
-  }
-
-  Widget _buildSettingsList(
-    BuildContext context,
-    WidgetRef ref,
-    List<SettingsItem> settingsItems,
-  ) {
-    return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
-      child: Padding(
-        padding: const EdgeInsets.only(top: padding16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  const Text(
-                    'Hi User!',
-                    style: TextStyle(
-                      fontFamily: 'Fixed',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 24.0,
-                      color: Colors.white,
-                    ),
+      backgroundColor: const Color(0xFF1E1E1E),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              GestureDetector(
+                onTap: Navigator.of(context).maybePop,
+                behavior: HitTestBehavior.opaque,
+                child: const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Icon(
+                    Icons.arrow_back,
+                    size: 24,
+                    color: Colors.white,
                   ),
-                  Text(
-                    'Silver Plan',
-                    style: TextStyle(
-                      fontFamily: 'Fixed',
-                      fontWeight: FontWeight.w400,
-                      fontSize: 18.0,
-                      color: Colors.white.withOpacity(.4),
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
-            if (_isHealthSyncAvailable) const HealthSyncTile(),
-            ...settingsItems.map((item) => _buildMenuItemTile(context, ref, item)),
-            _buildDebugTile(context, ref),
-          ],
+              const SizedBox(height: 32),
+              Container(
+                height: 132,
+                width: 132,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: const Color(0x33FFFFFF), width: 4),
+                  boxShadow: const <BoxShadow>[
+                    BoxShadow(
+                      color: Colors.black26,
+                      offset: Offset(0, 2),
+                      blurRadius: 2,
+                      spreadRadius: 2,
+                    ),
+                  ],
+                ),
+                child: Center(
+                  child: ClipOval(
+                    child: SizedBox(
+                      height: 124,
+                      width: 124,
+                      child: Image.asset(
+                        'assets/images/profile_picture.jpeg',
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 32),
+              const Text(
+                'Aaron Márquez',
+                style: TextStyle(
+                  fontSize: 24,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                'aaron@email.com',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w400,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              Center(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: const Color(0xFF0150FF),
+                  ),
+                  child: const Text(
+                    'Black Plan',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 32),
+              const Text(
+                'MORE',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                ),
+                textAlign: TextAlign.start,
+              ),
+              const SizedBox(height: 16),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: settingsItems.map((item) => _buildMenuItemTile(context, ref, item)).toList(),
+              ),
+              const SizedBox(height: 32),
+              GestureDetector(
+                onTap: () => Navigator.of(context).push(
+                  FadePageRoute(
+                    builder: (context) => const UnsubscribeScreen(),
+                  ),
+                ),
+                behavior: HitTestBehavior.opaque,
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: const Color(0xFFFF9900)),
+                    borderRadius: BorderRadius.circular(56),
+                  ),
+                  child: const Text(
+                    'UNSUBSCRIBE',
+                    style: TextStyle(
+                      color: Color(0xFFFF9900),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+              const Padding(
+                padding: EdgeInsets.all(16),
+                child: Text(
+                  'DELETE ACCOUNT',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -160,98 +210,36 @@ class SettingsScreen extends ConsumerWidget {
     WidgetRef ref,
     SettingsItem item,
   ) {
-    return RowItemWidget(
-      enableInteractiveSelection: false,
-      icon: item.icon,
-      title: item.title,
-      hasUnderline: true,
-      onTap: () => handleItemPress(context, ref, item),
-    );
-  }
-
-  Widget _buildDebugTile(BuildContext context, WidgetRef ref) {
-    return RowItemWidget(
-      enableInteractiveSelection: false,
-      icon: const Icon(Icons.play_arrow),
-      title: StringConstants.debugInfo,
-      hasUnderline: true,
-      onTap: () => _showDebugBottomSheet(context, ref),
-    );
-  }
-
-  void handleItemPress(
-    BuildContext context,
-    WidgetRef ref,
-    SettingsItem item,
-  ) async {
-    await handleNavigation(
-      item.type,
-      [item.path.toString().getIdFromPath(), item.path],
-      context,
-      ref: ref,
-    );
-  }
-
-  Future<void> _clearSavedTime(SharedPreferences prefs) async {
-    await prefs.remove(SharedPreferenceConstants.savedHours);
-    await prefs.remove(SharedPreferenceConstants.savedMinutes);
-  }
-
-  void _showClearReminderSnackBar(BuildContext context) {
-    showSnackBar(context, StringConstants.reminderNotificationCleared);
-  }
-
-  Future<void> _selectTime(BuildContext context, WidgetRef ref) async {
-    var accepted = await PermissionHandler.requestAlarmPermission(context);
-
-    if (!accepted) return;
-
-    final reminders = ref.read(reminderProvider);
-    final prefs = ref.read(sharedPreferencesProvider);
-
-    final initialTime = ref.read(reminderTimeProvider) ?? TimeOfDay.now();
-
-    final pickedTime = await showTimePicker(
-      context: context,
-      initialTime: initialTime,
-      helpText: StringConstants.pickTimeHelpText,
-    );
-
-    if (pickedTime != null) {
-      await reminders.scheduleDailyNotification(pickedTime);
-      await _savePickedTime(prefs, pickedTime);
-      ref.read(reminderTimeProvider.notifier).state = pickedTime;
-      _showSnackBar(context, pickedTime);
-    }
-  }
-
-  Future<void> _savePickedTime(
-    SharedPreferences prefs,
-    TimeOfDay pickedTime,
-  ) async {
-    await prefs.setInt(SharedPreferenceConstants.savedHours, pickedTime.hour);
-    await prefs.setInt(
-      SharedPreferenceConstants.savedMinutes,
-      pickedTime.minute,
-    );
-  }
-
-  void _showSnackBar(BuildContext context, TimeOfDay pickedTime) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          '${StringConstants.reminderNotificationScheduled} ${pickedTime.format(context)}',
+    return GestureDetector(
+      onTap: item.onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Expanded(
+              child: Text(
+                item.title,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w200,
+                ),
+                textAlign: TextAlign.start,
+              ),
+            ),
+            const SizedBox(width: 12),
+            const Icon(
+              Icons.chevron_right,
+              color: Colors.white,
+              size: 24,
+            ),
+          ],
         ),
       ),
-    );
-  }
-
-  void _showDebugBottomSheet(BuildContext context, WidgetRef ref) {
-    ref.invalidate(meProvider);
-    showModalBottomSheet(
-      showDragHandle: true,
-      context: context,
-      builder: (context) => const DebugBottomSheetWidget(),
     );
   }
 }
@@ -259,13 +247,11 @@ class SettingsScreen extends ConsumerWidget {
 class SettingsItem {
   final String type;
   final String title;
-  final Widget icon;
-  final String path;
+  final VoidCallback onTap;
 
   const SettingsItem({
     required this.type,
     required this.title,
-    required this.icon,
-    required this.path,
+    required this.onTap,
   });
 }

@@ -21,7 +21,7 @@ class MeditoHugeIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     if (icon.isEmpty || icon == '') return Container();
 
-    return Icon(_getIconData(icon));
+    return Icon(_getIconData(icon), color: color);
     // return HugeIcon(
     //   icon: _getIconData(icon),
     //   color: color,

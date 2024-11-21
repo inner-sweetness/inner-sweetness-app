@@ -25,13 +25,10 @@ class BottomActionBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      bottom: false,
       child: Container(
         height: height,
-        decoration: BoxDecoration(
-          color: showBackground
-              ? ColorConstants.black.withOpacity(0.2)
-              : ColorConstants.transparent,
-        ),
+        color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Row(
