@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:medito/repositories/auth/auth_repository.dart';
 import 'package:medito/utils/fade_page_route.dart';
 import 'package:medito/utils/stats_manager.dart';
 import 'package:medito/views/bottom_navigation/bottom_navigation_bar_view.dart';
@@ -17,7 +16,6 @@ class SubscribeView extends ConsumerStatefulWidget {
 class _SubscribeViewState extends ConsumerState<SubscribeView> {
 
   Future<void> initializeUser() async {
-    await ref.read(authRepositoryProvider).initializeUser();
     await StatsManager().sync();
     await Navigator.of(context).pushReplacement(
       FadePageRoute(
