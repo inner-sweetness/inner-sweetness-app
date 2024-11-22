@@ -17,7 +17,7 @@ class BottomNavigationItem extends StatelessWidget {
         Icon(
           icon,
           color: selected
-              ? ColorConstants.black
+              ? ColorConstants.white
               : ColorConstants.graphite,
         ),
         const SizedBox(height: 4),
@@ -26,7 +26,7 @@ class BottomNavigationItem extends StatelessWidget {
           style: TextStyle(
             fontSize: 12,
             color: selected
-                ? ColorConstants.black
+                ? ColorConstants.white
                 : ColorConstants.graphite,
           ),
           textAlign: TextAlign.center,

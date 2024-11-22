@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:medito/constants/constants.dart';
 import 'package:medito/views/bottom_navigation/bottom_navigation_item.dart';
-import 'package:medito/views/explore/widgets/explore_view.dart';
+import 'package:medito/views/explore/explore_view.dart';
 import 'package:medito/views/favorite/favorite_view.dart';
 import 'package:medito/views/home/home_view.dart';
 import 'package:medito/views/player/widgets/bottom_actions/bottom_action_bar.dart';
@@ -54,7 +54,7 @@ class _BottomNavigationBarViewState
           children: <BottomActionBarItem>[
             BottomActionBarItem(
               child: BottomNavigationItem(
-                icon: Icons.home,
+                icon: _currentPageIndex == 0 ? Icons.home : Icons.home_outlined,
                 label: 'Home',
                 selected: _currentPageIndex == 0,
               ),
@@ -62,7 +62,7 @@ class _BottomNavigationBarViewState
             ),
             BottomActionBarItem(
               child: BottomNavigationItem(
-                icon: Icons.search,
+                icon: _currentPageIndex == 1 ? Icons.search : Icons.search_outlined,
                 label: 'Search',
                 selected: _currentPageIndex == 1,
               ),
@@ -70,7 +70,7 @@ class _BottomNavigationBarViewState
             ),
             BottomActionBarItem(
               child: BottomNavigationItem(
-                icon: Icons.favorite,
+                icon: _currentPageIndex == 2 ? Icons.favorite : Icons.favorite_outline,
                 label: 'Favorites',
                 selected: _currentPageIndex == 2,
               ),

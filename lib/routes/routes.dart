@@ -46,7 +46,7 @@ Future<void> handleNavigation(
     await _pushRoute(PackView(id: themeId), ref);
   } else if (type == TypeConstants.article) {
     var articleId = ids.first!;
-    await _pushRoute(ArticleView(id: articleId), ref);
+    // await _pushRoute(const ArticleView(), ref);
   } else if (type == TypeConstants.url || type == TypeConstants.link) {
     await launchURLInBrowser(ids.last ?? StringConstants.meditoUrl);
   } else if (type.contains('settings')) {

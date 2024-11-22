@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:medito/views/explore/explore_view.dart';
 import 'package:medito/views/explore/widgets/explore_category_list/explore_category_list.dart';
 
-class ArticleView extends StatelessWidget {
+class AudioView extends StatelessWidget {
   final ExploreItem item;
-  const ArticleView({super.key, required this.item});
+  const AudioView({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -42,20 +42,35 @@ class ArticleView extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             Expanded(
-              child: SingleChildScrollView(
+              child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    Text(
-                      item.title,
-                      style: const TextStyle(
-                        fontSize: 24,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w900,
-                      ),
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Expanded(
+                          child: Text(
+                            item.title,
+                            style: const TextStyle(
+                              fontSize: 24,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w900,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        const Icon(
+                          Icons.favorite_outline,
+                          color: Colors.white,
+                          size: 24,
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 24),
                     Align(
@@ -69,10 +84,10 @@ class ArticleView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8),
                           color: item.category.color,
                         ),
-                        child: const Text(
-                          'Tale as old as time',
-                          style: TextStyle(
-                            color: Colors.white,
+                        child: Text(
+                          item.category.label,
+                          style: const TextStyle(
+                            color: Colors.black,
                             fontSize: 12,
                             fontWeight: FontWeight.w700,
                           ),
@@ -105,9 +120,7 @@ class ArticleView extends StatelessWidget {
                     ),
                     const SizedBox(height: 24),
                     const Text(
-                      '''Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-
- Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"''',
+                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 12,
@@ -115,6 +128,21 @@ class ArticleView extends StatelessWidget {
                         height: 2,
                       ),
                     ),
+                    const Spacer(),
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: item.category.color,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: const Center(
+                        child: Icon(
+                          Icons.play_arrow_rounded,
+                          color: Colors.black,
+                          size: 24,
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),

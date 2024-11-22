@@ -28,7 +28,7 @@ class BottomActionBar extends StatelessWidget {
       bottom: false,
       child: Container(
         height: height,
-        color: Colors.white,
+        color: const Color(0xFF1E1E1E),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Row(
