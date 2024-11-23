@@ -1,4 +1,4 @@
-package com.abbey.inner_sweetness_app
+package com.innersweetness.app
 
 import MeditoAndroidAudioServiceManager
 import MeditoAudioServiceCallbackApi

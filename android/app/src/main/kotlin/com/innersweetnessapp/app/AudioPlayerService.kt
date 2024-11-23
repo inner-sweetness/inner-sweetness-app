@@ -1,6 +1,6 @@
 @file:UnstableApi
 
-package com.abbey.inner_sweetness_app
+package com.innersweetness.app
 
 import AudioData
 import CompletionData
