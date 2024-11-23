@@ -85,7 +85,6 @@
 /ios/Flutter/flutter_export_environment.sh
 gen/
 /pubspec.lock
-/android/keystore.properties
 /.vscode
 android/app/meditokey.jks
 **.g.dart
