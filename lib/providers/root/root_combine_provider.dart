@@ -19,7 +19,7 @@ final rootCombineProvider = Provider.family<void, BuildContext>(
   (ref, context) {
     ref.read(deviceAppAndUserInfoProvider);
     // checkMaintenance(ref, context);
-    checkTime(ref, context);
+    // checkTime(ref, context);
 
     if (Platform.isIOS) {
       var streamEvent = iosAudioHandler.iosStateStream
