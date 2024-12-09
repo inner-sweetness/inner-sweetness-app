@@ -8,7 +8,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// ignore: depend_on_referenced_packages
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:medito/constants/constants.dart';
@@ -24,9 +23,7 @@ import 'package:medito/views/splash_view.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'constants/theme/app_theme.dart';
-import 'firebase_options.dart';
 import 'package:medito/providers/device_and_app_info/device_and_app_info_provider.dart';
-import 'package:medito/providers/notification/reminder_provider.dart';
 
 final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 var audioStateNotifier = AudioStateNotifier();
@@ -51,9 +48,9 @@ void main() async {
 
 Future<void> initializeApp() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  if (Platform.isAndroid) {
+    await Firebase.initializeApp();
+  }
   setupAudioCallback();
   await initializeAudioService();
   usePathUrlStrategy();
@@ -234,6 +231,10 @@ class _ParentWidgetState extends ConsumerState<ParentWidget>
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp(
       debugShowCheckedModeBanner: kDebugMode,
       scaffoldMessengerKey: scaffoldMessengerKey,
@@ -253,7 +254,6 @@ class _ParentWidgetState extends ConsumerState<ParentWidget>
   }
 
   void _onAppForegrounded() {
-    ref.read(reminderProvider).clearBadge();
     ref.invalidate(statsProvider);
   }
 }

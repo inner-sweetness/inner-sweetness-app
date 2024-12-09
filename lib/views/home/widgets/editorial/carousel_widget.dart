@@ -78,7 +78,7 @@ class _CarouselWidgetState extends ConsumerState<CarouselWidget> {
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.w400,
-              fontFamily: teachers,
+              fontFamily: Teachers,
               fontSize: 20,
               height: 28 / 24,
             ),
@@ -104,8 +104,7 @@ class _CarouselWidgetState extends ConsumerState<CarouselWidget> {
     );
   }
 
-  Widget _buildCarouselItem(
-      BuildContext context, WidgetRef ref, int index, HomeCarouselModel item) {
+  Widget _buildCarouselItem(BuildContext context, WidgetRef ref, int index, HomeCarouselModel item) {
     final screenSize = MediaQuery.of(context).size;
     final isHorizontal = screenSize.width > screenSize.height;
     final isTablet = screenSize.shortestSide >= 600;
@@ -161,7 +160,7 @@ class _CarouselWidgetState extends ConsumerState<CarouselWidget> {
                             style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w400,
-                              fontFamily: sourceSerif,
+                              fontFamily: SourceSerif,
                               fontSize: 24,
                               height: 28 / 24,
                             ),
@@ -172,7 +171,7 @@ class _CarouselWidgetState extends ConsumerState<CarouselWidget> {
                             style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w400,
-                              fontFamily: teachers,
+                              fontFamily: Teachers,
                               fontSize: 16,
                               height: 1.2,
                             ),
@@ -254,7 +253,7 @@ class _CarouselWidgetState extends ConsumerState<CarouselWidget> {
                       button.title,
                       maxLines: 1,
                       style: const TextStyle(
-                        fontFamily: teachers,
+                        fontFamily: Teachers,
                         fontSize: _kButtonFontSize,
                         fontWeight: FontWeight.w600,
                         height: 1.2,

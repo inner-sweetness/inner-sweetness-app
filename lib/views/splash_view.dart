@@ -1,13 +1,13 @@
-import 'package:medito/constants/constants.dart';
+import 'package:lottie/lottie.dart';
 import 'package:medito/repositories/auth/auth_repository.dart';
 import 'package:medito/services/notifications/firebase_notifications_service.dart';
 import 'package:medito/utils/stats_manager.dart';
 import 'package:medito/views/bottom_navigation/bottom_navigation_bar_view.dart';
 import 'package:medito/views/downloads/downloads_view.dart';
+import 'package:medito/views/onboarding/onboarding_view.dart';
 import 'package:medito/views/root/root_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:medito/utils/fade_page_route.dart';
 
 class SplashView extends ConsumerStatefulWidget {
@@ -17,23 +17,26 @@ class SplashView extends ConsumerStatefulWidget {
   ConsumerState<SplashView> createState() => _SplashViewState();
 }
 
-class _SplashViewState extends ConsumerState<SplashView> {
+class _SplashViewState extends ConsumerState<SplashView> with TickerProviderStateMixin {
+  late final AnimationController _controller;
+
   @override
   void initState() {
     super.initState();
-    _initializeUser();
-    _initializeFirebaseMessaging();
+    _controller = AnimationController(vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   void _initializeUser() async {
     try {
-      await ref.read(authRepositoryProvider).initializeUser();
-      await StatsManager().sync();
       await Navigator.of(context).pushReplacement(
         FadePageRoute(
-          builder: (context) => const RootPageView(
-            firstChild: BottomNavigationBarView(),
-          ),
+          builder: (context) => const OnboardingView(),
         ),
       );
     } catch (e) {
@@ -54,11 +57,23 @@ class _SplashViewState extends ConsumerState<SplashView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorConstants.ebony,
-      body: Center(
-        child: SvgPicture.asset(
-          AssetConstants.icLogo,
-          width: 160,
+      backgroundColor: Colors.transparent,
+      resizeToAvoidBottomInset: false,
+      body: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: Lottie.asset(
+          'assets/animations/Splash_Animation.json',
+          controller: _controller,
+          fit: BoxFit.fill,
+          onLoaded: (composition) {
+            _controller
+              ..duration = const Duration(milliseconds: 1000)
+              ..forward().whenComplete(() {
+                _initializeUser();
+                _initializeFirebaseMessaging();
+              });
+          },
         ),
       ),
     );

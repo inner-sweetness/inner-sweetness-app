@@ -7,7 +7,10 @@ part 'home_model.g.dart';
 @freezed
 class HomeModel with _$HomeModel {
   const factory HomeModel({
-    String? greeting,
+    required String id,
+    String? title,
+    String? coverUrl,
+    String? subTitle,
     @Default(<ShortcutsModel>[]) List<ShortcutsModel> shortcuts,
     @Default(<HomeCarouselModel>[]) List<HomeCarouselModel> carousel,
     HomeQuoteModel? todayQuote,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:health/health.dart';
-import 'package:hugeicons/hugeicons.dart';
+// import 'package:hugeicons/hugeicons.dart';
 
 import '../../constants/strings/string_constants.dart';
 import '../../widgets/snackbar_widget.dart';
@@ -22,10 +22,11 @@ class HealthSyncTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return RowItemWidget(
       enableInteractiveSelection: false,
-      icon: HugeIcon(
-        icon: HugeIcons.solidRoundedHealth,
-        color: Colors.white,
-      ),
+      icon: const Icon(Icons.play_arrow),
+      // icon: HugeIcon(
+      //   icon: HugeIcons.solidRoundedHealth,
+      //   color: Colors.white,
+      // ),
       title: StringConstants.syncWithHealth,
       hasUnderline: true,
       isSwitch: false,

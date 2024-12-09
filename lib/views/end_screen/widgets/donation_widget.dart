@@ -1,6 +1,7 @@
-import 'package:medito/constants/constants.dart';
+// import 'package:hugeicons/hugeicons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:medito/constants/constants.dart';
 
 import '../../../models/events/donation/donation_page_model.dart';
 import '../../../providers/donation/donation_page_provider.dart';
@@ -15,15 +16,12 @@ class DonationWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final donationPage = ref.watch(fetchDonationPageProvider);
 
-    return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 300),
-      child: donationPage.when(
-        loading: () => _buildLoadingWidget(),
-        error: (err, _) => _buildErrorWidget(err.toString()),
-        data: (DonationPageModel donationPageModel) {
-          return _buildDonationWidget(context, donationPageModel);
-        },
-      ),
+    return donationPage.when(
+      loading: () => _buildLoadingWidget(),
+      error: (err, _) => _buildErrorWidget(err.toString()),
+      data: (DonationPageModel donationPageModel) {
+        return _buildDonationWidget(context, donationPageModel);
+      },
     );
   }
 
@@ -45,6 +43,8 @@ class DonationWidget extends ConsumerWidget {
     BuildContext context,
     DonationPageModel donationPageModel,
   ) {
+    final textColor =
+        donationPageModel.cardTextColor != null ? parseColor(donationPageModel.cardTextColor!) : Colors.white;
 
     return Container(
       decoration: BoxDecoration(
@@ -60,24 +60,24 @@ class DonationWidget extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Conditionally render the title
           if (donationPageModel.title != null)
             Text(
               donationPageModel.title!,
               textAlign: TextAlign.left,
               style: TextStyle(
-                fontFamily: teachers,
+                fontFamily: Teachers,
                 fontSize: 22,
-                color: parseColor(donationPageModel.cardTextColor),
+                color: textColor,
               ),
             ),
           if (donationPageModel.title != null) const SizedBox(height: 8),
           Text(
-            donationPageModel.text ??
-                StringConstants.meditoReliesOnYourDonationsToSurvive,
+            donationPageModel.text ?? StringConstants.meditoReliesOnYourDonationsToSurvive,
             textAlign: TextAlign.left,
             style: TextStyle(
               fontSize: 16,
-              color: parseColor(donationPageModel.cardTextColor),
+              color: textColor,
               fontWeight: FontWeight.w400,
             ),
           ),
@@ -92,7 +92,7 @@ class DonationWidget extends ConsumerWidget {
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
-                  color: parseColor(donationPageModel.cardTextColor),
+                  color: textColor,
                 ),
               ),
             ),

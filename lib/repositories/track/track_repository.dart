@@ -33,9 +33,50 @@ class TrackRepositoryImpl extends TrackRepository {
 
   @override
   Future<TrackModel> fetchTrack(String trackId) async {
-    var response = await client.getRequest('${HTTPConstants.tracks}/$trackId');
-
-    return TrackModel.fromJson(response);
+    if (trackId == 'track_1') {
+      return TrackModel(
+        id: 'track-model-1',
+        title: 'Podcast',
+        description: 'Could you be Love',
+        coverUrl: '',
+        isPublished: true,
+        hasBackgroundSound: true,
+        audio: <TrackAudioModel>[
+          TrackAudioModel(
+            guideName: '',
+            files: <TrackFilesModel>[
+              TrackFilesModel(
+                id: 'track-file-model-1',
+                path: '',
+                duration: 5 * 60 * 1000,
+              ),
+            ],
+          ),
+        ],
+      );
+    }
+    return TrackModel(
+      id: 'track-model-2',
+      title: 'Sweet Challenge',
+      description: 'An energy without words.',
+      coverUrl: '',
+      isPublished: true,
+      hasBackgroundSound: true,
+      audio: <TrackAudioModel>[
+        TrackAudioModel(
+          guideName: '',
+          files: <TrackFilesModel>[
+            TrackFilesModel(
+              id: 'track-file-model-2',
+              path: '',
+              duration: 30 * 60 * 1000,
+            ),
+          ],
+        ),
+      ],
+    );
+    // var response = await client.getRequest('${HTTPConstants.tracks}/$trackId');
+    // return TrackModel.fromJson(response);
   }
 
   @override
@@ -65,11 +106,11 @@ class TrackRepositoryImpl extends TrackRepository {
 
   @override
   Future<void> addCurrentlyPlayingTrackInPreference(
-    TrackModel trackModel,
+    TrackModel track,
   ) async {
     await ref.read(sharedPreferencesProvider).setString(
           SharedPreferenceConstants.currentPlayingTrack,
-          json.encode(trackModel),
+          json.encode(track),
         );
   }
 

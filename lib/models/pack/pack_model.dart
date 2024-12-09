@@ -8,6 +8,7 @@ abstract class PackModel with _$PackModel {
   const factory PackModel({
     required String id,
     required String title,
+    required String subTitle,
     required String description,
     required String coverUrl,
     required bool isPublished,

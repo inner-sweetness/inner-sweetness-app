@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'header/home_header_widget.dart';
-import 'stats/streak_circle.dart';
 
 class HeaderWidget extends ConsumerStatefulWidget {
   const HeaderWidget({
@@ -15,8 +14,7 @@ class HeaderWidget extends ConsumerStatefulWidget {
   final VoidCallback onStatsButtonTap;
 
   @override
-  ConsumerState<HeaderWidget> createState() =>
-      _HeaderAndAnnouncementWidgetState();
+  ConsumerState<HeaderWidget> createState() => _HeaderAndAnnouncementWidgetState();
 }
 
 class _HeaderAndAnnouncementWidgetState extends ConsumerState<HeaderWidget>
@@ -25,24 +23,7 @@ class _HeaderAndAnnouncementWidgetState extends ConsumerState<HeaderWidget>
   Widget build(BuildContext context) {
     super.build(context);
 
-    return _buildMain();
-  }
-
-  Row _buildMain() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(
-          child: HomeHeaderWidget(
-            greeting: widget.greeting,
-          ),
-        ),
-        StreakCircle(
-          onTap: widget.onStatsButtonTap,
-        ),
-      ],
-    );
+    return HomeHeaderWidget(greeting: widget.greeting);
   }
 
   @override

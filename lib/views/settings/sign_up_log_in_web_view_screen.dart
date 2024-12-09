@@ -17,14 +17,7 @@ class SignUpLogInPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final authRepository = ref.watch(authRepositoryProvider);
-    final user = authRepository.currentUser;
-
-    if (user?.email != null && user?.email?.isNotEmpty == true) {
-      return const UserProfilePage();
-    } else {
-      return const SignUpLogInForm();
-    }
+    return const SignUpLogInForm();
   }
 }
 
@@ -80,17 +73,8 @@ class SignUpLogInFormState extends ConsumerState<SignUpLogInForm> {
 
   Future<void> _logIn() async {
     final authRepository = ref.read(authRepositoryProvider);
-    if (authRepository.currentUser?.email == null) {
-      final action = await _showAccountTransitionWarningDialog();
-      if (action == AccountAction.cancel) return;
-      if (action == AccountAction.createAccount) {
-        await _signUp();
-        return;
-      }
-    } else {
-      final shouldProceed = await _showLoginDialog();
-      if (!shouldProceed) return;
-    }
+    final shouldProceed = await _showLoginDialog();
+    if (!shouldProceed) return;
 
     try {
       await _performAuthAction(() => authRepository.logIn(

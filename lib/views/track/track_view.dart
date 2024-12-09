@@ -233,7 +233,7 @@ class _TrackViewState extends ConsumerState<TrackView> {
     required bool isLandscape,
   }) {
     var showGuideNameDropdown =
-        trackModel.audio.first.guideName.isNotNullAndNotEmpty();
+        trackModel.audio.firstOrNull?.guideName.isNotNullAndNotEmpty() ?? false;
 
     return isLandscape
         ? Row(children: [
@@ -316,7 +316,7 @@ class _TrackViewState extends ConsumerState<TrackView> {
     return Text(
       title,
       style: Theme.of(context).primaryTextTheme.titleLarge?.copyWith(
-            fontFamily: sourceSerif,
+            fontFamily: SourceSerif,
             color: ColorConstants.white,
             letterSpacing: 0.2,
             fontSize: 24,
@@ -334,12 +334,12 @@ class _TrackViewState extends ConsumerState<TrackView> {
         textAlign: WrapAlignment.start,
         p: bodyLarge?.copyWith(
           color: ColorConstants.white,
-          fontFamily: dmSans,
+          fontFamily: DmSans,
           fontSize: 16,
         ),
         a: bodyLarge?.copyWith(
           color: ColorConstants.white,
-          fontFamily: dmSans,
+          fontFamily: DmSans,
           decoration: TextDecoration.underline,
           fontSize: 16,
         ),
@@ -416,7 +416,8 @@ class _TrackViewState extends ConsumerState<TrackView> {
   List<TrackFilesModel> files(List<TrackFilesModel> files) => files;
 
   Widget _durationDropdown(TrackModel trackModel, {required bool isLandscape}) {
-    var audioFiles = trackModel.audio.first.files;
+    var audioFiles = trackModel.audio.firstOrNull?.files;
+    if (audioFiles == null) return const SizedBox();
     var selectedFile = selectedAudio?.files ?? audioFiles;
 
     return DropdownWidget<TrackFilesModel>(
@@ -428,7 +429,8 @@ class _TrackViewState extends ConsumerState<TrackView> {
       bottomLeft: 7,
       disabledLabelText:
           '${convertDurationToMinutes(milliseconds: selectedFile.first.duration)} ${StringConstants.min}',
-      items: files(selectedFile).map<DropdownMenuItem<TrackFilesModel>>(
+      items: files(selectedFile)
+          .map<DropdownMenuItem<TrackFilesModel>>(
         (TrackFilesModel value) {
           return DropdownMenuItem<TrackFilesModel>(
             value: value,
