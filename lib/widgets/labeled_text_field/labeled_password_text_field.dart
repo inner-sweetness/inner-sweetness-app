@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 
-class LabeledTextField extends StatelessWidget {
+class LabeledPasswordTextField extends StatelessWidget {
   final String label;
   final String value;
-  final String error;
   final String hint;
-  const LabeledTextField({
+  final bool obscured;
+  const LabeledPasswordTextField({
     super.key,
     this.label = '',
     this.value = '',
-    this.error = '',
     this.hint = '',
+    this.obscured = true,
   });
 
   @override
   Widget build(BuildContext context) {
     final inputBorder = OutlineInputBorder(
-      borderSide: BorderSide(color: error.isNotEmpty ? const Color(0xFFFF4E64) : const Color(0xFFE2E2E2)),
+      borderSide: const BorderSide(color: Color(0xFFE2E2E2)),
       borderRadius: BorderRadius.circular(6),
     );
     return Column(
@@ -37,6 +37,8 @@ class LabeledTextField extends StatelessWidget {
         TextField(
           controller: TextEditingController(text: value),
           textAlign: TextAlign.start,
+          keyboardType: TextInputType.visiblePassword,
+          obscureText: obscured,
           style: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w400,
@@ -58,21 +60,18 @@ class LabeledTextField extends StatelessWidget {
             enabledBorder: inputBorder,
             focusedBorder: inputBorder,
             focusedErrorBorder: inputBorder,
+            suffix: SizedBox(
+              height: 24,
+              child: Text(
+                obscured ? 'Show' : 'Hide',
+                style: const TextStyle(
+                  decoration: TextDecoration.underline,
+                  color: Colors.black,
+                ),
+              ),
+            ),
           ),
         ),
-        if (error.isNotEmpty)
-          ...[
-            const SizedBox(height: 8),
-            Text(
-              error,
-              style: const TextStyle(
-                fontSize: 12,
-                color: Color(0xFFFF4E64),
-                fontWeight: FontWeight.w400,
-              ),
-              textAlign: TextAlign.start,
-            ),
-          ],
       ],
     );
   }

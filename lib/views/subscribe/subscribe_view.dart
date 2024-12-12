@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:medito/utils/fade_page_route.dart';
 import 'package:medito/utils/stats_manager.dart';
-import 'package:medito/views/bottom_navigation/bottom_navigation_bar_view.dart';
-import 'package:medito/views/root/root_page_view.dart';
+import 'package:medito/views/login/login_view.dart';
 import 'package:medito/widgets/buttons/app_button.dart';
 
 class SubscribeView extends ConsumerStatefulWidget {
@@ -19,11 +18,16 @@ class _SubscribeViewState extends ConsumerState<SubscribeView> {
     await StatsManager().sync();
     await Navigator.of(context).pushReplacement(
       FadePageRoute(
-        builder: (context) => const RootPageView(
-          firstChild: BottomNavigationBarView(),
-        ),
+        builder: (context) => const LoginView(),
       ),
     );
+    // await Navigator.of(context).pushReplacement(
+    //   FadePageRoute(
+    //     builder: (context) => const RootPageView(
+    //       firstChild: BottomNavigationBarView(),
+    //     ),
+    //   ),
+    // );
   }
 
   @override

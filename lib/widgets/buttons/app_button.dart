@@ -5,6 +5,7 @@ class AppButton extends StatelessWidget {
   final VoidCallback? onTap;
   final double fontSize;
   final Color color;
+  final Color? borderColor;
   final Color hoveredColor;
   final Color pressedColor;
   final Color? fontColor;
@@ -19,6 +20,7 @@ class AppButton extends StatelessWidget {
     this.onTap,
     this.fontSize = 16,
     this.color = Colors.black,
+    this.borderColor,
     this.hoveredColor = Colors.black45,
     this.pressedColor = Colors.black87,
     this.fontColor = Colors.white,
@@ -36,6 +38,7 @@ class AppButton extends StatelessWidget {
         foregroundColor: onTap != null ? Colors.white : Colors.grey,
         padding: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
+          side: borderColor != null ? BorderSide(color: borderColor!) : BorderSide.none,
           borderRadius: BorderRadius.all(
             Radius.circular(radius),
           ),
