@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medito/widgets/labeled_text_field/app_text_field.dart';
 
 class LabeledTextField extends StatelessWidget {
   final String label;
@@ -15,10 +16,6 @@ class LabeledTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final inputBorder = OutlineInputBorder(
-      borderSide: BorderSide(color: error.isNotEmpty ? const Color(0xFFFF4E64) : const Color(0xFFE2E2E2)),
-      borderRadius: BorderRadius.circular(6),
-    );
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -34,31 +31,10 @@ class LabeledTextField extends StatelessWidget {
           textAlign: TextAlign.start,
         ),
         const SizedBox(height: 8),
-        TextField(
-          controller: TextEditingController(text: value),
-          textAlign: TextAlign.start,
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-            color: Colors.black,
-          ),
-          decoration: InputDecoration(
-            hintText: hint,
-            filled: true,
-            fillColor: Colors.white,
-            hintStyle: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w400,
-              color: Color(0xFF6A6C6A),
-            ),
-            contentPadding: const EdgeInsets.all(12),
-            border: inputBorder,
-            errorBorder: inputBorder,
-            disabledBorder: inputBorder,
-            enabledBorder: inputBorder,
-            focusedBorder: inputBorder,
-            focusedErrorBorder: inputBorder,
-          ),
+        AppTextField(
+          hint: hint,
+          hasError: error.isNotEmpty,
+          controller: TextEditingController(text: value)
         ),
         if (error.isNotEmpty)
           ...[

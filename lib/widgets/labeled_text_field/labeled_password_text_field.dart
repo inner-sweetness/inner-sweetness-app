@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medito/widgets/labeled_text_field/app_text_field.dart';
 
 class LabeledPasswordTextField extends StatelessWidget {
   final String label;
@@ -15,10 +16,6 @@ class LabeledPasswordTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final inputBorder = OutlineInputBorder(
-      borderSide: const BorderSide(color: Color(0xFFE2E2E2)),
-      borderRadius: BorderRadius.circular(6),
-    );
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -34,38 +31,20 @@ class LabeledPasswordTextField extends StatelessWidget {
           textAlign: TextAlign.start,
         ),
         const SizedBox(height: 8),
-        TextField(
+        AppTextField(
           controller: TextEditingController(text: value),
-          textAlign: TextAlign.start,
           keyboardType: TextInputType.visiblePassword,
-          obscureText: obscured,
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-            color: Colors.black,
-          ),
-          decoration: InputDecoration(
-            hintText: hint,
-            filled: true,
-            fillColor: Colors.white,
-            hintStyle: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w400,
-              color: Color(0xFF6A6C6A),
-            ),
-            contentPadding: const EdgeInsets.all(12),
-            border: inputBorder,
-            errorBorder: inputBorder,
-            disabledBorder: inputBorder,
-            enabledBorder: inputBorder,
-            focusedBorder: inputBorder,
-            focusedErrorBorder: inputBorder,
-            suffix: SizedBox(
-              height: 24,
+          hint: hint,
+          obscured: obscured,
+          suffix: const SizedBox(
+            height: 24,
+            width: 72,
+            child: Center(
               child: Text(
-                obscured ? 'Show' : 'Hide',
-                style: const TextStyle(
+                'Show',
+                style: TextStyle(
                   decoration: TextDecoration.underline,
+                  decorationColor: Colors.black,
                   color: Colors.black,
                 ),
               ),

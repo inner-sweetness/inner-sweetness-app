@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:medito/views/login/account_not_found_bottom_sheet.dart';
+import 'package:medito/views/login/change_password_bottom_sheet.dart';
+import 'package:medito/views/login/recover_password_bottom_sheet.dart';
+import 'package:medito/views/login/verification_code_bottom_sheet.dart';
 import 'package:medito/widgets/buttons/app_button.dart';
 import 'package:medito/widgets/labeled_text_field/labeled_password_text_field.dart';
 import 'package:medito/widgets/labeled_text_field/labeled_text_field.dart';
@@ -18,6 +21,7 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: Stack(
         children: <Widget>[
@@ -87,15 +91,36 @@ class _LoginViewState extends State<LoginView> {
                   hint: 'Enter your password',
                 ),
                 const SizedBox(height: 8),
-                const Text(
-                  'Forgot password?',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 16,
-                    color: Color(0xFF0150FF),
-                    letterSpacing: -.25,
+                GestureDetector(
+                  onTap: () async {
+                    showRecoverPasswordBottomSheet(
+                      context,
+                      onContinue: () {
+                        Navigator.pop(context);
+                        showVerificationCodeBottomSheet(
+                          context,
+                          onContinue: () {
+                            Navigator.pop(context);
+                            showChangePasswordBottomSheet(
+                              context,
+                              onContinue: () {},
+                            );
+                          },
+                        );
+                      }
+                    );
+                  },
+                  behavior: HitTestBehavior.opaque,
+                  child: const Text(
+                    'Forgot password?',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 16,
+                      color: Color(0xFF0150FF),
+                      letterSpacing: -.25,
+                    ),
+                    textAlign: TextAlign.start,
                   ),
-                  textAlign: TextAlign.start,
                 ),
                 const Spacer(),
                 AppButton(
