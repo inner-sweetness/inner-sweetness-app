@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:medito/utils/fade_page_route.dart';
 import 'package:medito/views/login/account_not_found_bottom_sheet.dart';
 import 'package:medito/views/login/change_password_bottom_sheet.dart';
 import 'package:medito/views/login/recover_password_bottom_sheet.dart';
 import 'package:medito/views/login/verification_code_bottom_sheet.dart';
+import 'package:medito/views/sign_up/sign_up_view.dart';
 import 'package:medito/widgets/buttons/app_button.dart';
 import 'package:medito/widgets/labeled_text_field/labeled_password_text_field.dart';
 import 'package:medito/widgets/labeled_text_field/labeled_text_field.dart';
@@ -136,7 +138,11 @@ class _LoginViewState extends State<LoginView> {
                 ),
                 const SizedBox(height: 32),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () => Navigator.of(context).push(
+                    FadePageRoute(
+                      builder: (context) => const SignUpView(),
+                    ),
+                  ),
                   behavior: HitTestBehavior.opaque,
                   child: const Row(
                     mainAxisSize: MainAxisSize.max,
