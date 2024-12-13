@@ -1,6 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:medito/constants/constants.dart';
 import 'package:medito/providers/providers.dart';
+import 'package:medito/services/model/request/login_request.dart';
+import 'package:medito/services/model/request/refresh_token_request.dart';
+import 'package:medito/services/model/request/register_request.dart';
+import 'package:medito/services/model/response/login_response.dart';
+import 'package:medito/services/model/response/refresh_token_response.dart';
+import 'package:medito/services/model/response/register_response.dart';
+import 'package:medito/services/network/auth_api_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,8 +33,9 @@ abstract class AuthRepository {
   Future<void> initializeUser();
   Future<String> getToken();
   String getUserEmail();
-  Future<bool> signUp(String email, String password);
-  Future<bool> logIn(String email, String password);
+  Future<RegisterResponse?> register(RegisterRequest request);
+  Future<LoginResponse?> login(LoginRequest request);
+  Future<RefreshTokenResponse?> refreshToken(RefreshTokenRequest request);
   Future<bool> signOut();
   Future<bool> markAccountForDeletion();
   Future<bool> isAccountMarkedForDeletion();
@@ -35,8 +43,9 @@ abstract class AuthRepository {
 
 class AuthRepositoryImpl extends AuthRepository {
   final Ref ref;
+  final AuthDioApiService service;
 
-  AuthRepositoryImpl({required this.ref});
+  AuthRepositoryImpl({required this.ref, required this.service});
 
   @override
   Future<void> initializeUser() async {
@@ -61,16 +70,6 @@ class AuthRepositoryImpl extends AuthRepository {
 
   @override
   String getUserEmail() {
-    throw Exception('Not implemented');
-  }
-
-  @override
-  Future<bool> signUp(String email, String password) async {
-    throw Exception('Not implemented');
-  }
-
-  @override
-  Future<bool> logIn(String email, String password) async {
     throw Exception('Not implemented');
   }
 
@@ -117,9 +116,43 @@ class AuthRepositoryImpl extends AuthRepository {
       return false;
     }
   }
+
+  @override
+  Future<LoginResponse?> login(LoginRequest request) async {
+    try {
+      final response = await service.login(request: request);
+      var sharedPreferences = await SharedPreferences.getInstance();
+      await sharedPreferences.setString(SharedPreferenceConstants.userToken, response.accessToken);
+      await sharedPreferences.setString(SharedPreferenceConstants.userRefreshToken, response.refreshToken);
+      return response;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  @override
+  Future<RefreshTokenResponse?> refreshToken(RefreshTokenRequest request) async {
+    try {
+      final response = await service.refreshToken(request: request);
+      var sharedPreferences = await SharedPreferences.getInstance();
+      await sharedPreferences.setString(SharedPreferenceConstants.userToken, response.accessToken);
+      return response;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  @override
+  Future<RegisterResponse?> register(RegisterRequest request) async {
+    try {
+      return await service.register(request: request);
+    } catch (e) {
+      return null;
+    }
+  }
 }
 
 @riverpod
 AuthRepository authRepository(AuthRepositoryRef ref) {
-  return AuthRepositoryImpl(ref: ref);
+  return AuthRepositoryImpl(ref: ref, service: AuthDioApiService());
 }

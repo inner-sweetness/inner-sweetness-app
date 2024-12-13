@@ -1,18 +1,11 @@
-// Define an enum for different states
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 
 enum SignUpStep { principal, password, extra }
 
-// StateNotifier to manage the SignUpStep
-class SignUpStepNotifier extends StateNotifier<SignUpStep> {
-  SignUpStepNotifier() : super(SignUpStep.principal);
+@injectable
+class SignUpStepCubit extends Cubit<SignUpStep> {
+  SignUpStepCubit() : super(SignUpStep.principal);
 
-  void changeState(SignUpStep newState) {
-    state = newState;
-  }
+  void change(SignUpStep step) => emit(step);
 }
-
-// StateNotifierProvider to expose the SignUpStepNotifier
-final appStateProvider = StateNotifierProvider<SignUpStepNotifier, SignUpStep>(
-      (ref) => SignUpStepNotifier(),
-);

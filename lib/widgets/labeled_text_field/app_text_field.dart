@@ -8,6 +8,8 @@ class AppTextField extends StatelessWidget {
   final Widget? suffix;
   final TextInputType? keyboardType;
   final BorderRadius? borderRadius;
+  final FocusNode? focusNode;
+  final Function(String)? onSubmitted;
   const AppTextField({
     super.key,
     this.controller,
@@ -17,6 +19,8 @@ class AppTextField extends StatelessWidget {
     this.suffix,
     this.keyboardType,
     this.borderRadius,
+    this.focusNode,
+    this.onSubmitted,
   });
 
   @override
@@ -26,10 +30,12 @@ class AppTextField extends StatelessWidget {
       borderRadius: borderRadius ?? BorderRadius.circular(6),
     );
     return TextField(
+      focusNode: focusNode,
       controller: controller,
       textAlign: TextAlign.start,
       keyboardType: keyboardType,
       obscureText: obscured,
+      onSubmitted: onSubmitted,
       style: const TextStyle(
         fontSize: 14,
         fontWeight: FontWeight.w400,

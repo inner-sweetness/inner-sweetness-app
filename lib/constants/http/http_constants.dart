@@ -92,6 +92,9 @@ class HTTPConstants {
   // TIME END POINTS
   static String time = 'https://timeapi.io/api/time/current/zone?timeZone=America%2FLima';
 
+  // INNER SWEETNESS HOST
+  static String baseUrl = 'http://159.223.195.19:3000';
+
   // EVENT END POINTS
   static const String audio = '/audio';
   static const String announcementEvent = '/announcements';

@@ -12,6 +12,7 @@ class SharedPreferenceConstants {
   static const String userId = 'userId';
   static const String userEmail = 'userEmail';
   static const String userToken = 'userToken';
+  static const String userRefreshToken = 'userRefreshToken';
 
   // New constants for stats
   static const String localAllStatsKey = 'local_all_stats';

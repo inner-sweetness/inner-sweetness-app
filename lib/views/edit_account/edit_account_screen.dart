@@ -100,45 +100,45 @@ class EditAccountScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 32),
-              const Row(
+              Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Expanded(
                     child: LabeledTextField(
+                      controller: TextEditingController(text: 'Aaron'),
                       label: 'First name',
                       hint: 'Enter your first name',
-                      value: 'Aaron',
                     ),
                   ),
-                  SizedBox(width: 20),
+                  const SizedBox(width: 20),
                   Expanded(
                     child: LabeledTextField(
+                      controller: TextEditingController(text: 'Márquez'),
                       label: 'Last name',
                       hint: 'Enter your last name',
-                      value: 'Márquez',
                     ),
                   ),
                 ],
               ),
               const SizedBox(height: 24),
-              const LabeledTextField(
+              LabeledTextField(
+                controller: TextEditingController(text: 'aaron@gmail.com'),
                 label: 'Email',
                 hint: 'Enter your email',
-                value: 'aaron@gmail.com',
               ),
               const SizedBox(height: 24),
-              const LabeledTextField(
+              LabeledTextField(
+                controller: TextEditingController(text: '+51 954 232 255'),
                 label: 'Phone',
                 hint: 'Enter your phone',
-                value: '+51 954 232 255',
               ),
               const SizedBox(height: 24),
-              const LabeledTextField(
+              LabeledTextField(
+                controller: TextEditingController(text: 'Dec / 14 / 1987'),
                 label: 'Birthday',
                 hint: 'Enter your birthday',
-                value: 'Dec / 14 / 1987',
               ),
             ],
           ),

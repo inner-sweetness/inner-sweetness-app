@@ -1,18 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:medito/widgets/labeled_text_field/app_text_field.dart';
 
-class LabeledTextField extends StatelessWidget {
+class LabeledTextField extends StatefulWidget {
+  final TextEditingController? controller;
   final String label;
-  final String value;
   final String error;
   final String hint;
+  final Function(bool, String?)? onFocusChange;
+  final Function(String)? onSubmitted;
   const LabeledTextField({
     super.key,
+    this.controller,
     this.label = '',
-    this.value = '',
     this.error = '',
     this.hint = '',
+    this.onFocusChange,
+    this.onSubmitted,
   });
+
+  @override
+  State<LabeledTextField> createState() => _LabeledTextFieldState();
+}
+
+class _LabeledTextFieldState extends State<LabeledTextField> {
+  final focusNode = FocusNode();
+
+  @override
+  void initState() {
+    focusNode.addListener(() {
+      widget.onFocusChange?.call(focusNode.hasFocus, widget.controller?.text);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +41,7 @@ class LabeledTextField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Text(
-          label,
+          widget.label,
           style: const TextStyle(
             fontSize: 16,
             color: Color(0xFF020202),
@@ -32,15 +51,17 @@ class LabeledTextField extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         AppTextField(
-          hint: hint,
-          hasError: error.isNotEmpty,
-          controller: TextEditingController(text: value)
+          focusNode: focusNode,
+          hint: widget.hint,
+          hasError: widget.error.isNotEmpty,
+          controller: widget.controller,
+          onSubmitted: widget.onSubmitted,
         ),
-        if (error.isNotEmpty)
+        if (widget.error.isNotEmpty)
           ...[
             const SizedBox(height: 8),
             Text(
-              error,
+              widget.error,
               style: const TextStyle(
                 fontSize: 12,
                 color: Color(0xFFFF4E64),

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:medito/views/login/cubit/validate_email_cubit/validate_email_cubit.dart';
+import 'package:medito/views/sign_up/bloc/register_bloc/register_bloc.dart';
 import 'package:medito/widgets/buttons/app_button.dart';
 import 'package:medito/widgets/labeled_text_field/labeled_text_field.dart';
 
@@ -76,17 +79,28 @@ class PersonalInfo extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 30),
-                  const LabeledTextField(
-                    label: 'Email',
-                    hint: 'Enter your email',
+                  BlocBuilder<ValidateEmailCubit, bool?>(
+                    builder: (context, bool? isValidState) => LabeledTextField(
+                      controller: context.read<RegisterBloc>().emailController,
+                      label: 'Email',
+                      hint: 'Enter your email',
+                      error: isValidState == false ? 'Email is invalid' : '',
+                      onFocusChange: (hasFocus, value) {
+                        if (hasFocus) return;
+                        context.read<ValidateEmailCubit>().validate(value);
+                      },
+                      onSubmitted: context.read<ValidateEmailCubit>().validate,
+                    ),
                   ),
                   const SizedBox(height: 32),
-                  const LabeledTextField(
+                  LabeledTextField(
+                    controller: context.read<RegisterBloc>().nameController,
                     label: 'Name',
                     hint: 'Enter your first name',
                   ),
                   const SizedBox(height: 32),
-                  const LabeledTextField(
+                  LabeledTextField(
+                    controller: context.read<RegisterBloc>().lastnameController,
                     label: 'Last name',
                     hint: 'Enter your last name',
                   ),
@@ -135,11 +149,13 @@ class PersonalInfo extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 32),
-                AppButton(
-                  text: 'CONTINUE',
-                  color: const Color(0xFF0150FF),
-                  radius: 56,
-                  onTap: onContinue,
+                BlocBuilder<ValidateEmailCubit, bool?>(
+                  builder: (context, bool? isValidState) => AppButton(
+                    text: 'CONTINUE',
+                    color: const Color(0xFF0150FF),
+                    radius: 56,
+                    onTap: isValidState == true ? onContinue : null,
+                  ),
                 ),
               ],
             ),

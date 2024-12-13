@@ -21,13 +21,6 @@ class _SubscribeViewState extends ConsumerState<SubscribeView> {
         builder: (context) => const LoginView(),
       ),
     );
-    // await Navigator.of(context).pushReplacement(
-    //   FadePageRoute(
-    //     builder: (context) => const RootPageView(
-    //       firstChild: BottomNavigationBarView(),
-    //     ),
-    //   ),
-    // );
   }
 
   @override

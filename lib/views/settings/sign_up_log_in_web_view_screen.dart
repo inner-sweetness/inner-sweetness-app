@@ -66,9 +66,9 @@ class SignUpLogInFormState extends ConsumerState<SignUpLogInForm> {
   bool get _isFormValid => _isEmailValid && _isPasswordValid;
 
   Future<void> _signUp() async {
-    await _performAuthAction(() => ref
-        .read(authRepositoryProvider)
-        .signUp(_emailController.text.trim(), _passwordController.text.trim()));
+    // await _performAuthAction(() => ref
+    //     .read(authRepositoryProvider)
+    //     .signUp(_emailController.text.trim(), _passwordController.text.trim()));
   }
 
   Future<void> _logIn() async {
@@ -77,8 +77,8 @@ class SignUpLogInFormState extends ConsumerState<SignUpLogInForm> {
     if (!shouldProceed) return;
 
     try {
-      await _performAuthAction(() => authRepository.logIn(
-          _emailController.text.trim(), _passwordController.text.trim()));
+      // await _performAuthAction(() => authRepository.logIn(
+      //     _emailController.text.trim(), _passwordController.text.trim()));
     } on AuthError catch (e) {
       switch (e.type) {
         case AuthException.accountMarkedForDeletion:
