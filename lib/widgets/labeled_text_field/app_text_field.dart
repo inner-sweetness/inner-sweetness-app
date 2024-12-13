@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class AppTextField extends StatelessWidget {
   final TextEditingController? controller;
@@ -10,6 +11,10 @@ class AppTextField extends StatelessWidget {
   final BorderRadius? borderRadius;
   final FocusNode? focusNode;
   final Function(String)? onSubmitted;
+  final bool enabled;
+  final bool readOnly;
+  final VoidCallback? onTap;
+  final List<TextInputFormatter>? inputFormatters;
   const AppTextField({
     super.key,
     this.controller,
@@ -21,6 +26,10 @@ class AppTextField extends StatelessWidget {
     this.borderRadius,
     this.focusNode,
     this.onSubmitted,
+    this.enabled = true,
+    this.readOnly = false,
+    this.onTap,
+    this.inputFormatters,
   });
 
   @override
@@ -30,12 +39,16 @@ class AppTextField extends StatelessWidget {
       borderRadius: borderRadius ?? BorderRadius.circular(6),
     );
     return TextField(
+      enabled: enabled,
+      readOnly: readOnly,
       focusNode: focusNode,
       controller: controller,
       textAlign: TextAlign.start,
       keyboardType: keyboardType,
       obscureText: obscured,
       onSubmitted: onSubmitted,
+      inputFormatters: inputFormatters,
+      onTap: onTap,
       style: const TextStyle(
         fontSize: 14,
         fontWeight: FontWeight.w400,

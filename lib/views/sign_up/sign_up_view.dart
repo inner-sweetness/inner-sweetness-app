@@ -4,7 +4,12 @@ import 'package:medito/injection.dart';
 import 'package:medito/views/login/cubit/obscure_password_cubit/obscure_password_cubit.dart';
 import 'package:medito/views/login/cubit/validate_email_cubit/validate_email_cubit.dart';
 import 'package:medito/views/sign_up/bloc/register_bloc/register_bloc.dart';
+import 'package:medito/views/sign_up/cubits/select_country_cubit/select_country_cubit.dart';
+import 'package:medito/views/sign_up/cubits/select_gender_cubit/select_gender_cubit.dart';
 import 'package:medito/views/sign_up/cubits/sign_up_step_cubit/sign_up_step_cubit.dart';
+import 'package:medito/views/sign_up/cubits/validate_age_cubit/validate_age_cubit.dart';
+import 'package:medito/views/sign_up/cubits/validate_lastname_cubit/validate_lastname_cubit.dart';
+import 'package:medito/views/sign_up/cubits/validate_name_cubit/validate_name_cubit.dart';
 import 'package:medito/views/sign_up/steps/extra_info/extra_info.dart';
 import 'package:medito/views/sign_up/steps/password_info/password_info.dart';
 import 'package:medito/views/sign_up/steps/personal_info/personal_info.dart';
@@ -20,17 +25,23 @@ class SignUpView extends StatefulWidget {
 
 class _SignUpViewState extends State<SignUpView> {
   final loading = DialogLoading();
+  final registerBloc = getIt<RegisterBloc>();
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: <BlocProvider>[
-        BlocProvider<RegisterBloc>(create: (context) => getIt<RegisterBloc>()),
+        BlocProvider<RegisterBloc>(create: (context) => registerBloc),
+        BlocProvider<SelectCountryCubit>(create: (context) => registerBloc.selectCountryCubit),
+        BlocProvider<SelectGenderCubit>(create: (context) => registerBloc.selectGenderCubit),
         BlocProvider<SignUpStepCubit>(create: (context) => getIt<SignUpStepCubit>()),
         BlocProvider<ValidateEmailCubit>(create: (context) => getIt<ValidateEmailCubit>()),
         BlocProvider<ObscurePasswordCubit>(create: (context) => getIt<ObscurePasswordCubit>()),
         BlocProvider<ObscureConfirmPasswordCubit>(create: (context) => getIt<ObscureConfirmPasswordCubit>()),
         BlocProvider<ValidateConfirmPasswordCubit>(create: (context) => getIt<ValidateConfirmPasswordCubit>()),
+        BlocProvider<ValidateNameCubit>(create: (context) => getIt<ValidateNameCubit>()),
+        BlocProvider<ValidateLastnameCubit>(create: (context) => getIt<ValidateLastnameCubit>()),
+        BlocProvider<ValidateAgeCubit>(create: (context) => getIt<ValidateAgeCubit>()),
       ],
       child: BlocListener<RegisterBloc, RegisterState>(
         listener: (context, RegisterState registerState) {

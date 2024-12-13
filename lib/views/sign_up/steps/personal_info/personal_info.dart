@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medito/views/login/cubit/validate_email_cubit/validate_email_cubit.dart';
 import 'package:medito/views/sign_up/bloc/register_bloc/register_bloc.dart';
+import 'package:medito/views/sign_up/cubits/validate_lastname_cubit/validate_lastname_cubit.dart';
+import 'package:medito/views/sign_up/cubits/validate_name_cubit/validate_name_cubit.dart';
 import 'package:medito/widgets/buttons/app_button.dart';
 import 'package:medito/widgets/labeled_text_field/labeled_text_field.dart';
 
@@ -89,20 +91,33 @@ class PersonalInfo extends StatelessWidget {
                         if (hasFocus) return;
                         context.read<ValidateEmailCubit>().validate(value);
                       },
-                      onSubmitted: context.read<ValidateEmailCubit>().validate,
                     ),
                   ),
                   const SizedBox(height: 32),
-                  LabeledTextField(
-                    controller: context.read<RegisterBloc>().nameController,
-                    label: 'Name',
-                    hint: 'Enter your first name',
+                  BlocBuilder<ValidateNameCubit, bool?>(
+                    builder: (context, bool? isValidState) => LabeledTextField(
+                      controller: context.read<RegisterBloc>().nameController,
+                      label: 'Name',
+                      hint: 'Enter your first name',
+                      error: isValidState == false ? 'Name is invalid' : '',
+                      onFocusChange: (hasFocus, value) {
+                        if (hasFocus) return;
+                        context.read<ValidateNameCubit>().validate(value);
+                      },
+                    ),
                   ),
                   const SizedBox(height: 32),
-                  LabeledTextField(
-                    controller: context.read<RegisterBloc>().lastnameController,
-                    label: 'Last name',
-                    hint: 'Enter your last name',
+                  BlocBuilder<ValidateLastnameCubit, bool?>(
+                    builder: (context, bool? isValidState) => LabeledTextField(
+                      controller: context.read<RegisterBloc>().lastnameController,
+                      label: 'Last name',
+                      hint: 'Enter your last name',
+                      error: isValidState == false ? 'Lastname is invalid' : '',
+                      onFocusChange: (hasFocus, value) {
+                        if (hasFocus) return;
+                        context.read<ValidateLastnameCubit>().validate(value);
+                      },
+                    ),
                   ),
                 ],
               ),
@@ -150,11 +165,15 @@ class PersonalInfo extends StatelessWidget {
                 ),
                 const SizedBox(height: 32),
                 BlocBuilder<ValidateEmailCubit, bool?>(
-                  builder: (context, bool? isValidState) => AppButton(
-                    text: 'CONTINUE',
-                    color: const Color(0xFF0150FF),
-                    radius: 56,
-                    onTap: isValidState == true ? onContinue : null,
+                  builder: (context, bool? emailIsValidState) => BlocBuilder<ValidateNameCubit, bool?>(
+                    builder: (context, bool? nameIsValidState) => BlocBuilder<ValidateLastnameCubit, bool?>(
+                      builder: (context, bool? lastnameIsValidState) => AppButton(
+                        text: 'CONTINUE',
+                        color: const Color(0xFF0150FF),
+                        radius: 56,
+                        onTap: emailIsValidState == true && nameIsValidState == true && lastnameIsValidState == true ? onContinue : null,
+                      ),
+                    ),
                   ),
                 ),
               ],

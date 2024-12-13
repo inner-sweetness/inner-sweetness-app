@@ -11,6 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:medito/constants/constants.dart';
+import 'package:medito/di/app_config.dart';
 import 'package:medito/injection.dart';
 import 'package:medito/providers/player/audio_state_provider.dart';
 import 'package:medito/providers/player/player_provider.dart';
@@ -20,7 +21,7 @@ import 'package:medito/routes/routes.dart';
 import 'package:medito/services/network/dio_header_service.dart';
 import 'package:medito/src/audio_pigeon.g.dart';
 import 'package:medito/utils/stats_manager.dart';
-import 'package:medito/views/splash_view.dart';
+import 'package:medito/views/splash_view/splash_view.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'constants/theme/app_theme.dart';
@@ -33,7 +34,7 @@ void main() async {
   configureDependencies();
   WidgetsFlutterBinding.ensureInitialized();
   var appLinks = AppLinks();
-
+  await getIt<AppConfig>().initialize();
   // Handle app links while the app is already started - deep link
   appLinks.uriLinkStream.listen((Uri? uri) {
     if (uri != null) {

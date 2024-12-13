@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:medito/constants/strings/shared_preference_constants.dart';
-import 'package:medito/services/model/request/login_request.dart';
-import 'package:medito/services/network/auth_api_service.dart';
+import 'package:medito/services/authentication_service/authentication_service.dart';
+import 'package:medito/services/authentication_service/model/request/login_request.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'login_bloc.freezed.dart';
@@ -30,8 +30,8 @@ class LoginState with _$LoginState {
 
 @injectable
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  final authDioApiService = AuthDioApiService();
-  LoginBloc() : super(const LoginUninitializedState()) {
+  final AuthenticationService _authenticationService;
+  LoginBloc(this._authenticationService) : super(const LoginUninitializedState()) {
     on<LoginEvent>(_onLoginEvent);
   }
 
@@ -50,7 +50,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           login: () async {
             emitter(const LoginLoadingState());
             final request = LoginRequest(email: email, password: password);
-            final response = await authDioApiService.login(request: request);
+            final response = await _authenticationService.login(request: request);
             var sharedPreferences = await SharedPreferences.getInstance();
             await sharedPreferences.setString(SharedPreferenceConstants.userToken, response.accessToken);
             await sharedPreferences.setString(SharedPreferenceConstants.userRefreshToken, response.refreshToken);

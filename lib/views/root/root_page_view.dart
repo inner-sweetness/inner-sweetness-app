@@ -1,4 +1,6 @@
 import 'package:medito/constants/constants.dart';
+import 'package:medito/di/app_config.dart';
+import 'package:medito/injection.dart';
 import 'package:medito/providers/root/root_combine_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,6 +23,7 @@ class _RootPageViewState extends ConsumerState<RootPageView> {
 
   @override
   Widget build(BuildContext context) {
+    getIt<AppConfig>().context = context;
     return Scaffold(
       backgroundColor: ColorConstants.black,
       resizeToAvoidBottomInset: false,
