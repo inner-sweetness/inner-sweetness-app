@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medito/injection.dart';
 import 'package:medito/utils/fade_page_route.dart';
 import 'package:medito/views/bottom_navigation/bottom_navigation_bar_view.dart';
-import 'package:medito/views/login/bloc/login_bloc.dart';
+import 'package:medito/views/login/bloc/logic_bloc/login_bloc.dart';
+import 'package:medito/views/login/bloc/send_code_bloc/send_code_bloc.dart';
 import 'package:medito/views/login/change_password_bottom_sheet.dart';
 import 'package:medito/views/login/cubit/obscure_password_cubit/obscure_password_cubit.dart';
 import 'package:medito/views/login/cubit/validate_email_cubit/validate_email_cubit.dart';
@@ -139,22 +140,13 @@ class _LoginViewState extends State<LoginView> {
                       const SizedBox(height: 8),
                       GestureDetector(
                         onTap: () async {
-                          showRecoverPasswordBottomSheet(
-                              context,
-                              onContinue: () {
-                                Navigator.pop(context);
-                                showVerificationCodeBottomSheet(
-                                  context,
-                                  onContinue: () {
-                                    Navigator.pop(context);
-                                    showChangePasswordBottomSheet(
-                                      context,
-                                      onContinue: () {},
-                                    );
-                                  },
-                                );
-                              }
-                          );
+                          final email = await showRecoverPasswordBottomSheet(context);
+                          if (email == null) return;
+                          final code = await showVerificationCodeBottomSheet(context, email: email);
+                          if (code == null) return;
+                          final success = await showChangePasswordBottomSheet(context, email: email, code: code);
+                          if (success == null || success == false) return;
+                          AppSnackBar.showSuccessSnackBar(context, message: 'Password reset successfully!');
                         },
                         behavior: HitTestBehavior.opaque,
                         child: const Text(

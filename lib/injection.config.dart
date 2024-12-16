@@ -13,7 +13,7 @@ import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 
 import 'di/app_config.dart' as _i15;
-import 'di/app_module_config.dart' as _i22;
+import 'di/app_module_config.dart' as _i25;
 import 'network/dio_client.dart' as _i16;
 import 'services/authentication_service/authentication_repository.dart' as _i18;
 import 'services/authentication_service/authentication_repository_interface.dart'
@@ -23,7 +23,10 @@ import 'services/shared_preferences_service/shared_preferences_repository.dart'
     as _i4;
 import 'services/shared_preferences_service/shared_preferences_service.dart'
     as _i8;
-import 'views/login/bloc/login_bloc.dart' as _i20;
+import 'views/login/bloc/logic_bloc/login_bloc.dart' as _i20;
+import 'views/login/bloc/reset_password_bloc/reset_password_bloc.dart' as _i22;
+import 'views/login/bloc/send_code_bloc/send_code_bloc.dart' as _i23;
+import 'views/login/bloc/verify_code_bloc/verify_code_bloc.dart' as _i24;
 import 'views/login/cubit/obscure_password_cubit/obscure_password_cubit.dart'
     as _i5;
 import 'views/login/cubit/validate_email_cubit/validate_email_cubit.dart'
@@ -94,8 +97,14 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i6.SelectCountryCubit>(),
           gh<_i7.SelectGenderCubit>(),
         ));
+    gh.factory<_i22.ResetPasswordBloc>(
+        () => _i22.ResetPasswordBloc(gh<_i19.AuthenticationService>()));
+    gh.factory<_i23.SendCodeBloc>(
+        () => _i23.SendCodeBloc(gh<_i19.AuthenticationService>()));
+    gh.factory<_i24.VerifyCodeBloc>(
+        () => _i24.VerifyCodeBloc(gh<_i19.AuthenticationService>()));
     return this;
   }
 }
 
-class _$AppConfigModule extends _i22.AppConfigModule {}
+class _$AppConfigModule extends _i25.AppConfigModule {}

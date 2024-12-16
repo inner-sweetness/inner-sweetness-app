@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medito/di/app_config.dart';
 import 'package:medito/injection.dart';
-import 'package:medito/views/login/bloc/login_bloc.dart';
+import 'package:medito/views/login/bloc/logic_bloc/login_bloc.dart';
 
 class UnauthorizedDialog extends StatefulWidget {
   const UnauthorizedDialog({super.key});

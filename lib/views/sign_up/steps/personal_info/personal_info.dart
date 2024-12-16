@@ -91,6 +91,7 @@ class PersonalInfo extends StatelessWidget {
                         if (hasFocus) return;
                         context.read<ValidateEmailCubit>().validate(value);
                       },
+                      onChanged: context.read<ValidateEmailCubit>().validate,
                     ),
                   ),
                   const SizedBox(height: 32),
@@ -104,6 +105,7 @@ class PersonalInfo extends StatelessWidget {
                         if (hasFocus) return;
                         context.read<ValidateNameCubit>().validate(value);
                       },
+                      onChanged: context.read<ValidateNameCubit>().validate,
                     ),
                   ),
                   const SizedBox(height: 32),
@@ -117,6 +119,7 @@ class PersonalInfo extends StatelessWidget {
                         if (hasFocus) return;
                         context.read<ValidateLastnameCubit>().validate(value);
                       },
+                      onChanged: context.read<ValidateLastnameCubit>().validate,
                     ),
                   ),
                 ],

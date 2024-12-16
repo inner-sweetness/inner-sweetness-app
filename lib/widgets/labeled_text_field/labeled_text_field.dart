@@ -9,6 +9,7 @@ class LabeledTextField extends StatefulWidget {
   final String hint;
   final Function(bool, String?)? onFocusChange;
   final Function(String)? onSubmitted;
+  final Function(String)? onChanged;
   final bool enabled;
   final bool readOnly;
   final VoidCallback? onTap;
@@ -22,6 +23,7 @@ class LabeledTextField extends StatefulWidget {
     this.hint = '',
     this.onFocusChange,
     this.onSubmitted,
+    this.onChanged,
     this.enabled = true,
     this.readOnly = false,
     this.onTap,
@@ -73,6 +75,7 @@ class _LabeledTextFieldState extends State<LabeledTextField> {
             onSubmitted: widget.onSubmitted,
             keyboardType: widget.keyboardType,
             inputFormatters: widget.inputFormatters,
+            onChanged: widget.onChanged,
           ),
           if (widget.error.isNotEmpty)
             ...[

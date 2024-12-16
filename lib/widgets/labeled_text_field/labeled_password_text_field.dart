@@ -10,6 +10,7 @@ class LabeledPasswordTextField extends StatefulWidget {
   final VoidCallback? onSuffixTap;
   final Function(bool, String?)? onFocusChange;
   final Function(String)? onSubmitted;
+  final Function(String)? onChanged;
   const LabeledPasswordTextField({
     super.key,
     this.label = '',
@@ -20,6 +21,7 @@ class LabeledPasswordTextField extends StatefulWidget {
     this.onSuffixTap,
     this.onFocusChange,
     this.onSubmitted,
+    this.onChanged,
   });
 
   @override
@@ -61,6 +63,7 @@ class _LabeledPasswordTextFieldState extends State<LabeledPasswordTextField> {
           hint: widget.hint,
           obscured: widget.obscured,
           onSubmitted: widget.onSubmitted,
+          onChanged: widget.onChanged,
           hasError: widget.error.isNotEmpty,
           suffix: GestureDetector(
             onTap: widget.onSuffixTap,

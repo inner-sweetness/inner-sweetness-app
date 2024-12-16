@@ -110,6 +110,14 @@ class PasswordInfo extends StatelessWidget {
                             confirmPassword,
                           );
                         },
+                        onChanged: (_) {
+                          final password = context.read<RegisterBloc>().password;
+                          final confirmPassword = context.read<RegisterBloc>().confirmPassword;
+                          context.read<ValidateConfirmPasswordCubit>().compare(
+                            password,
+                            confirmPassword,
+                          );
+                        },
                       ),
                     ),
                   ),

@@ -11,6 +11,7 @@ class AppTextField extends StatelessWidget {
   final BorderRadius? borderRadius;
   final FocusNode? focusNode;
   final Function(String)? onSubmitted;
+  final Function(String)? onChanged;
   final bool enabled;
   final bool readOnly;
   final VoidCallback? onTap;
@@ -26,6 +27,7 @@ class AppTextField extends StatelessWidget {
     this.borderRadius,
     this.focusNode,
     this.onSubmitted,
+    this.onChanged,
     this.enabled = true,
     this.readOnly = false,
     this.onTap,
@@ -47,6 +49,7 @@ class AppTextField extends StatelessWidget {
       keyboardType: keyboardType,
       obscureText: obscured,
       onSubmitted: onSubmitted,
+      onChanged: onChanged,
       inputFormatters: inputFormatters,
       onTap: onTap,
       style: const TextStyle(

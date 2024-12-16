@@ -6,7 +6,7 @@ import 'package:medito/injection.dart';
 import 'package:medito/providers/providers.dart';
 import 'package:medito/utils/fade_page_route.dart';
 import 'package:medito/views/edit_account/edit_account_screen.dart';
-import 'package:medito/views/login/bloc/login_bloc.dart';
+import 'package:medito/views/login/bloc/logic_bloc/login_bloc.dart';
 import 'package:medito/views/login/login_view.dart';
 import 'package:medito/views/submit_feedback/submit_feedback_screen.dart';
 import 'package:medito/views/unsubscribe/unsubscribe_screen.dart';
