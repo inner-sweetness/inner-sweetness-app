@@ -98,7 +98,7 @@ class _RecoverPasswordBottomSheetState extends State<RecoverPasswordBottomSheet>
               builder: (context, bool? isValid) => AppButton(
                 text: 'CONTINUE',
                 radius: 56,
-                color: const Color(0xFF0150FF),
+                color: (isValid ?? false) ? const Color(0xFF0150FF) : Colors.grey,
                 onTap: () {
                   if (!(isValid ?? false)) {
                     context.read<ValidateEmailCubit>().validate(context.read<SendCodeBloc>().email);
