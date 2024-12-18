@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medito/injection.dart';
 import 'package:medito/views/login/bloc/send_code_bloc/send_code_bloc.dart';
+import 'package:medito/views/login/cubit/validate_email_cubit/validate_email_cubit.dart';
 import 'package:medito/widgets/app_snack_bar/app_snack_bar.dart';
 import 'package:medito/widgets/buttons/app_button.dart';
 import 'package:medito/widgets/labeled_text_field/app_text_field.dart';
@@ -64,16 +65,48 @@ class _RecoverPasswordBottomSheetState extends State<RecoverPasswordBottomSheet>
               ),
             ),
             const SizedBox(height: 16),
-            AppTextField(
-              controller: context.read<SendCodeBloc>().emailController,
-              hint: 'Enter your email',
+            BlocBuilder<ValidateEmailCubit, bool?>(
+              builder: (context, bool? isValid) => Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  AppTextField(
+                    controller: context.read<SendCodeBloc>().emailController,
+                    hasError: isValid == false,
+                    hint: 'Enter your email',
+                    onChanged: context.read<ValidateEmailCubit>().validate,
+                  ),
+                  if (isValid == false)
+                    ...[
+                      const SizedBox(height: 8),
+                      const Text(
+                        'Email is invalid',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Color(0xFFFF4E64),
+                          fontWeight: FontWeight.w400,
+                        ),
+                        textAlign: TextAlign.start,
+                      ),
+                    ],
+                ],
+              ),
             ),
             const SizedBox(height: 16),
-            AppButton(
-              text: 'CONTINUE',
-              radius: 56,
-              color: const Color(0xFF0150FF),
-              onTap: () => context.read<SendCodeBloc>().add(const SendCode()),
+            BlocBuilder<ValidateEmailCubit, bool?>(
+              builder: (context, bool? isValid) => AppButton(
+                text: 'CONTINUE',
+                radius: 56,
+                color: const Color(0xFF0150FF),
+                onTap: () {
+                  if (!(isValid ?? false)) {
+                    context.read<ValidateEmailCubit>().validate(context.read<SendCodeBloc>().email);
+                    return;
+                  }
+                  context.read<SendCodeBloc>().add(const SendCode());
+                },
+              ),
             ),
           ],
         ),
@@ -87,8 +120,11 @@ Future<String?> showRecoverPasswordBottomSheet(BuildContext context) async {
     context: context,
     backgroundColor: Colors.white,
     isScrollControlled: true,
-    builder: (context) => BlocProvider(
-      create: (context) => getIt<SendCodeBloc>(),
+    builder: (context) => MultiBlocProvider(
+      providers: <BlocProvider>[
+        BlocProvider<SendCodeBloc>(create: (context) => getIt<SendCodeBloc>()),
+        BlocProvider<ValidateEmailCubit>(create: (context) => getIt<ValidateEmailCubit>()),
+      ],
       child: const RecoverPasswordBottomSheet(),
     ),
   );

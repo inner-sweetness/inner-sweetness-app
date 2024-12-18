@@ -82,6 +82,7 @@ extension GetItInjectableX on _i1.GetIt {
     gh.factory<_i13.ValidateLoginBloc>(
         () => _i13.ValidateLoginBloc(gh<_i8.SharedPreferencesService>()));
     gh.factory<_i14.ValidateNameCubit>(() => _i14.ValidateNameCubit());
+    gh.factory<_i11.ValidateStringCubit>(() => _i11.ValidateStringCubit());
     gh.singleton<_i15.AppConfig>(
         () => _i15.AppConfig(gh<_i8.SharedPreferencesService>()));
     gh.factory<_i16.DioClient>(() => _i16.DioClient(

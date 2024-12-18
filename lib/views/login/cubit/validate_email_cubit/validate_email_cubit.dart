@@ -9,6 +9,21 @@ abstract class ValidateCubit extends Cubit<bool?> {
 }
 
 @injectable
+class ValidateStringCubit extends ValidateCubit {
+  @override
+  void compare(String? value, String? compared) {}
+
+  @override
+  void validate(String? value) {
+    if (value == null) {
+      emit(false);
+      return;
+    }
+    emit(value.isNotEmpty);
+  }
+}
+
+@injectable
 class ValidateEmailCubit extends ValidateCubit {
   @override
   void validate(String? value) {
