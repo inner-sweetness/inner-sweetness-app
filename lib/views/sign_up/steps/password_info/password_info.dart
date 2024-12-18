@@ -37,7 +37,7 @@ class PasswordInfo extends StatelessWidget {
           const SizedBox(height: 16),
           Expanded(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: EdgeInsets.only(left: 16, right: 16, bottom: MediaQuery.of(context).viewInsets.bottom),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -89,6 +89,25 @@ class PasswordInfo extends StatelessWidget {
                       hint: 'Enter your password',
                       obscured: obscureState,
                       onSuffixTap: () => context.read<ObscurePasswordCubit>().change(!obscureState),
+                      onFocusChange: (hasFocus, value) {
+                        if (hasFocus) return;
+                        final confirmPassword = context.read<RegisterBloc>().confirmPassword;
+                        if (confirmPassword.isEmpty) return;
+                        final password = context.read<RegisterBloc>().password;
+                        context.read<ValidateConfirmPasswordCubit>().compare(
+                          password,
+                          confirmPassword,
+                        );
+                      },
+                      onChanged: (_) {
+                        final confirmPassword = context.read<RegisterBloc>().confirmPassword;
+                        if (confirmPassword.isEmpty) return;
+                        final password = context.read<RegisterBloc>().password;
+                        context.read<ValidateConfirmPasswordCubit>().compare(
+                          password,
+                          confirmPassword,
+                        );
+                      },
                     ),
                   ),
                   const SizedBox(height: 32),
@@ -100,7 +119,7 @@ class PasswordInfo extends StatelessWidget {
                         hint: 'Enter your password again',
                         error: isValidState == false ? 'Confirm password is invalid' : '',
                         obscured: obscureState,
-                        onSuffixTap: () => context.read<ObscurePasswordCubit>().change(!obscureState),
+                        onSuffixTap: () => context.read<ObscureConfirmPasswordCubit>().change(!obscureState),
                         onFocusChange: (hasFocus, value) {
                           if (hasFocus) return;
                           final password = context.read<RegisterBloc>().password;

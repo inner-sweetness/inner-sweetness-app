@@ -40,7 +40,7 @@ class ExtraInfo extends StatelessWidget {
           const SizedBox(height: 16),
           Expanded(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: EdgeInsets.only(left: 16, right: 16, bottom: MediaQuery.of(context).viewInsets.bottom),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -114,6 +114,9 @@ class ExtraInfo extends StatelessWidget {
                             color: Colors.black,
                           ),
                           dialCodeTextStyle: TextStyle(
+                            color: Colors.black,
+                          ),
+                          searchBarTextStyle: TextStyle(
                             color: Colors.black,
                           ),
                         );

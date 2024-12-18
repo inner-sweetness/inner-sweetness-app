@@ -55,65 +55,69 @@ class _SignUpViewState extends State<SignUpView> {
             AppSnackBar.showErrorSnackBar(context, message: registerState.message);
           }
         },
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          backgroundColor: Colors.white,
-          body: Stack(
-            children: <Widget>[
-              Positioned(
-                right: 0,
-                bottom: 0,
-                child: Container(
-                  height: MediaQuery.of(context).size.height * .5,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: const BoxDecoration(
-                      gradient: RadialGradient(
-                        radius: .75,
-                        stops: [0, 1],
-                        center: Alignment.bottomLeft,
-                        colors: [
-                          Color(0xFF03F480),
-                          Colors.white,
-                        ],
-                      )
+        child: GestureDetector(
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+          behavior: HitTestBehavior.opaque,
+          child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            backgroundColor: Colors.white,
+            body: Stack(
+              children: <Widget>[
+                Positioned(
+                  right: 0,
+                  bottom: 0,
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * .5,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: const BoxDecoration(
+                        gradient: RadialGradient(
+                          radius: .75,
+                          stops: [0, 1],
+                          center: Alignment.bottomLeft,
+                          colors: [
+                            Color(0xFF03F480),
+                            Colors.white,
+                          ],
+                        )
+                    ),
                   ),
                 ),
-              ),
-              Positioned(
-                right: 0,
-                top: 0,
-                child: Container(
-                  height: MediaQuery.of(context).size.height * .5,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: const BoxDecoration(
-                      gradient: RadialGradient(
-                        radius: .75,
-                        stops: [0, 1],
-                        center: Alignment.topRight,
-                        colors: [
-                          Color(0xFFFFF500),
-                          Colors.white,
-                        ],
-                      )
+                Positioned(
+                  right: 0,
+                  top: 0,
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * .5,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: const BoxDecoration(
+                        gradient: RadialGradient(
+                          radius: .75,
+                          stops: [0, 1],
+                          center: Alignment.topRight,
+                          colors: [
+                            Color(0xFFFFF500),
+                            Colors.white,
+                          ],
+                        )
+                    ),
                   ),
                 ),
-              ),
-              BlocBuilder<SignUpStepCubit, SignUpStep>(
-                builder: (context, SignUpStep stepState) => switch(stepState){
-                  SignUpStep.principal => PersonalInfo(
-                    onContinue: () => context.read<SignUpStepCubit>().change(SignUpStep.password),
-                  ),
-                  SignUpStep.password => PasswordInfo(
-                    onContinue: () => context.read<SignUpStepCubit>().change(SignUpStep.extra),
-                    onBack: () => context.read<SignUpStepCubit>().change(SignUpStep.principal),
-                  ),
-                  SignUpStep.extra => ExtraInfo(
-                    onContinue: () => context.read<RegisterBloc>().add(const RegisterAccount()),
-                    onBack: () => context.read<SignUpStepCubit>().change(SignUpStep.password),
-                  ),
-                },
-              ),
-            ],
+                BlocBuilder<SignUpStepCubit, SignUpStep>(
+                  builder: (context, SignUpStep stepState) => switch(stepState){
+                    SignUpStep.principal => PersonalInfo(
+                      onContinue: () => context.read<SignUpStepCubit>().change(SignUpStep.password),
+                    ),
+                    SignUpStep.password => PasswordInfo(
+                      onContinue: () => context.read<SignUpStepCubit>().change(SignUpStep.extra),
+                      onBack: () => context.read<SignUpStepCubit>().change(SignUpStep.principal),
+                    ),
+                    SignUpStep.extra => ExtraInfo(
+                      onContinue: () => context.read<RegisterBloc>().add(const RegisterAccount()),
+                      onBack: () => context.read<SignUpStepCubit>().change(SignUpStep.password),
+                    ),
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
