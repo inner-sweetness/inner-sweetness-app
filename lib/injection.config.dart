@@ -13,25 +13,30 @@ import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 
 import 'di/app_config.dart' as _i15;
-import 'di/app_module_config.dart' as _i25;
+import 'di/app_module_config.dart' as _i29;
 import 'network/dio_client.dart' as _i16;
 import 'services/authentication_service/authentication_repository.dart' as _i18;
 import 'services/authentication_service/authentication_repository_interface.dart'
     as _i17;
-import 'services/authentication_service/authentication_service.dart' as _i19;
+import 'services/authentication_service/authentication_service.dart' as _i20;
+import 'services/contentful_services/contentful_repository.dart' as _i19;
+import 'services/contentful_services/contentful_services.dart' as _i21;
 import 'services/shared_preferences_service/shared_preferences_repository.dart'
     as _i4;
 import 'services/shared_preferences_service/shared_preferences_service.dart'
     as _i8;
-import 'views/login/bloc/logic_bloc/login_bloc.dart' as _i20;
-import 'views/login/bloc/reset_password_bloc/reset_password_bloc.dart' as _i22;
-import 'views/login/bloc/send_code_bloc/send_code_bloc.dart' as _i23;
-import 'views/login/bloc/verify_code_bloc/verify_code_bloc.dart' as _i24;
+import 'views/home/logic/bloc/fetch_app_bloc/fetch_app_bloc.dart' as _i22;
+import 'views/home/logic/bloc/fetch_network_bloc/fetch_network_bloc.dart'
+    as _i23;
+import 'views/login/bloc/logic_bloc/login_bloc.dart' as _i24;
+import 'views/login/bloc/reset_password_bloc/reset_password_bloc.dart' as _i26;
+import 'views/login/bloc/send_code_bloc/send_code_bloc.dart' as _i27;
+import 'views/login/bloc/verify_code_bloc/verify_code_bloc.dart' as _i28;
 import 'views/login/cubit/obscure_password_cubit/obscure_password_cubit.dart'
     as _i5;
 import 'views/login/cubit/validate_email_cubit/validate_email_cubit.dart'
     as _i11;
-import 'views/sign_up/bloc/register_bloc/register_bloc.dart' as _i21;
+import 'views/sign_up/bloc/register_bloc/register_bloc.dart' as _i25;
 import 'views/sign_up/cubits/select_country_cubit/select_country_cubit.dart'
     as _i6;
 import 'views/sign_up/cubits/select_gender_cubit/select_gender_cubit.dart'
@@ -88,23 +93,31 @@ extension GetItInjectableX on _i1.GetIt {
               gh<_i16.DioClient>(),
               gh<_i8.SharedPreferencesService>(),
             ));
-    gh.factory<_i19.AuthenticationService>(
-        () => _i19.AuthenticationService(gh<_i17.IAuthenticationRepository>()));
-    gh.factory<_i20.LoginBloc>(
-        () => _i20.LoginBloc(gh<_i19.AuthenticationService>()));
-    gh.factory<_i21.RegisterBloc>(() => _i21.RegisterBloc(
-          gh<_i19.AuthenticationService>(),
+    gh.lazySingleton<_i19.IContentfulRepository>(
+        () => _i19.ContentfulRepository(gh<_i16.DioClient>()));
+    gh.factory<_i20.AuthenticationService>(
+        () => _i20.AuthenticationService(gh<_i17.IAuthenticationRepository>()));
+    gh.factory<_i21.ContentfulServices>(
+        () => _i21.ContentfulServices(gh<_i19.IContentfulRepository>()));
+    gh.factory<_i22.FetchAppBloc>(
+        () => _i22.FetchAppBloc(gh<_i21.ContentfulServices>()));
+    gh.factory<_i23.FetchNetworkBloc>(
+        () => _i23.FetchNetworkBloc(gh<_i21.ContentfulServices>()));
+    gh.factory<_i24.LoginBloc>(
+        () => _i24.LoginBloc(gh<_i20.AuthenticationService>()));
+    gh.factory<_i25.RegisterBloc>(() => _i25.RegisterBloc(
+          gh<_i20.AuthenticationService>(),
           gh<_i6.SelectCountryCubit>(),
           gh<_i7.SelectGenderCubit>(),
         ));
-    gh.factory<_i22.ResetPasswordBloc>(
-        () => _i22.ResetPasswordBloc(gh<_i19.AuthenticationService>()));
-    gh.factory<_i23.SendCodeBloc>(
-        () => _i23.SendCodeBloc(gh<_i19.AuthenticationService>()));
-    gh.factory<_i24.VerifyCodeBloc>(
-        () => _i24.VerifyCodeBloc(gh<_i19.AuthenticationService>()));
+    gh.factory<_i26.ResetPasswordBloc>(
+        () => _i26.ResetPasswordBloc(gh<_i20.AuthenticationService>()));
+    gh.factory<_i27.SendCodeBloc>(
+        () => _i27.SendCodeBloc(gh<_i20.AuthenticationService>()));
+    gh.factory<_i28.VerifyCodeBloc>(
+        () => _i28.VerifyCodeBloc(gh<_i20.AuthenticationService>()));
     return this;
   }
 }
 
-class _$AppConfigModule extends _i25.AppConfigModule {}
+class _$AppConfigModule extends _i29.AppConfigModule {}

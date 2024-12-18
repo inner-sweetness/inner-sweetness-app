@@ -1,67 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:medito/injection.dart';
+import 'package:medito/views/home/logic/bloc/fetch_app_bloc/fetch_app_bloc.dart';
+import 'package:medito/views/home/logic/bloc/fetch_network_bloc/fetch_network_bloc.dart';
 import 'package:medito/views/home/widgets/home_logo.dart';
+import 'package:medito/views/home/widgets/home_media/home_legal.dart';
+import 'package:medito/views/home/widgets/home_media/home_networks.dart';
 
 class HomeMedia extends StatelessWidget {
   const HomeMedia({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          const HomeLogo(),
-          const SizedBox(height: 32),
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              const Text(
-                'TERMS & CONDITIONS',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(width: 12),
-              Container(
-                height: 14,
-                width: 1,
-                color: Colors.white,
-              ),
-              const SizedBox(width: 12),
-              const Text(
-                'PRIVACY POLICY',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
-          const SizedBox(height: 32),
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              SvgPicture.asset('assets/images/instagram.svg'),
-              SvgPicture.asset('assets/images/linkedin.svg'),
-              SvgPicture.asset('assets/images/spotify.svg'),
-              SvgPicture.asset('assets/images/youtube.svg'),
-              SvgPicture.asset('assets/images/tiktok.svg'),
-            ],
-          ),
-        ],
+    return MultiBlocProvider(
+      providers: <BlocProvider>[
+        BlocProvider<FetchNetworkBloc>(create: (context) => getIt<FetchNetworkBloc>()..fetch()),
+        BlocProvider<FetchAppBloc>(create: (context) => getIt<FetchAppBloc>()..fetch()),
+      ],
+      child: const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 24),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            HomeLogo(),
+            SizedBox(height: 32),
+            HomeLegal(),
+            SizedBox(height: 32),
+            HomeNetworks(),
+          ],
+        ),
       ),
     );
   }

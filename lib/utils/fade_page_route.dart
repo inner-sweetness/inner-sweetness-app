@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class FadePageRoute<T> extends PageRoute<T> {
   FadePageRoute({
     required this.builder,
-    this.duration = const Duration(milliseconds: 1000),
+    this.duration = const Duration(milliseconds: 500),
     RouteSettings? settings,
   }) : super(settings: settings);
 
