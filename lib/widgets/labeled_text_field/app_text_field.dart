@@ -16,6 +16,7 @@ class AppTextField extends StatelessWidget {
   final bool readOnly;
   final VoidCallback? onTap;
   final List<TextInputFormatter>? inputFormatters;
+  final TextInputAction? textInputAction;
   const AppTextField({
     super.key,
     this.controller,
@@ -32,6 +33,7 @@ class AppTextField extends StatelessWidget {
     this.readOnly = false,
     this.onTap,
     this.inputFormatters,
+    this.textInputAction,
   });
 
   @override
@@ -51,6 +53,7 @@ class AppTextField extends StatelessWidget {
       onSubmitted: onSubmitted,
       onChanged: onChanged,
       inputFormatters: inputFormatters,
+      textInputAction: textInputAction,
       onTap: onTap,
       style: const TextStyle(
         fontSize: 14,

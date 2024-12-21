@@ -15,6 +15,7 @@ class LabeledTextField extends StatefulWidget {
   final VoidCallback? onTap;
   final TextInputType? keyboardType;
   final List<TextInputFormatter>? inputFormatters;
+  final TextInputAction? textInputAction;
   const LabeledTextField({
     super.key,
     this.controller,
@@ -29,6 +30,7 @@ class LabeledTextField extends StatefulWidget {
     this.onTap,
     this.keyboardType,
     this.inputFormatters,
+    this.textInputAction,
   });
 
   @override
@@ -76,6 +78,7 @@ class _LabeledTextFieldState extends State<LabeledTextField> {
             keyboardType: widget.keyboardType,
             inputFormatters: widget.inputFormatters,
             onChanged: widget.onChanged,
+            textInputAction: widget.textInputAction,
           ),
           if (widget.error.isNotEmpty)
             ...[

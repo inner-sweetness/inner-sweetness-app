@@ -58,10 +58,9 @@ class _SignUpViewState extends State<SignUpView> {
         child: GestureDetector(
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
           behavior: HitTestBehavior.opaque,
-          child: Scaffold(
-            resizeToAvoidBottomInset: false,
-            backgroundColor: Colors.white,
-            body: Stack(
+          child: Material(
+            color: Colors.white,
+            child: Stack(
               children: <Widget>[
                 Positioned(
                   right: 0,
