@@ -51,6 +51,9 @@ class _LoginViewState extends State<LoginView> {
             );
           } else if (loginState is LoginErrorState) {
             AppSnackBar.showErrorSnackBar(context, message: loginState.message);
+            Future.delayed(const Duration(milliseconds: 200), () {
+              FocusScope.of(context).unfocus();
+            });
           }
         },
         child: Builder(
