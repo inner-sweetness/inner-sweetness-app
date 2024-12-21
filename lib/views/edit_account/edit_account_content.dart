@@ -46,7 +46,7 @@ class _EditAccountContentState extends State<EditAccountContent> {
           } else if (state is UpdateProfileErrorState) {
             AppSnackBar.showErrorSnackBar(context, message: state.message);
           } else if (state is UpdateProfileSuccessState) {
-            AppSnackBar.showSuccessSnackBar(context, message: 'Updated!');
+            AppSnackBar.showSuccessSnackBar(context, message: 'Account Updated.');
           }
         },
         child: Scaffold(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:medito/constants/http/http_constants.dart';
 import 'package:medito/utils/fade_page_route.dart';
 import 'package:medito/views/edit_account/edit_account_screen.dart';
 import 'package:medito/views/login/bloc/logic_bloc/login_bloc.dart';
@@ -84,41 +85,11 @@ class _SettingsContentState extends State<SettingsContent> {
                   ),
                 ),
                 const SizedBox(height: 32),
-                Container(
-                  height: 132,
-                  width: 132,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: const Color(0x33FFFFFF), width: 4),
-                    boxShadow: const <BoxShadow>[
-                      BoxShadow(
-                        color: Colors.black26,
-                        offset: Offset(0, 2),
-                        blurRadius: 2,
-                        spreadRadius: 2,
-                      ),
-                    ],
-                  ),
-                  child: Center(
-                    child: ClipOval(
-                      child: SizedBox(
-                        height: 124,
-                        width: 124,
-                        child: Image.asset(
-                          'assets/images/profile_picture.jpeg',
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 32),
                 BlocBuilder<FetchProfileBloc, FetchProfileState>(
                   builder: (context, FetchProfileState state) {
                     if (state is FetchProfileLoadingState) {
                       return const SizedBox(
-                        height: 64,
+                        height: 128,
                         width: 64,
                         child: Center(
                           child: CircularProgressIndicator(),
@@ -131,6 +102,39 @@ class _SettingsContentState extends State<SettingsContent> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
+                          Container(
+                            height: 132,
+                            width: 132,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: const Color(0x33FFFFFF), width: 4),
+                              boxShadow: const <BoxShadow>[
+                                BoxShadow(
+                                  color: Colors.black26,
+                                  offset: Offset(0, 2),
+                                  blurRadius: 2,
+                                  spreadRadius: 2,
+                                ),
+                              ],
+                            ),
+                            child: Center(
+                              child: ClipOval(
+                                child: SizedBox(
+                                  height: 124,
+                                  width: 124,
+                                  child: state.response.data?.avatar != null ? Image.network(
+                                    '${HTTPConstants.baseUrl}/${state.response.data!.avatar!}',
+                                    fit: BoxFit.cover,
+                                  ) : Image.asset(
+                                    'assets/images/profile_picture.jpeg',
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 32),
                           Text(
                             state.response.data?.name ?? '',
                             style: const TextStyle(

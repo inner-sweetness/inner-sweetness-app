@@ -5,10 +5,11 @@ class AppSnackBar {
       showSuccessSnackBar(BuildContext context, {required String message}) =>
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              backgroundColor: Colors.green,
+              backgroundColor: Colors.black,
               content: Text(
                 message,
                 style: const TextStyle(
+                  fontSize: 12,
                   fontWeight: FontWeight.w700,
                   color: Colors.white,
                 ),
@@ -24,6 +25,7 @@ class AppSnackBar {
               content: Text(
                 message,
                 style: const TextStyle(
+                  fontSize: 12,
                   fontWeight: FontWeight.w700,
                   color: Colors.white,
                 ),
@@ -39,6 +41,7 @@ class AppSnackBar {
               content: Text(
                 message,
                 style: const TextStyle(
+                  fontSize: 12,
                   fontWeight: FontWeight.w700,
                   color: Colors.white,
                 ),
