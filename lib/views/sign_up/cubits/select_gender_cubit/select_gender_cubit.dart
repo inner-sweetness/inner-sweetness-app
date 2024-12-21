@@ -14,6 +14,14 @@ extension GendersExtension on Genders {
   }
 }
 
+extension GendersStringExtension on String? {
+  Genders? get toGender {
+    if (this?.toLowerCase() == 'male') return Genders.male;
+    if (this?.toLowerCase() == 'female') return Genders.female;
+    return null;
+  }
+}
+
 @injectable
 class SelectGenderCubit extends Cubit<Genders?>{
   SelectGenderCubit() : super(null);

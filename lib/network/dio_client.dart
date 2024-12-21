@@ -196,6 +196,7 @@ class DioClient {
   Future<Response> upload(
       String url, {
         Map<String, dynamic>? headers,
+        String? fileKey,
         String path = '',
         CancelToken? cancelToken,
         Map<String, String>? queryParams,
@@ -211,15 +212,17 @@ class DioClient {
       if (token.isNotEmpty)
         HttpHeaders.authorizationHeader: 'Bearer $token',
         HttpHeaders.contentTypeHeader: 'multipart/form-data',
+        HttpHeaders.acceptEncodingHeader: 'gzip, deflate, br',
     });
     if (connectionTimeout != null) {
       _client.options.connectTimeout = connectionTimeout;
     }
-    final file = File(path);
+
+    final file = await MultipartFile.fromFile(path, contentType: getMediaType(path));
     final formData = FormData.fromMap({
-      'file': await MultipartFile.fromFile(file.path),
+      'avatar': file,
     });
-    return await _client.post(
+    return await _client.patch(
       url,
       data: formData,
       options: Options(headers: dioHeaders),
@@ -242,5 +245,36 @@ class DioClient {
 
   Future<bool> _checkInternetConnection({bool test = false}) async {
     return true;
+  }
+}
+
+DioMediaType getMediaType(String filePath) {
+  final extension = filePath.split('.').last.toLowerCase();
+  switch (extension) {
+    case 'jpg':
+    case 'jpeg':
+      return DioMediaType('image', 'jpeg');
+    case 'png':
+      return DioMediaType('image', 'png');
+    case 'gif':
+      return DioMediaType('image', 'gif');
+    case 'bmp':
+      return DioMediaType('image', 'bmp');
+    case 'pdf':
+      return DioMediaType('application', 'pdf');
+    case 'doc':
+    case 'docx':
+      return DioMediaType('application', 'msword');
+    case 'xls':
+    case 'xlsx':
+      return DioMediaType('application', 'vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    case 'txt':
+      return DioMediaType('text', 'plain');
+    case 'mp4':
+      return DioMediaType('video', 'mp4');
+    case 'mp3':
+      return DioMediaType('audio', 'mpeg');
+    default:
+      return DioMediaType('application', 'octet-stream'); // Default MIME type
   }
 }

@@ -16,6 +16,7 @@ class LabeledTextField extends StatefulWidget {
   final TextInputType? keyboardType;
   final List<TextInputFormatter>? inputFormatters;
   final TextInputAction? textInputAction;
+  final Color? labelColor;
   const LabeledTextField({
     super.key,
     this.controller,
@@ -31,6 +32,7 @@ class LabeledTextField extends StatefulWidget {
     this.keyboardType,
     this.inputFormatters,
     this.textInputAction,
+    this.labelColor,
   });
 
   @override
@@ -60,9 +62,9 @@ class _LabeledTextFieldState extends State<LabeledTextField> {
         children: <Widget>[
           Text(
             widget.label,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16,
-              color: Color(0xFF020202),
+              color: widget.labelColor ?? const Color(0xFF020202),
               fontWeight: FontWeight.w400,
             ),
             textAlign: TextAlign.start,
