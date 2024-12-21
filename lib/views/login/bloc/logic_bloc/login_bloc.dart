@@ -65,7 +65,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       );
     } on DioException catch(e) {
       var data = e.response?.data is Map ? e.response?.data as Map : null;
-      var message = data?['detail'] as String?;
+      var message = data?['message'] as String?;
       message ??= e.response?.data is String? ? (e.response?.data as String?) : null;
       message ??= e.response?.statusMessage ?? '';
       emitter(LoginErrorState(message: message));
