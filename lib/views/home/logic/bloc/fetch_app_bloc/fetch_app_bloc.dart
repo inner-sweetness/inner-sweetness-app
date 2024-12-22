@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:medito/services/contentful_services/contentful_services.dart';
-import 'package:medito/services/contentful_services/models/response/contentful_app_response.dart';
+import 'package:medito/services/contentful_service/contentful_services.dart';
+import 'package:medito/services/contentful_service/models/response/contentful_app_response.dart';
 
 part 'fetch_app_bloc.freezed.dart';
 

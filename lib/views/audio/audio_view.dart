@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:medito/views/explore/explore_view.dart';
-import 'package:medito/views/explore/widgets/explore_category_list/explore_category_list.dart';
+import 'package:medito/services/edition_service/models/request/edition_search_request.dart';
+import 'package:medito/services/edition_service/models/response/edition_search_response.dart';
 
 class AudioView extends StatelessWidget {
-  final ExploreItem item;
+  final EditionResponse item;
   const AudioView({super.key, required this.item});
 
   @override
@@ -34,8 +34,8 @@ class AudioView extends StatelessWidget {
                 ),
               ),
             ),
-            Image.asset(
-              item.image,
+            Image.network(
+              item.coverUrl ?? '',
               height: 240,
               width: MediaQuery.of(context).size.width,
               fit: BoxFit.fitWidth,
@@ -56,7 +56,7 @@ class AudioView extends StatelessWidget {
                       children: <Widget>[
                         Expanded(
                           child: Text(
-                            item.title,
+                            item.title ?? '',
                             style: const TextStyle(
                               fontSize: 24,
                               color: Colors.white,
@@ -82,10 +82,10 @@ class AudioView extends StatelessWidget {
                         ),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
-                          color: item.category.color,
+                          color: item.category?.color,
                         ),
                         child: Text(
-                          item.category.label,
+                          item.category?.label ?? '',
                           style: const TextStyle(
                             color: Colors.black,
                             fontSize: 12,
@@ -101,7 +101,7 @@ class AudioView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          item.duration,
+                          item.duration ?? '',
                           style: const TextStyle(
                             color: Color(0xFFADADAD),
                             fontSize: 12,
@@ -109,7 +109,7 @@ class AudioView extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          item.createdAt,
+                          item.createdAt ?? '',
                           style: const TextStyle(
                             color: Color(0xFFADADAD),
                             fontSize: 12,
@@ -132,7 +132,7 @@ class AudioView extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: item.category.color,
+                        color: item.category?.color,
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: const Center(

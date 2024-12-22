@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:medito/views/edition/edition_view.dart';
-import 'package:medito/views/explore/widgets/explore_category_list/explore_category_list.dart';
+import 'package:medito/services/edition_service/models/request/edition_search_request.dart';
+import 'package:medito/services/edition_service/models/response/edition_search_response.dart';
 
 class EditionItem extends StatelessWidget {
-  final CollectionItem item;
+  final EditionResponse item;
   const EditionItem({super.key, required this.item});
 
   @override
@@ -24,8 +24,8 @@ class EditionItem extends StatelessWidget {
         children: <Widget>[
           ClipRRect(
             borderRadius: BorderRadius.circular(4),
-            child: Image.asset(
-              item.image,
+            child: Image.network(
+              item.coverUrl ?? '',
               height: 36,
               width: 36,
             ),
@@ -44,7 +44,7 @@ class EditionItem extends StatelessWidget {
                   children: <Widget>[
                     Expanded(
                       child: Text(
-                        item.title,
+                        item.title ?? '',
                         style: const TextStyle(
                           fontSize: 14,
                           color: Colors.white,
@@ -64,7 +64,7 @@ class EditionItem extends StatelessWidget {
                           color: Colors.white,
                         ),
                         const SizedBox(width: 8),
-                        item.category == ExploreCategory.article ? const Icon(
+                        item.category == EditionSearchCategory.article ? const Icon(
                           Icons.menu_book_outlined,
                           size: 24,
                           color: Colors.white,
@@ -84,7 +84,7 @@ class EditionItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      item.category.label,
+                      item.category?.label ?? '',
                       style: const TextStyle(
                         fontSize: 14,
                         color: Color(0xFFADADAD),
@@ -92,7 +92,7 @@ class EditionItem extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      item.duration,
+                      item.duration ?? '',
                       style: const TextStyle(
                         fontSize: 14,
                         color: Color(0xFFADADAD),

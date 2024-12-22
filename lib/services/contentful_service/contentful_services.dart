@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
-import 'package:medito/services/contentful_services/contentful_repository.dart';
-import 'package:medito/services/contentful_services/models/response/contentful_app_response.dart';
-import 'package:medito/services/contentful_services/models/response/contentful_network_response.dart';
+import 'package:medito/services/contentful_service/contentful_repository.dart';
+import 'package:medito/services/contentful_service/models/response/contentful_app_response.dart';
+import 'package:medito/services/contentful_service/models/response/contentful_network_response.dart';
 
 @injectable
 class ContentfulServices {

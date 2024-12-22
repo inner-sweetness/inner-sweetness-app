@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:medito/views/explore/explore_view.dart';
-import 'package:medito/views/explore/widgets/explore_category_list/explore_category_list.dart';
+import 'package:medito/services/edition_service/models/request/edition_search_request.dart';
+import 'package:medito/services/edition_service/models/response/edition_search_response.dart';
 
 class ArticleView extends StatelessWidget {
-  final ExploreItem item;
+  final EditionResponse item;
   const ArticleView({super.key, required this.item});
 
   @override
@@ -34,8 +34,8 @@ class ArticleView extends StatelessWidget {
                 ),
               ),
             ),
-            Image.asset(
-              item.image,
+            Image.network(
+              item.coverUrl ?? '',
               height: 240,
               width: MediaQuery.of(context).size.width,
               fit: BoxFit.fitWidth,
@@ -50,7 +50,7 @@ class ArticleView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     Text(
-                      item.title,
+                      item.title ?? '',
                       style: const TextStyle(
                         fontSize: 24,
                         color: Colors.white,
@@ -67,7 +67,7 @@ class ArticleView extends StatelessWidget {
                         ),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
-                          color: item.category.color,
+                          color: item.category?.color,
                         ),
                         child: const Text(
                           'Tale as old as time',
@@ -86,7 +86,7 @@ class ArticleView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          item.duration,
+                          item.duration ?? '',
                           style: const TextStyle(
                             color: Color(0xFFADADAD),
                             fontSize: 12,
@@ -94,7 +94,7 @@ class ArticleView extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          item.createdAt,
+                          item.createdAt ?? '',
                           style: const TextStyle(
                             color: Color(0xFFADADAD),
                             fontSize: 12,

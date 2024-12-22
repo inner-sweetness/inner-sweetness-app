@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:medito/views/explore/explore_view.dart';
-import 'package:medito/views/explore/widgets/explore_category_list/explore_category_list.dart';
+import 'package:medito/services/edition_service/models/request/edition_search_request.dart';
+import 'package:medito/services/edition_service/models/response/edition_search_response.dart';
 
 class FavoriteItem extends StatelessWidget {
-  final ExploreItem item;
+  final EditionResponse item;
   const FavoriteItem({super.key, required this.item});
 
   @override
@@ -20,13 +20,13 @@ class FavoriteItem extends StatelessWidget {
             width: 35,
             padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
-              color: item.category.color,
+              color: item.category?.color,
               borderRadius: BorderRadius.circular(4),
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(4),
-              child: Image.asset(
-                item.image,
+              child: Image.network(
+                item.coverUrl ?? '',
                 fit: BoxFit.cover,
               ),
             ),
@@ -39,7 +39,7 @@ class FavoriteItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Text(
-                  item.title,
+                  item.title ?? '',
                   style: const TextStyle(
                     fontSize: 14,
                     color: Colors.white,
@@ -47,7 +47,7 @@ class FavoriteItem extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  item.description,
+                  item.description ?? '',
                   style: const TextStyle(
                     fontSize: 12,
                     color: Color(0xFFADADAD),

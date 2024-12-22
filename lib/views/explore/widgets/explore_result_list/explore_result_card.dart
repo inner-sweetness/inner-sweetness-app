@@ -1,40 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:medito/services/edition_service/models/request/edition_search_request.dart';
+import 'package:medito/services/edition_service/models/response/edition_search_response.dart';
 import 'package:medito/utils/fade_page_route.dart';
 import 'package:medito/views/article/article_view.dart';
 import 'package:medito/views/audio/audio_view.dart';
 import 'package:medito/views/edition/edition_view.dart';
-import 'package:medito/views/explore/explore_view.dart';
-import 'package:medito/views/explore/widgets/explore_category_list/explore_category_list.dart';
 
 class ExploreResultCard extends StatelessWidget {
-  final ExploreItem item;
+  final EditionResponse item;
   const ExploreResultCard({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.of(context).push(
-        FadePageRoute(
-          builder: (context) {
-            switch(item.category) {
-              case ExploreCategory.edition:
-                return EditionView(item: item);
-              case ExploreCategory.article:
-                return ArticleView(item: item);
-              case ExploreCategory.podcast:
-                return AudioView(item: item);
-              case ExploreCategory.sweetGym:
-                return AudioView(item: item);
-            }
-          },
-        ),
-      ),
+      onTap: () {
+        final category = item.category;
+        if (category == null) return;
+        final editionId = item.id;
+        if (editionId == null) return;
+        Navigator.of(context).push(
+          FadePageRoute(
+            builder: (context) {
+              switch(category) {
+                case EditionSearchCategory.mainEdition:
+                  return EditionView(editionId: editionId);
+                case EditionSearchCategory.article:
+                  return ArticleView(item: item);
+                case EditionSearchCategory.podcast:
+                  return AudioView(item: item);
+                case EditionSearchCategory.sweetGym:
+                  return AudioView(item: item);
+              }
+            },
+          ),
+        );
+      },
       behavior: HitTestBehavior.opaque,
       child: Container(
         width: 153,
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: item.category.color,
+          color: item.category?.color,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
@@ -44,8 +50,8 @@ class ExploreResultCard extends StatelessWidget {
           children: <Widget>[
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
-              child: Image.asset(
-                item.image,
+              child: Image.network(
+                item.coverUrl ?? '',
                 fit: BoxFit.fill,
                 height: 183,
                 width: 135,
@@ -53,9 +59,9 @@ class ExploreResultCard extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             Text(
-              item.title,
+              item.title ?? '',
               style: TextStyle(
-                color: item.category == ExploreCategory.article ? Colors.white : Colors.black,
+                color: item.category == EditionSearchCategory.article ? Colors.white : Colors.black,
                 fontSize: 14,
                 fontWeight: FontWeight.w900,
               ),
@@ -63,21 +69,21 @@ class ExploreResultCard extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             Text(
-              item.duration,
+              item.duration ?? '',
               style: TextStyle(
-                color: item.category == ExploreCategory.article ? Colors.white : Colors.black,
+                color: item.category == EditionSearchCategory.article ? Colors.white : Colors.black,
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
               ),
               textAlign: TextAlign.start,
             ),
-            if (item.description.isNotEmpty)
+            if (item.description?.isNotEmpty ?? false)
               ...[
                 const SizedBox(height: 12),
                 Text(
-                  item.description,
+                  item.description ?? '',
                   style: TextStyle(
-                    color: item.category == ExploreCategory.article ? Colors.white : Colors.black,
+                    color: item.category == EditionSearchCategory.article ? Colors.white : Colors.black,
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
                   ),

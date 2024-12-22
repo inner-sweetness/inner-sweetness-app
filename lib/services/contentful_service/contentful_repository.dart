@@ -1,8 +1,8 @@
 import 'package:injectable/injectable.dart';
 import 'package:medito/constants/http/http_constants.dart';
 import 'package:medito/network/dio_client.dart';
-import 'package:medito/services/contentful_services/models/response/contentful_app_response.dart';
-import 'package:medito/services/contentful_services/models/response/contentful_network_response.dart';
+import 'package:medito/services/contentful_service/models/response/contentful_app_response.dart';
+import 'package:medito/services/contentful_service/models/response/contentful_network_response.dart';
 
 abstract class IContentfulRepository {
   Future<ContentfulNetworksResponse> fetchNetworks();

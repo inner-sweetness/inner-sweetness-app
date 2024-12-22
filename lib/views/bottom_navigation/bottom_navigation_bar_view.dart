@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:medito/constants/constants.dart';
 import 'package:medito/views/bottom_navigation/bottom_navigation_item.dart';
 import 'package:medito/views/explore/explore_view.dart';
 import 'package:medito/views/favorite/favorite_view.dart';
 import 'package:medito/views/home/home_view.dart';
 import 'package:medito/views/player/widgets/bottom_actions/bottom_action_bar.dart';
-import 'package:medito/views/settings/settings_screen.dart';
-import 'package:medito/widgets/medito_huge_icon.dart';
 
 class BottomNavigationBarView extends ConsumerStatefulWidget {
   const BottomNavigationBarView({Key? key}) : super(key: key);
@@ -29,7 +26,7 @@ class _BottomNavigationBarViewState
     super.initState();
     _pages = [
       const HomeView(),
-      ExploreView(searchFocusNode: _searchFocusNode),
+      const ExploreView(),
       const FavoriteView(),
     ];
   }
