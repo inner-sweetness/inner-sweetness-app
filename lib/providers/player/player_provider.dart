@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:medito/extensions/string_extension.dart';
 import 'package:medito/models/models.dart';
 
 import '../../constants/strings/shared_preference_constants.dart';
@@ -15,8 +16,7 @@ final _api = MeditoAudioServiceApi();
 final _androidServiceApi = MeditoAndroidAudioServiceManager();
 final iosAudioHandler = IosAudioHandler();
 
-final playerProvider =
-    StateNotifierProvider<PlayerProvider, TrackModel?>((ref) {
+final playerProvider = StateNotifierProvider<PlayerProvider, TrackModel?>((ref) {
   return PlayerProvider(ref);
 });
 
@@ -91,7 +91,7 @@ class PlayerProvider extends StateNotifier<TrackModel?> {
   }
 
   String _constructFileName(TrackModel trackModel, TrackFilesModel file) =>
-      '${trackModel.id}-${file.id}${getAudioFileExtension(file.path)}';
+      '${trackModel.id}-${file.id}${file.path.audioFileExtension}';
 
 
   Future<void> seekToPosition(int position) async {

@@ -1,3 +1,4 @@
+import 'package:medito/models/track/track_model.dart';
 import 'package:medito/services/edition_service/models/request/edition_search_request.dart';
 
 class EditionSearchResponse {
@@ -73,4 +74,40 @@ class EditionResponse {
   }
 
   DateTime get createdAtDate => DateTime.tryParse(createdAt ?? '') ?? DateTime.now();
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'title': title,
+    'description': description,
+    'duration': duration,
+    'coverUrl': coverUrl,
+    'type': type,
+    'startAt': startAt,
+    'createdAt': createdAt,
+    'parentId': parentId,
+    'url': url,
+    'isFavorite': isFavorite,
+    'children': children.map((e) => e.toJson()),
+  };
+
+  TrackModel toTrackModel() => TrackModel(
+    id: '$parentId',
+    title: title ?? '',
+    description: description ?? '',
+    coverUrl: coverUrl ?? '',
+    isPublished: true,
+    hasBackgroundSound: false,
+    audio: <TrackAudioModel>[
+      TrackAudioModel(
+        guideName: description ?? '',
+        files: <TrackFilesModel>[
+          TrackFilesModel(
+            id: '$id',
+            path: url ?? '',
+            duration: int.tryParse(duration ?? '') ?? 0,
+          ),
+        ],
+      )
+    ],
+  );
 }

@@ -37,13 +37,6 @@ class PlayerActionBar extends StatelessWidget {
           onTap: onClosePressed,
         ),
         BottomActionBarItem(
-          child: AudioDownloadWidget(
-            trackModel: trackModel,
-            file: file,
-          ),
-          onTap: () {}, // The AudioDownloadWidget handles its own tap
-        ),
-        BottomActionBarItem(
           child: _buildBackgroundSoundWidget(),
           onTap: trackModel.hasBackgroundSound
               ? () {}

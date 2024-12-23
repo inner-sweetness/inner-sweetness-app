@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:medito/services/edition_service/models/request/edition_search_request.dart';
 import 'package:medito/services/edition_service/models/response/edition_search_response.dart';
+import 'package:medito/views/audio/audio_play_button.dart';
 import 'package:medito/views/edition/logic/bloc/add_favorite_bloc/add_favorite_bloc.dart';
 import 'package:medito/views/edition/logic/bloc/delete_favorite_bloc/delete_favorite_bloc.dart';
 import 'package:medito/views/edition/logic/cubit/set_favorite_cubit/set_favorite_cubit.dart';
@@ -37,7 +38,7 @@ class _AudioContentState extends State<AudioContent> {
         }
       },
       child: Scaffold(
-        backgroundColor: const Color(0xFF1E1E1E),
+        backgroundColor: widget.edition.category?.background,
         body: SafeArea(
           child: Column(
             mainAxisSize: MainAxisSize.max,
@@ -55,7 +56,7 @@ class _AudioContentState extends State<AudioContent> {
                     child: Center(
                       child: Icon(
                         Icons.arrow_back,
-                        color: Colors.white,
+                        color: Colors.black,
                         size: 24,
                       ),
                     ),
@@ -87,7 +88,7 @@ class _AudioContentState extends State<AudioContent> {
                               widget.edition.title ?? '',
                               style: const TextStyle(
                                 fontSize: 24,
-                                color: Colors.white,
+                                color: Colors.black,
                                 fontWeight: FontWeight.w900,
                               ),
                             ),
@@ -99,11 +100,11 @@ class _AudioContentState extends State<AudioContent> {
                               behavior: HitTestBehavior.opaque,
                               child: isFavoriteState ? const Icon(
                                 Icons.favorite,
-                                color: Colors.white,
+                                color: Colors.black,
                                 size: 24,
                               ) : const Icon(
                                 Icons.favorite_outline,
-                                color: Colors.white,
+                                color: Colors.black,
                                 size: 24,
                               ),
                             ),
@@ -141,7 +142,7 @@ class _AudioContentState extends State<AudioContent> {
                           Text(
                             widget.edition.duration ?? '',
                             style: const TextStyle(
-                              color: Color(0xFFADADAD),
+                              color: Color(0xFF020202),
                               fontSize: 12,
                               fontWeight: FontWeight.w300,
                             ),
@@ -149,7 +150,7 @@ class _AudioContentState extends State<AudioContent> {
                           Text(
                             DateFormat('dd EEE yyyy').format(widget.edition.createdAtDate),
                             style: const TextStyle(
-                              color: Color(0xFFADADAD),
+                              color: Color(0xFF020202),
                               fontSize: 12,
                               fontWeight: FontWeight.w300,
                             ),
@@ -160,27 +161,14 @@ class _AudioContentState extends State<AudioContent> {
                       Text(
                         widget.edition.description ?? '',
                         style: const TextStyle(
-                          color: Colors.white,
+                          color: Color(0xFF020202),
                           fontSize: 12,
                           fontWeight: FontWeight.w300,
                           height: 2,
                         ),
                       ),
                       const Spacer(),
-                      Container(
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: widget.edition.category?.color,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: const Center(
-                          child: Icon(
-                            Icons.play_arrow_rounded,
-                            color: Colors.black,
-                            size: 24,
-                          ),
-                        ),
-                      )
+                      AudioPlayButton(edition: widget.edition),
                     ],
                   ),
                 ),

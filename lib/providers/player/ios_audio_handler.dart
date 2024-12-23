@@ -144,6 +144,15 @@ class IosAudioHandler extends BaseAudioHandler {
     }
     _trackStateSubject.add(trackData);
   }
+
+  Future<void> setUrlPath(String? downloadPath, String url, Track trackData) async {
+    if (downloadPath == null) {
+      await _player.setAudioSource(AudioSource.uri(Uri.parse(url)));
+    } else {
+      await _player.setAsset(downloadPath);
+    }
+    _trackStateSubject.add(trackData);
+  }
 }
 
 class IosStateData {

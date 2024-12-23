@@ -1,4 +1,5 @@
 import 'package:medito/constants/constants.dart';
+import 'package:medito/extensions/string_extension.dart';
 import 'package:medito/models/models.dart';
 import 'package:medito/providers/providers.dart';
 import 'package:medito/utils/utils.dart';
@@ -19,7 +20,7 @@ class AudioDownloadWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final downloadAudioProvider = ref.watch(audioDownloaderProvider);
     var downloadFileKey =
-        '${trackModel.id}-${file.id}${getAudioFileExtension(file.path)}';
+        '${trackModel.id}-${file.id}${file.path.audioFileExtension}';
 
     return SizedBox(
       width: 48,
@@ -148,7 +149,7 @@ class AudioDownloadWidget extends ConsumerWidget {
     if (confirmDelete == true) {
       try {
         await downloadAudioProvider.deleteTrackAudio(
-          '${trackModel.id}-${file.id}${getAudioFileExtension(file.path)}',
+          '${trackModel.id}-${file.id}${file.path.audioFileExtension}',
         );
         ref.read(deleteTrackFromPreferenceProvider(
           file: file,

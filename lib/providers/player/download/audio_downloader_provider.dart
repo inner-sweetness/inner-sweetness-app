@@ -1,3 +1,4 @@
+import 'package:medito/extensions/string_extension.dart';
 import 'package:medito/models/models.dart';
 import 'package:medito/providers/providers.dart';
 import 'package:medito/repositories/repositories.dart';
@@ -23,7 +24,7 @@ class AudioDownloaderProvider extends ChangeNotifier {
     TrackFilesModel file,
   ) async {
     var fileName =
-        '${trackModel.id}-${file.id}${getAudioFileExtension(file.path)}';
+        '${trackModel.id}-${file.id}${file.path.audioFileExtension}';
     try {
       final downloadAudio = ref.read(downloaderRepositoryProvider);
       audioDownloadState[fileName] = AudioDownloadState.DOWNLOADING;

@@ -170,6 +170,7 @@ class DioClient {
         Map<String, String>? queryParams,
         Duration? connectionTimeout,
         String? language,
+        void Function(int, int)? onReceiveProgress,
       }) async {
     if (!await _checkInternetConnection()) {
       throw const AppApiException('Internet connection Error');
@@ -190,6 +191,7 @@ class DioClient {
       options: Options(headers: dioHeaders),
       queryParameters: queryParams,
       cancelToken: cancelToken,
+      onReceiveProgress: onReceiveProgress,
     );
   }
 
