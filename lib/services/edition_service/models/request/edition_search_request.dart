@@ -2,6 +2,50 @@ import 'dart:ui';
 
 enum EditionSearchCategory { mainEdition, sweetGym, article, podcast }
 
+extension EditionSearchCategoryNullSafeExtension on EditionSearchCategory? {
+  String get text {
+    switch(this) {
+      case EditionSearchCategory.mainEdition:
+        return 'MAIN_EDITION';
+      case EditionSearchCategory.sweetGym:
+        return 'SWEET_GYM';
+      case EditionSearchCategory.article:
+        return 'ARTICLE';
+      case EditionSearchCategory.podcast:
+        return 'PODCAST';
+      default: return '';
+    }
+  }
+
+  String get label {
+    switch(this) {
+      case EditionSearchCategory.mainEdition:
+        return 'Edition';
+      case EditionSearchCategory.article:
+        return 'Article';
+      case EditionSearchCategory.podcast:
+        return 'Podcast';
+      case EditionSearchCategory.sweetGym:
+        return 'Sweet Gym';
+      default: return '';
+    }
+  }
+
+  Color get color {
+    switch(this) {
+      case EditionSearchCategory.mainEdition:
+        return const Color(0xFFFF9900);
+      case EditionSearchCategory.article:
+        return const Color(0xFF0150FF);
+      case EditionSearchCategory.podcast:
+        return const Color(0xFFFFF500);
+      case EditionSearchCategory.sweetGym:
+        return const Color(0xFF03F480);
+      default: return const Color(0xFF03F480);
+    }
+  }
+}
+
 extension EditionSearchCategoryExtension on EditionSearchCategory {
   String get text {
     switch(this) {

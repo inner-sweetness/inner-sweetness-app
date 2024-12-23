@@ -6,6 +6,7 @@ import 'package:medito/views/explore/logic/bloc/search_edition_bloc/search_editi
 import 'package:medito/views/explore/logic/cubit/select_edition_category_cubit/select_edition_category_cubit.dart';
 import 'package:medito/views/explore/widgets/explore_text_field.dart';
 import 'package:medito/views/settings/settings_screen.dart';
+import 'package:medito/widgets/labeled_text_field/app_debounced_text_field.dart';
 
 import 'widgets/explore_category_list/explore_category_list.dart';
 import 'widgets/explore_result_list/explore_result_list.dart';
@@ -96,7 +97,25 @@ class _ExploreContentState extends State<ExploreContent> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     const SizedBox(height: 32),
-                    const ExploreTextField(),
+                    AppDebouncedTextField(
+                      controller: context.read<SearchEditionBloc>().queryController,
+                      borderColor: Colors.transparent,
+                      fillColor: const Color(0xFF383838),
+                      hint: 'Search',
+                      fontColor: Colors.white,
+                      onDebounceChanged: (_) => context.read<SearchEditionBloc>().add(const SearchEdition()),
+                      prefix: const SizedBox(
+                        height: 24,
+                        width: 24,
+                        child: Center(
+                          child: Icon(
+                            Icons.search,
+                            color: Colors.white,
+                            size: 24,
+                          ),
+                        ),
+                      ),
+                    ),
                     const SizedBox(height: 32),
                     BlocBuilder<SelectEditionCategoryCubit, EditionSearchCategory?>(
                       builder: (context, EditionSearchCategory? categoryState) => ExploreCategoryList(

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../constants/colors/color_constants.dart';
-
 class BottomActionBarItem {
   final Widget child;
   final VoidCallback onTap;

@@ -12,7 +12,7 @@ import 'package:medito/widgets/unauthorized_dialog.dart';
 class TokenInterceptor extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
-    if (err.response?.statusCode != HttpStatus.forbidden || (err.requestOptions.extra['is_retry'] ?? false)) {
+    if (err.response?.statusCode != HttpStatus.unauthorized || (err.requestOptions.extra['is_retry'] ?? false)) {
       super.onError(err, handler);
       return;
     }

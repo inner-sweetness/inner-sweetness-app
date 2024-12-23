@@ -27,9 +27,9 @@ class ExploreResultCard extends StatelessWidget {
                 case EditionSearchCategory.article:
                   return ArticleView(item: item);
                 case EditionSearchCategory.podcast:
-                  return AudioView(item: item);
+                  return AudioView(editionId: editionId);
                 case EditionSearchCategory.sweetGym:
-                  return AudioView(item: item);
+                  return AudioView(editionId: editionId);
               }
             },
           ),
