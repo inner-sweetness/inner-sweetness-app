@@ -13,13 +13,6 @@ class FavoriteContent extends StatefulWidget {
 }
 
 class _FavoriteContentState extends State<FavoriteContent> {
-
-  @override
-  void didChangeDependencies() {
-    print('asdads');
-    super.didChangeDependencies();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

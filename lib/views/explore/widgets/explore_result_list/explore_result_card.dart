@@ -1,46 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medito/services/edition_service/models/request/edition_search_request.dart';
 import 'package:medito/services/edition_service/models/response/edition_search_response.dart';
 import 'package:medito/utils/fade_page_route.dart';
 import 'package:medito/views/article/article_view.dart';
 import 'package:medito/views/audio/audio_view.dart';
 import 'package:medito/views/edition/edition_view.dart';
+import 'package:medito/views/explore/logic/bloc/search_edition_bloc/search_edition_bloc.dart';
 
 class ExploreResultCard extends StatelessWidget {
-  final EditionResponse item;
-  const ExploreResultCard({super.key, required this.item});
+  final EditionResponse edition;
+  const ExploreResultCard({super.key, required this.edition});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        final category = item.category;
+      onTap: () async {
+        final category = edition.category;
         if (category == null) return;
-        final editionId = item.id;
+        final editionId = edition.id;
         if (editionId == null) return;
-        Navigator.of(context).push(
+        await Navigator.of(context).push(
           FadePageRoute(
             builder: (context) {
               switch(category) {
                 case EditionSearchCategory.mainEdition:
                   return EditionView(editionId: editionId);
                 case EditionSearchCategory.article:
-                  return ArticleView(item: item);
+                  return ArticleView(edition: edition);
                 case EditionSearchCategory.podcast:
-                  return AudioView(editionId: editionId);
+                  return AudioView(edition: edition);
                 case EditionSearchCategory.sweetGym:
-                  return AudioView(editionId: editionId);
+                  return AudioView(edition: edition);
               }
             },
           ),
         );
+        context.read<SearchEditionBloc>().add(const SearchEdition());
       },
       behavior: HitTestBehavior.opaque,
       child: Container(
         width: 153,
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: item.category?.color,
+          color: edition.category?.color,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
@@ -51,7 +54,7 @@ class ExploreResultCard extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Image.network(
-                item.coverUrl ?? '',
+                edition.coverUrl ?? '',
                 fit: BoxFit.fill,
                 height: 183,
                 width: 135,
@@ -59,9 +62,9 @@ class ExploreResultCard extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             Text(
-              item.title ?? '',
+              edition.title ?? '',
               style: TextStyle(
-                color: item.category == EditionSearchCategory.article ? Colors.white : Colors.black,
+                color: edition.category == EditionSearchCategory.article ? Colors.white : Colors.black,
                 fontSize: 14,
                 fontWeight: FontWeight.w900,
               ),
@@ -69,21 +72,21 @@ class ExploreResultCard extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             Text(
-              item.duration ?? '',
+              edition.duration ?? '',
               style: TextStyle(
-                color: item.category == EditionSearchCategory.article ? Colors.white : Colors.black,
+                color: edition.category == EditionSearchCategory.article ? Colors.white : Colors.black,
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
               ),
               textAlign: TextAlign.start,
             ),
-            if (item.description?.isNotEmpty ?? false)
+            if (edition.description?.isNotEmpty ?? false)
               ...[
                 const SizedBox(height: 12),
                 Text(
-                  item.description ?? '',
+                  edition.description ?? '',
                   style: TextStyle(
-                    color: item.category == EditionSearchCategory.article ? Colors.white : Colors.black,
+                    color: edition.category == EditionSearchCategory.article ? Colors.white : Colors.black,
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
                   ),

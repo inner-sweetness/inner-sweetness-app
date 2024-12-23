@@ -22,7 +22,7 @@ class FavoriteList extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: items
               .where((i) => i.edition != null)
-              .map((i) => FavoriteItem(item: i.edition!))
+              .map((i) => FavoriteItem(edition: i.edition!))
               .toList(),
         ),
       ),

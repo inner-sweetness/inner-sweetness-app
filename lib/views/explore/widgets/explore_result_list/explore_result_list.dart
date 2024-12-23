@@ -25,7 +25,7 @@ class ExploreResultList extends StatelessWidget {
               crossAxisCount: 2,
               mainAxisSpacing: 24,
               crossAxisSpacing: 24,
-              children: items.map((i) => ExploreResultCard(item: i)).toList(),
+              children: items.map((i) => ExploreResultCard(edition: i)).toList(),
             ),
             if (isLoading)
               const SizedBox(

@@ -20,12 +20,10 @@ import 'package:medito/providers/stats_provider.dart';
 import 'package:medito/routes/routes.dart';
 import 'package:medito/services/network/dio_header_service.dart';
 import 'package:medito/src/audio_pigeon.g.dart';
-import 'package:medito/utils/stats_manager.dart';
 import 'package:medito/views/splash_view/splash_view.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'constants/theme/app_theme.dart';
-import 'package:medito/providers/device_and_app_info/device_and_app_info_provider.dart';
 
 final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 var audioStateNotifier = AudioStateNotifier();
@@ -114,17 +112,6 @@ class _ParentWidgetState extends ConsumerState<ParentWidget>
     WidgetsBinding.instance.addObserver(this);
     _initDeepLinkListener();
     _handleInitialUri();
-    _initializeDioHeaderService().then(
-      (_) {
-        _checkInitialConnectivity();
-      },
-    );
-  }
-
-  Future<void> _initializeDioHeaderService() async {
-    final deviceInfo = await ref.read(deviceAndAppInfoProvider.future);
-    dioHeaderService = DioHeaderService(deviceInfo);
-    await dioHeaderService.initialise();
   }
 
   void _initDeepLinkListener() {
@@ -174,54 +161,6 @@ class _ParentWidgetState extends ConsumerState<ParentWidget>
       systemNavigationBarColor: ColorConstants.transparent,
       statusBarColor: ColorConstants.transparent,
     ));
-  }
-
-  Future<void> _checkInitialConnectivity() async {
-    _connectivityListener =
-        InternetConnection().onStatusChange.listen((InternetStatus status) {
-      switch (status) {
-        case InternetStatus.connected:
-          _hideNoConnectionSnackBar();
-          StatsManager().sync().then((_) => ref.invalidate(statsProvider));
-          break;
-        case InternetStatus.disconnected:
-          _showNoConnectionSnackBar();
-          break;
-      }
-    });
-  
-    return;
-  }
-
-  void _hideNoConnectionSnackBar() {
-    scaffoldMessengerKey.currentState?.hideCurrentSnackBar();
-  }
-
-  void _showNoConnectionSnackBar() {
-    var currentState = scaffoldMessengerKey.currentState;
-    if (currentState?.mounted ?? false) {
-      currentState!
-        ..hideCurrentSnackBar()
-        ..showSnackBar(
-          SnackBar(
-            content: const Text(StringConstants.noConnectionMessage),
-            duration: const Duration(days: 365),
-            action: SnackBarAction(
-              label: StringConstants.goToDownloads,
-              onPressed: () {
-                currentState.hideCurrentSnackBar();
-                _navigateToDownloads(context);
-              },
-            ),
-          ),
-        );
-    }
-  
-    return;
-  }
-
-  void _navigateToDownloads(BuildContext context) {
-    handleNavigation(TypeConstants.flow, ['downloads'], context, ref: ref);
   }
 
   @override

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:medito/views/audio/audio_content.dart';
 import 'package:medito/views/bottom_navigation/bottom_navigation_item.dart';
 import 'package:medito/views/explore/explore_view.dart';
 import 'package:medito/views/favorite/favorite_view.dart';
+import 'package:medito/views/favorite/logic/bloc/fetch_favorites_bloc/fetch_favorites_bloc.dart';
 import 'package:medito/views/home/home_view.dart';
 import 'package:medito/views/player/widgets/bottom_actions/bottom_action_bar.dart';
 
@@ -86,6 +89,9 @@ class _BottomNavigationBarViewState
   void _onDestinationSelected(int index) {
     if (_currentPageIndex == 1 && index != 1) {
       _searchFocusNode.unfocus();
+    }
+    if (index == 2) {
+      context.read<FetchFavoritesBloc>().add(const FetchFavorites());
     }
     setState(() {
       _currentPageIndex = index;

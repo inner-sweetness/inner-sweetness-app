@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class AppSnackBar {
   static ScaffoldFeatureController<SnackBar, SnackBarClosedReason>
-      showSuccessSnackBar(BuildContext context, {required String message}) =>
+      showSuccessSnackBar(BuildContext context, {required String message, Color? background}) =>
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              backgroundColor: Colors.black,
+              backgroundColor: background ?? Colors.black,
               content: Text(
                 message,
                 style: const TextStyle(

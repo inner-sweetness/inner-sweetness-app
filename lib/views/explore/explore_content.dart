@@ -4,7 +4,6 @@ import 'package:medito/services/edition_service/models/request/edition_search_re
 import 'package:medito/utils/fade_page_route.dart';
 import 'package:medito/views/explore/logic/bloc/search_edition_bloc/search_edition_bloc.dart';
 import 'package:medito/views/explore/logic/cubit/select_edition_category_cubit/select_edition_category_cubit.dart';
-import 'package:medito/views/explore/widgets/explore_text_field.dart';
 import 'package:medito/views/settings/settings_screen.dart';
 import 'package:medito/widgets/labeled_text_field/app_debounced_text_field.dart';
 

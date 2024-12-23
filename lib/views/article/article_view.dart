@@ -3,8 +3,8 @@ import 'package:medito/services/edition_service/models/request/edition_search_re
 import 'package:medito/services/edition_service/models/response/edition_search_response.dart';
 
 class ArticleView extends StatelessWidget {
-  final EditionResponse item;
-  const ArticleView({super.key, required this.item});
+  final EditionResponse edition;
+  const ArticleView({super.key, required this.edition});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class ArticleView extends StatelessWidget {
               ),
             ),
             Image.network(
-              item.coverUrl ?? '',
+              edition.coverUrl ?? '',
               height: 240,
               width: MediaQuery.of(context).size.width,
               fit: BoxFit.fitWidth,
@@ -50,7 +50,7 @@ class ArticleView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     Text(
-                      item.title ?? '',
+                      edition.title ?? '',
                       style: const TextStyle(
                         fontSize: 24,
                         color: Colors.white,
@@ -67,7 +67,7 @@ class ArticleView extends StatelessWidget {
                         ),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
-                          color: item.category?.color,
+                          color: edition.category?.color,
                         ),
                         child: const Text(
                           'Tale as old as time',
@@ -86,7 +86,7 @@ class ArticleView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          item.duration ?? '',
+                          edition.duration ?? '',
                           style: const TextStyle(
                             color: Color(0xFFADADAD),
                             fontSize: 12,
@@ -94,7 +94,7 @@ class ArticleView extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          item.createdAt ?? '',
+                          edition.createdAt ?? '',
                           style: const TextStyle(
                             color: Color(0xFFADADAD),
                             fontSize: 12,
