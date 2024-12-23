@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medito/utils/fade_page_route.dart';
 import 'package:medito/views/favorite/logic/bloc/fetch_favorites_bloc/fetch_favorites_bloc.dart';
+import 'package:medito/views/favorite/logic/cubit/filter_favorite_cubit/filter_favorite_cubit.dart';
 import 'package:medito/views/favorite/widgets/favorite_list/favorite_list.dart';
 import 'package:medito/views/settings/settings_screen.dart';
+import 'package:medito/widgets/labeled_text_field/app_debounced_text_field.dart';
 
 class FavoriteContent extends StatefulWidget {
   const FavoriteContent({super.key});
@@ -13,6 +15,7 @@ class FavoriteContent extends StatefulWidget {
 }
 
 class _FavoriteContentState extends State<FavoriteContent> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -106,7 +109,44 @@ class _FavoriteContentState extends State<FavoriteContent> {
                     ),
                   );
                 } else if (state is FetchFavoritesSuccessState) {
-                  return FavoriteList(items: state.items);
+                  final list = state.items;
+                  return Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        child: AppDebouncedTextField(
+                          onDebounceChanged: context.read<FilterFavoriteCubit>().change,
+                          borderColor: Colors.transparent,
+                          fillColor: const Color(0xFF383838),
+                          hint: 'Search',
+                          fontColor: Colors.white,
+                          prefix: const SizedBox(
+                            height: 24,
+                            width: 24,
+                            child: Center(
+                              child: Icon(
+                                Icons.search,
+                                color: Colors.white,
+                                size: 24,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      Expanded(
+                        child: BlocBuilder<FilterFavoriteCubit, String>(
+                          builder: (context, String filterState) {
+                            final filtered = list.where((e) => e.edition?.title?.toLowerCase().contains(filterState.toLowerCase()) ?? false).toList();
+                            return FavoriteList(items: filtered);
+                          },
+                        ),
+                      ),
+                    ],
+                  );
                 }
                 return const SizedBox();
               },
