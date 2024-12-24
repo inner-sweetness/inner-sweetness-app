@@ -124,7 +124,7 @@ class _SettingsContentState extends State<SettingsContent> {
                                   height: 124,
                                   width: 124,
                                   child: state.response.data?.avatar != null ? Image.network(
-                                    '${HTTPConstants.baseUrl}/${state.response.data!.avatar!}',
+                                    '${HTTPConstants.baseUrl}${state.response.data!.avatar!}',
                                     fit: BoxFit.cover,
                                   ) : Image.asset(
                                     'assets/images/profile_picture.jpeg',

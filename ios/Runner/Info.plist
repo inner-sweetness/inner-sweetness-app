@@ -63,7 +63,7 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Scan your card to add it automatically</string>
+	<string>This app needs access to your camera to select a profile image</string>
 	<key>NSHealthShareUsageDescription</key>
 	<string>We do not ever download or store your health data. The app requires this permission to sync your mindfulness minutes.</string>
 	<key>NSHealthUpdateUsageDescription</key>
@@ -104,5 +104,7 @@
 	<array>
 		<string>applinks:medito.app</string>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app needs access to your photo library to select a profile image</string>
 </dict>
 </plist>

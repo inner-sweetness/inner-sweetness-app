@@ -231,7 +231,7 @@ class _EditAccountContentState extends State<EditAccountContent> {
                                                   height: 92,
                                                   width: 92,
                                                   child: Image.network(
-                                                    '${HTTPConstants.baseUrl}/${state.response.data!.avatar!}',
+                                                    '${HTTPConstants.baseUrl}${state.response.data!.avatar!}',
                                                     fit: BoxFit.cover,
                                                   ),
                                                 ),
