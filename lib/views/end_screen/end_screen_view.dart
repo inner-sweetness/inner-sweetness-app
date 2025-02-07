@@ -1,4 +1,4 @@
-import 'package:hugeicons/hugeicons.dart';
+// // import 'package:hugeicons/hugeicons.dart';
 import 'package:medito/constants/constants.dart';
 import 'package:medito/models/local_audio_completed.dart';
 import 'package:medito/models/models.dart';
@@ -228,15 +228,15 @@ class _EndScreenViewState extends ConsumerState<EndScreenView> {
                 ),
               ),
               const SizedBox(height: 4),
-              isMeditated
-                  ? HugeIcon(
-                      size: 32,
-                      icon: HugeIcons.solidSharpCheckmarkCircle02,
-                      color: ColorConstants.lightPurple)
-                  : HugeIcon(
-                      size: 32,
-                      icon: HugeIcons.solidSharpCircle,
-                      color: ColorConstants.moon),
+              // isMeditated
+              //     ? HugeIcon(
+              //         size: 32,
+              //         icon: HugeIcons.solidSharpCheckmarkCircle02,
+              //         color: ColorConstants.lightPurple)
+              //     : HugeIcon(
+              //         size: 32,
+              //         icon: HugeIcons.solidSharpCircle,
+              //         color: ColorConstants.moon),
             ],
           ),
         );

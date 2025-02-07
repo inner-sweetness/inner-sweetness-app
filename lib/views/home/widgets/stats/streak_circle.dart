@@ -5,7 +5,7 @@ import 'package:medito/models/local_audio_completed.dart';
 import 'package:medito/providers/stats_provider.dart';
 import '../../../../constants/colors/color_constants.dart';
 import '../../../../widgets/medito_huge_icon.dart';
-import 'package:hugeicons/hugeicons.dart';
+// import 'package:hugeicons/hugeicons.dart';
 
 class StreakCircle extends ConsumerStatefulWidget {
   final VoidCallback onTap;
@@ -203,10 +203,7 @@ class _StreakCircleState extends ConsumerState<StreakCircle>
         padding: _kPadding,
         child: GestureDetector(
           onTap: () => ref.refresh(statsProvider),
-          child: HugeIcon(
-            icon: HugeIcons.strokeRoundedHelpCircle,
-            color: ColorConstants.white,
-          ),
+          child: const Text('help'),
         ),
       ),
     );

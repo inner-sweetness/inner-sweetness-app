@@ -132,16 +132,15 @@ class FirebaseMessagingHandler {
       );
     }
   }
-
 }
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  if (!Firebase.apps.isNotEmpty) {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-  }
+  // if (!Firebase.apps.isNotEmpty) {
+  //   await Firebase.initializeApp(
+  //     options: DefaultFirebaseOptions.currentPlatform,
+  //   );
+  // }
   final handler = FirebaseMessagingHandler();
   await handler._showBackgroundNotification(message);
 }

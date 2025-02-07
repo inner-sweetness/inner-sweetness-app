@@ -45,15 +45,15 @@ void main() async {
     }
   });
 
-  await initializeApp();
+  // await initializeApp();
   _runAppWithSentry();
 }
 
 Future<void> initializeApp() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  // await Firebase.initializeApp(
+  //   options: DefaultFirebaseOptions.currentPlatform,
+  // );
   setupAudioCallback();
   await initializeAudioService();
   usePathUrlStrategy();
@@ -189,7 +189,7 @@ class _ParentWidgetState extends ConsumerState<ParentWidget>
           break;
       }
     });
-  
+
     return;
   }
 
@@ -216,7 +216,7 @@ class _ParentWidgetState extends ConsumerState<ParentWidget>
           ),
         );
     }
-  
+
     return;
   }
 

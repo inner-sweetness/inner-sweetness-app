@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:hugeicons/hugeicons.dart';
+// // import 'package:hugeicons/hugeicons.dart';
 import 'package:medito/constants/constants.dart';
 import 'package:medito/models/models.dart';
 import 'package:medito/providers/providers.dart';
@@ -130,10 +130,10 @@ class _DownloadsViewState extends ConsumerState<DownloadsView>
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Spacer(),
-              HugeIcon(
-                icon: HugeIcons.solidSharpDelete02,
-                color: Colors.redAccent
-              ),
+              // HugeIcon(
+              //   icon: HugeIcons.solidSharpDelete02,
+              //   color: Colors.redAccent
+              // ),
             ],
           ),
         ),

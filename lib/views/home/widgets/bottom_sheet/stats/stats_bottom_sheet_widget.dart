@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hugeicons/hugeicons.dart';
+// import 'package:hugeicons/hugeicons.dart';
 import 'package:medito/constants/constants.dart';
 import 'package:medito/models/local_all_stats.dart';
 import 'package:medito/providers/stats_provider.dart';
@@ -42,9 +42,7 @@ class StatsBottomSheetWidget extends ConsumerWidget {
                 error: (error, stack) => Center(
                   child: GestureDetector(
                     onTap: () => ref.refresh(statsProvider),
-                    child: HugeIcon(
-                        icon: HugeIcons.strokeRoundedHelpCircle,
-                        color: ColorConstants.white),
+                    child: const Text('help'),
                   ),
                 ),
                 data: (stats) => _statsList(context, globalKey, stats),

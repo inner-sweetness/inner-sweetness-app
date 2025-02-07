@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hugeicons/hugeicons.dart';
+// import 'package:hugeicons/hugeicons.dart';
 import 'package:medito/constants/colors/color_constants.dart';
 import 'package:medito/constants/strings/string_constants.dart';
 import 'package:medito/constants/styles/widget_styles.dart';
@@ -74,17 +74,15 @@ class QuoteWidget extends ConsumerWidget {
                   valueListenable: isCapturing,
                   builder: (context, capturing, child) {
                     if (capturing) return const SizedBox.shrink();
-                    
+
                     return Positioned(
                       right: -12,
                       bottom: -12,
                       child: IconButton(
                         padding: EdgeInsets.zero,
                         onPressed: () => _handleShare(context, globalKey),
-                        icon: HugeIcon(
-                          icon: Platform.isIOS ? HugeIcons.solidRoundedShare03 : HugeIcons.solidRoundedShare08,
-                          color: Colors.white.withOpacity(0.6),
-                          size: 16,
+                        icon: const Text(
+                          'solidRoundedShare08',
                         ),
                       ),
                     );
@@ -103,11 +101,12 @@ class QuoteWidget extends ConsumerWidget {
       isCapturing.value = true;
       // Add setState call to ensure widget updates
       await Future.microtask(() {});
-      
+
       var file = await capturePng(context, key);
       if (file != null) {
-        var shareText = '${data?.quote}\n- ${data?.author}\n\n${StringConstants.shareStatsText}';
-        
+        var shareText =
+            '${data?.quote}\n- ${data?.author}\n\n${StringConstants.shareStatsText}';
+
         await Share.shareXFiles(
           [XFile(file.path)],
           text: shareText,
@@ -123,16 +122,12 @@ class QuoteWidget extends ConsumerWidget {
   }
 
   Widget _buildBackgroundIcon() {
-    return Positioned(
+    return const Positioned(
       top: -30,
       right: -20,
       child: Opacity(
         opacity: 0.07,
-        child: HugeIcon(
-          icon: Icons.format_quote,
-          color: ColorConstants.white,
-          size: 100,
-        ),
+        child: Text('quote'),
       ),
     );
   }
