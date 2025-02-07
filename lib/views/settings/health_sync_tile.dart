@@ -22,7 +22,11 @@ class HealthSyncTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return RowItemWidget(
       enableInteractiveSelection: false,
-      icon: const Text('health'),
+      icon: const Icon(Icons.play_arrow),
+      // icon: HugeIcon(
+      //   icon: HugeIcons.solidRoundedHealth,
+      //   color: Colors.white,
+      // ),
       title: StringConstants.syncWithHealth,
       hasUnderline: true,
       isSwitch: false,

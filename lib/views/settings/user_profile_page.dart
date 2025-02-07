@@ -9,8 +9,6 @@ class UserProfilePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final authRepository = ref.watch(authRepositoryProvider);
-    final user = authRepository.currentUser;
 
     return Scaffold(
       backgroundColor: ColorConstants.onyx,
@@ -22,15 +20,15 @@ class UserProfilePage extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              '${StringConstants.userProfileEmailLabel} ${user?.email}',
+            const Text(
+              '${StringConstants.userProfileEmailLabel} user?.email',
               style: const TextStyle(color: Colors.white),
             ),
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () async {
                 try {
-                  await authRepository.signOut();
+                  // await authRepository.signOut();
                   Navigator.of(context).pop();
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text(StringConstants.signOutSuccessMessage)),
@@ -74,9 +72,9 @@ class UserProfilePage extends ConsumerWidget {
 
                 if (confirmed) {
                   try {
-                    final success = await authRepository.markAccountForDeletion();
+                    const success = true/*await authRepository.markAccountForDeletion()*/;
                     if (success) {
-                      await authRepository.signOut();
+                      // await authRepository.signOut();
                       Navigator.of(context).pop();
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text(StringConstants.accountMarkedForDeletion)),

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
+import 'package:medito/extensions/string_extension.dart';
 import 'package:medito/repositories/downloader/downloader_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -22,7 +22,7 @@ Future<void> removeDownloadedTrack(RemoveDownloadedTrackRef ref,
     {required TrackModel track}) async {
   var firstItem = track.audio.first.files.first;
   var fileName =
-      '${track.id}-${firstItem.id}${getAudioFileExtension(firstItem.path)}';
+      '${track.id}-${firstItem.id}${firstItem.path.audioFileExtension}';
 
   var isDownloaded =
       await ref.read(downloaderRepositoryProvider).isFileDownloaded(fileName);
@@ -47,9 +47,8 @@ Future<void> deleteTrackFromPreference(DeleteTrackFromPreferenceRef ref,
 
     ref.invalidate(downloadedTracksProvider);
   } catch (e) {
-    if (kDebugMode) {
-      print('Error in deleteTrackFromPreference: $e');
-    }
+    // Handle or log the error
+    print('Error in deleteTrackFromPreference: $e');
   }
 }
 

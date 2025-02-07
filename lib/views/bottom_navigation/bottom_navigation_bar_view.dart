@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:medito/constants/constants.dart';
-import 'package:medito/views/explore/widgets/explore_view.dart';
+import 'package:medito/views/audio/audio_content.dart';
+import 'package:medito/views/bottom_navigation/bottom_navigation_item.dart';
+import 'package:medito/views/explore/explore_view.dart';
+import 'package:medito/views/favorite/favorite_view.dart';
+import 'package:medito/views/favorite/logic/bloc/fetch_favorites_bloc/fetch_favorites_bloc.dart';
 import 'package:medito/views/home/home_view.dart';
 import 'package:medito/views/player/widgets/bottom_actions/bottom_action_bar.dart';
-import 'package:medito/views/settings/settings_screen.dart';
-import 'package:medito/widgets/medito_huge_icon.dart';
 
 class BottomNavigationBarView extends ConsumerStatefulWidget {
   const BottomNavigationBarView({Key? key}) : super(key: key);
@@ -27,9 +29,8 @@ class _BottomNavigationBarViewState
     super.initState();
     _pages = [
       const HomeView(),
-      ExploreView(searchFocusNode: _searchFocusNode),
-      // const PathView(),
-      const SettingsScreen(),
+      const ExploreView(),
+      const FavoriteView(),
     ];
   }
 
@@ -50,54 +51,32 @@ class _BottomNavigationBarViewState
       child: Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         bottomNavigationBar: BottomActionBar(
-          leftItem: BottomActionBarItem(
-            child: MeditoHugeIcon(
-              icon: _currentPageIndex == 0 ? 'filledhome' : 'duohome',
-              color: _currentPageIndex == 0
-                  ? ColorConstants.lightPurple
-                  : ColorConstants.white,
-            ),
-            onTap: () => _onDestinationSelected(0),
-          ),
-          leftCenterItem: BottomActionBarItem(
-            child: GestureDetector(
-              onDoubleTap: () {
-                if (_currentPageIndex == 1) {
-                  _searchFocusNode.requestFocus();
-                } else {
-                  _onDestinationSelected(1);
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    _searchFocusNode.requestFocus();
-                  });
-                }
-              },
-              child: MeditoHugeIcon(
-                icon: _currentPageIndex == 1 ? 'filledSearch' : 'duoSearch',
-                color: _currentPageIndex == 1
-                    ? ColorConstants.lightPurple
-                    : ColorConstants.white,
+          children: <BottomActionBarItem>[
+            BottomActionBarItem(
+              child: BottomNavigationItem(
+                icon: _currentPageIndex == 0 ? Icons.home : Icons.home_outlined,
+                label: 'Home',
+                selected: _currentPageIndex == 0,
               ),
+              onTap: () => _onDestinationSelected(0),
             ),
-            onTap: () => _onDestinationSelected(1),
-          ),
-          // rightCenterItem: BottomActionBarItem(
-          //   child: MeditoHugeIcon(
-          //     icon: _currentPageIndex == 2 ? 'filledPath' : 'duoPath',
-          //     color: _currentPageIndex == 2
-          //         ? ColorConstants.lightPurple
-          //         : ColorConstants.white,
-          //   ),
-          //   onTap: () => _onDestinationSelected(2),
-          // ),
-          rightItem: BottomActionBarItem(
-            child: MeditoHugeIcon(
-              icon: _currentPageIndex == 2 ? 'filledSettings' : 'duoSettings',
-              color: _currentPageIndex == 2
-                  ? ColorConstants.lightPurple
-                  : ColorConstants.white,
+            BottomActionBarItem(
+              child: BottomNavigationItem(
+                icon: _currentPageIndex == 1 ? Icons.search : Icons.search_outlined,
+                label: 'Search',
+                selected: _currentPageIndex == 1,
+              ),
+              onTap: () => _onDestinationSelected(1),
             ),
-            onTap: () => _onDestinationSelected(2),
-          ),
+            BottomActionBarItem(
+              child: BottomNavigationItem(
+                icon: _currentPageIndex == 2 ? Icons.favorite : Icons.favorite_outline,
+                label: 'Favorites',
+                selected: _currentPageIndex == 2,
+              ),
+              onTap: () => _onDestinationSelected(2),
+            ),
+          ],
         ),
         body: IndexedStack(
           index: _currentPageIndex,
@@ -110,6 +89,9 @@ class _BottomNavigationBarViewState
   void _onDestinationSelected(int index) {
     if (_currentPageIndex == 1 && index != 1) {
       _searchFocusNode.unfocus();
+    }
+    if (index == 2) {
+      context.read<FetchFavoritesBloc>().add(const FetchFavorites());
     }
     setState(() {
       _currentPageIndex = index;

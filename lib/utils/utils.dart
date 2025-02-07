@@ -71,8 +71,8 @@ Future<void> launchEmailSubmission(
     query = 'subject=$subject';
   }
   if (body != null) {
-    var newBody = body.replaceAll('\n', '\r\n');
-    query = query != '' ? '$query&body=$newBody' : 'body=$newBody';
+    var _body = body.replaceAll('\n', '\r\n');
+    query = query != '' ? '$query&body=$_body' : 'body=$_body';
   }
 
   final params = Uri(
@@ -106,27 +106,8 @@ extension EmptyOrNull on String? {
   }
 }
 
-String getAudioFileExtension(String path) {
-  var lastIndex = path.lastIndexOf('/');
-  if (lastIndex != -1) {
-    var filenameWithQuery = path.substring(lastIndex + 1);
-    var filename = Uri.decodeFull(filenameWithQuery.split('?').first);
-    var dotIndex = filename.lastIndexOf('.');
-    if (dotIndex != -1) {
-      var fileExtension = filename.substring(dotIndex + 1);
-
-      return '.$fileExtension';
-    }
-  }
-
-  return '.mp3';
-}
-
 Future<File?> capturePng(BuildContext context, GlobalKey globalKey) async {
   try {
-    // Add a small delay to ensure widget has updated
-    await Future.delayed(const Duration(milliseconds: 100));
-    
     RenderRepaintBoundary boundary =
         globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
     ui.Image image = await boundary.toImage(pixelRatio: 3.0);

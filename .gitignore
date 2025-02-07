@@ -93,7 +93,7 @@ android/app/meditokey.jks
 ios/Flutter/flutter_export_environment.sh
 ios/Runner.xcodeproj/project.pbxproj
 ios/Flutter/AppFrameworkInfo.plist
-android/meditokey.jks
+android/is.jks
 ios/Runner.xcodeproj/project.pbxproj
 ios/Flutter/AppFrameworkInfo.plist
 android/app/src/google-services.json

@@ -8,7 +8,7 @@ The app is free, forever: no ads, no spam, no need to sign up or pay. Medito App
 
 ## Download
 
-- Play Store: [Download on Google Play](https://play.google.com/store/apps/details?id=meditofoundation.medito)
+- Play Store: [Download on Google Play](https://play.google.com/store/apps/details?id=abbey.inner_sweetness_app)
 - App Store: [Download on the App Store](https://apps.apple.com/us/app/medito/id1500780518)
 - APK: <a href="https://github.com/meditohq/medito-app/releases/latest"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/meditohq/medito-app?color=success&label=APK"></a>
 

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+// import 'package:medito/firebase_options.dart';
 import 'package:medito/firebase_options.dart';
 import 'package:medito/utils/utils.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -132,15 +133,16 @@ class FirebaseMessagingHandler {
       );
     }
   }
+
 }
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // if (!Firebase.apps.isNotEmpty) {
-  //   await Firebase.initializeApp(
-  //     options: DefaultFirebaseOptions.currentPlatform,
-  //   );
-  // }
+  if (!Firebase.apps.isNotEmpty) {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  }
   final handler = FirebaseMessagingHandler();
   await handler._showBackgroundNotification(message);
 }

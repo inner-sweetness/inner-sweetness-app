@@ -7,6 +7,7 @@ class MeditoAppBarLarge extends StatefulWidget {
     super.key,
     required this.scrollController,
     required this.title,
+    required this.subTitle,
     this.coverUrl,
     this.bgColor = ColorConstants.onyx,
     this.hasLeading = false,
@@ -14,6 +15,7 @@ class MeditoAppBarLarge extends StatefulWidget {
 
   final ScrollController scrollController;
   final String title;
+  final String subTitle;
   final String? coverUrl;
   final Color bgColor;
   final bool hasLeading;
@@ -45,6 +47,7 @@ class _MeditoAppBarLargeState extends State<MeditoAppBarLarge> {
       flexibleSpace: _flexibleSpaceBar(
         titlePadding,
         widget.title,
+        widget.subTitle,
         scrollFactor,
       ),
     );
@@ -53,24 +56,40 @@ class _MeditoAppBarLargeState extends State<MeditoAppBarLarge> {
   FlexibleSpaceBar _flexibleSpaceBar(
     double titlePadding,
     String title,
+    String subTitle,
     double scrollFactor,
   ) {
     return FlexibleSpaceBar(
       centerTitle: false,
       titlePadding: EdgeInsets.only(left: titlePadding, bottom: 17.0),
-      title: _topBarTitle(title),
+      title: _topBarTitle(title, subTitle),
       background: _topBarBackground(scrollFactor, widget.coverUrl),
     );
   }
 
-  Text _topBarTitle(String title) {
-    return Text(
-      title,
-      style: Theme.of(context).primaryTextTheme.titleLarge?.copyWith(
-            fontFamily: sourceSerif,
+  Column _topBarTitle(String title, String subTitle) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        Text(
+          title,
+          style: Theme.of(context).primaryTextTheme.titleLarge?.copyWith(
+            fontFamily: SourceSerif,
             fontWeight: FontWeight.w700,
             color: ColorConstants.white,
           ),
+        ),
+        Text(
+          subTitle,
+          style: Theme.of(context).primaryTextTheme.bodyLarge?.copyWith(
+            fontFamily: SourceSerif,
+            fontWeight: FontWeight.w700,
+            color: ColorConstants.white,
+          ),
+        ),
+      ],
     );
   }
 
@@ -89,7 +108,6 @@ class _MeditoAppBarLargeState extends State<MeditoAppBarLarge> {
           ),
           url: coverUrl,
           shouldCache: true,
-          errorWidget: const SizedBox(),
         ),
       );
     }

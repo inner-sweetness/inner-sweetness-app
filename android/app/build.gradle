@@ -28,12 +28,14 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
-def keystorePropertiesFile = rootProject.file("keystore.properties")
 def keystoreProperties = new Properties()
-keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
 
 android {
-    namespace "meditofoundation.medito"
+    namespace "com.innersweetness.app"
     compileSdkVersion 34  // Update this
 
     compileOptions {
@@ -50,45 +52,28 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
-    project.ext {
-        APP_ID = keystoreProperties['appId']
-        KEYSTORE_STORE_FILE = rootProject.file(keystoreProperties['storeFile'])
-        KEYSTORE_STORE_PASSWORD = keystoreProperties['storePassword']
-        KEYSTORE_KEY_ALIAS = keystoreProperties['keyAlias']
-        KEYSTORE_KEY_PASSWORD = keystoreProperties['keyPassword']
-        VERSION_CODE = flutterVersionCode.toInteger()
-        VERSION_NAME = flutterVersionName
+    defaultConfig {
+        applicationId "com.innersweetness.app"
+        minSdkVersion Math.max(flutter.minSdkVersion, 26)
+        targetSdkVersion 34  // Update this
+        versionCode = flutterVersionCode.toInteger()
+        versionName = flutterVersionName
+        multiDexEnabled true
     }
 
     signingConfigs {
         release {
-            storeFile project.KEYSTORE_STORE_FILE
-            storePassword project.KEYSTORE_STORE_PASSWORD
-            keyAlias project.KEYSTORE_KEY_ALIAS
-            keyPassword project.KEYSTORE_KEY_PASSWORD
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword keystoreProperties['storePassword']
         }
-    }
-
-    defaultConfig {
-        applicationId project.APP_ID
-        minSdkVersion Math.max(flutter.minSdkVersion, 26)
-        targetSdkVersion 34  // Update this
-        versionCode project.VERSION_CODE
-        versionName project.VERSION_NAME
-        multiDexEnabled true
     }
 
     buildTypes {
-        debug {
-            signingConfig signingConfigs.debug
-            debuggable true
-        }
         release {
-            signingConfig signingConfigs.release
-            debuggable false
-            minifyEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig = signingConfigs.debug
+            signingConfig = signingConfigs.release
         }
     }
 

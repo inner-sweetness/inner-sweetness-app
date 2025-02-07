@@ -14,6 +14,9 @@ class StringConstants {
   static const String tryAgain = 'Try again';
   static const String retry = 'Retry';
   static const String statsSuccess = 'Stats updated';
+  static const String statsError =
+      'Updating stats failed. If this keeps happening, close the app and reopen it.';
+  static const String processingStatsUpdate = 'Updating stats. Please wait...';
   static const String shareStatsText =
       '''Discover calmness for FREE with #Medito‍♂️ I've found my inner peace; now it's your turn! Join me on this mindful journey and start exploring today 💜 Download medito.app #Calm #Meditation #Headspace''';
 
@@ -39,6 +42,7 @@ class StringConstants {
   static const String writeBelowThisLine = '--- Write below this line ---';
   static const String explore = 'Explore';
   static const String welcome = '👋 Welcome';
+  static const String welcomeSubTitle = 'is nice to see you again';
   static const String thanksForSharing = 'Thanks for sharing 💜';
   static const String min = 'min';
   static const String hey = '👋 Hey';
@@ -212,6 +216,15 @@ class StringConstants {
   /// Title for the Contact Us section in the Settings screen
   static const String contactUsTitle = 'Contact us';
 
+  /// Title for the Contact Us section in the Settings screen
+  static const String followUsTitle = 'Follow us';
+
+  /// Title for the Contact Us section in the Settings screen
+  static const String shareTitle = 'Share';
+
+  /// Title for the Contact Us section in the Settings screen
+  static const String logoutTitle = 'Logout';
+
   /// Title for the Account section in the Settings screen
   static const String accountTitle = 'Account';
 
@@ -292,8 +305,4 @@ class StringConstants {
   static const String dailyPracticeMessage = 'Practicing daily grows your streak, but it also makes you more mindful and happier!';
 
   static const String dayStreak = 'day streak'; // Used to display the current streak of meditation days
-
-  /// Title displayed above the daily quote widget in the home view
-  static const String dailyQuote = 'Daily Quote';
-
 }

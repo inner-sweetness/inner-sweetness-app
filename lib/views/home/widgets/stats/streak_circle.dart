@@ -55,7 +55,8 @@ class _StreakCircleState extends ConsumerState<StreakCircle>
           loading: () => _buildShimmer(),
           error: (_, __) => _buildErrorState(ref),
           data: (stats) {
-            final isStreakDoneToday = _isStreakDoneToday(stats.audioCompleted);
+            final isStreakDoneToday =
+                _isStreakDoneToday(stats.audioCompleted);
             final streakText = '${stats.streakCurrent}';
 
             if (isStreakDoneToday && !_animationController.isAnimating) {
@@ -139,7 +140,7 @@ class _StreakCircleState extends ConsumerState<StreakCircle>
                         fontWeight: isStreakDoneToday
                             ? FontWeight.bold
                             : FontWeight.w400,
-                        fontFamily: dmMono,
+                        fontFamily: DmMono,
                         height: _kLineHeight,
                       ),
                     ),
@@ -203,7 +204,11 @@ class _StreakCircleState extends ConsumerState<StreakCircle>
         padding: _kPadding,
         child: GestureDetector(
           onTap: () => ref.refresh(statsProvider),
-          child: const Text('help'),
+          child: Icon(Icons.play_arrow),
+          // child: HugeIcon(
+          //   icon: HugeIcons.strokeRoundedHelpCircle,
+          //   color: ColorConstants.white,
+          // ),
         ),
       ),
     );

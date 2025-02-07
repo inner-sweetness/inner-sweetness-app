@@ -112,8 +112,7 @@ class _PlayerViewState extends ConsumerState<PlayerView> {
           trackModel: currentlyPlayingTrack,
           file: file,
           onClosePressed: () => _handleClose(),
-          onSpeedChanged: (speed) =>
-              ref.read(playerProvider.notifier).setSpeed(speed),
+          onSpeedChanged: (speed) => ref.read(playerProvider.notifier).setSpeed(speed),
           isBackgroundSoundSelected: _isBackgroundSoundSelected(),
         ),
       ),
@@ -201,19 +200,23 @@ class _PlayerViewState extends ConsumerState<PlayerView> {
     if (_isClosing) {
       return;
     }
-    _isClosing = true;
+    try {
+      _isClosing = true;
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _resetState();
-      _stopAudio();
-      _endScreenOpened = false;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _resetState();
+        _stopAudio();
+        _endScreenOpened = false;
 
-      if (shouldPop && Navigator.canPop(context)) {
-        Navigator.pop(context);
-      }
+        if (shouldPop && Navigator.canPop(context)) {
+          Navigator.pop(context);
+        }
 
-      _isClosing = false;
-    });
+        _isClosing = false;
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   void _stopAudio() {

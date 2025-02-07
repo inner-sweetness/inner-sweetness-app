@@ -1,11 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:medito/constants/constants.dart';
 import 'package:medito/providers/providers.dart';
+import 'package:medito/services/network/auth_api_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:uuid/uuid.dart';
 
 part 'auth_repository.g.dart';
 
@@ -29,9 +27,6 @@ abstract class AuthRepository {
   Future<void> initializeUser();
   Future<String> getToken();
   String getUserEmail();
-  Future<bool> signUp(String email, String password);
-  Future<bool> logIn(String email, String password);
-  User? get currentUser;
   Future<bool> signOut();
   Future<bool> markAccountForDeletion();
   Future<bool> isAccountMarkedForDeletion();
@@ -39,35 +34,17 @@ abstract class AuthRepository {
 
 class AuthRepositoryImpl extends AuthRepository {
   final Ref ref;
+  final AuthDioApiService service;
 
-  AuthRepositoryImpl({required this.ref});
+  AuthRepositoryImpl({required this.ref, required this.service});
 
   @override
   Future<void> initializeUser() async {
-    await Supabase.initialize(
-      url: supabaseUrl,
-      anonKey: supabaseKey,
-    );
-
-    var clientId = await getClientIdFromSharedPreference();
-    clientId ??= const Uuid().v4();
-
-    await _saveClientIdToSharedPreference(clientId);
-    if (Supabase.instance.client.auth.currentUser == null) {
-      await _signInAnonymously(clientId);
-    }
+    throw Exception('Not implemented');
   }
 
   Future<void> _signInAnonymously(String clientId) async {
-    try {
-      await Supabase.instance.client.auth.signInAnonymously(
-        data: {'client_id': clientId},
-      );
-    } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
-    }
+    throw Exception('Not implemented');
   }
 
   @override
@@ -79,93 +56,16 @@ class AuthRepositoryImpl extends AuthRepository {
 
   @override
   Future<String> getToken() async {
-    var currentSession = Supabase.instance.client.auth.currentSession;
-    if (currentSession != null) {
-      var bearer = currentSession.accessToken;
-
-      return bearer.isNotEmpty
-          ? bearer
-          : throw Exception('No bearer token found');
-    }
-
-    return '';
+    throw Exception('Not implemented');
   }
 
   @override
   String getUserEmail() {
-    var currentUser = Supabase.instance.client.auth.currentUser;
-
-    return currentUser?.email ?? '';
-  }
-
-  @override
-  Future<bool> signUp(String email, String password) async {
-    var clientId = await getClientIdFromSharedPreference() ?? '';
-    var supabase = Supabase.instance.client;
-
-    try {
-      var signUpResponse = await supabase.auth.signUp(
-        email: email,
-        password: password,
-        data: {'client_id': clientId},
-      );
-
-      if (signUpResponse.user != null) {
-        await _linkAnonymousAccount(email, password);
-      }
-
-      return signUpResponse.user != null;
-    } catch (e) {
-      throw Exception('Error during sign-up: ${e.toString()}');
-    }
-  }
-
-  @override
-  Future<bool> logIn(String email, String password) async {
-    var supabase = Supabase.instance.client;
-
-    _clearClientId();
-
-    try {
-      var response = await supabase.auth.signInWithPassword(
-        email: email,
-        password: password,
-      );
-
-      if (response.user != null) {
-        if (response.user?.userMetadata?['marked_for_deletion'] == true) {
-          throw AuthError(AuthException.accountMarkedForDeletion, 
-            'This account has been marked for deletion.');
-        }
-        await _saveClientIdToSharedPreference(
-            response.user?.userMetadata?['client_id'] ?? '');
-      }
-
-      return response.user != null;
-    } catch (e) {
-      if (e is AuthError) {
-        rethrow;
-      }
-      throw AuthError(AuthException.other, 'Error during log-in: ${e.toString()}');
-    }
+    throw Exception('Not implemented');
   }
 
   Future<void> _linkAnonymousAccount(String email, String password) async {
-    var supabase = Supabase.instance.client;
-    var anonymousUser = supabase.auth.currentUser;
-
-    if (anonymousUser != null && anonymousUser.email == null) {
-      try {
-        await supabase.auth.updateUser(
-          UserAttributes(
-            email: email,
-            password: password,
-          ),
-        );
-      } catch (e) {
-        throw Exception('Error linking anonymous account: ${e.toString()}');
-      }
-    }
+    throw Exception('Not implemented');
   }
 
   Future<void> _saveClientIdToSharedPreference(String clientId) async {
@@ -180,20 +80,8 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  User? get currentUser => Supabase.instance.client.auth.currentUser;
-
-  @override
   Future<bool> signOut() async {
-    var supabase = Supabase.instance.client;
-
     try {
-      await supabase.auth.signOut();
-
-      var newClientId = const Uuid().v4();
-      await _saveClientIdToSharedPreference(newClientId);
-
-      await _signInAnonymously(newClientId);
-
       return true;
     } catch (e) {
       throw Exception('Error signing out: ${e.toString()}');
@@ -203,15 +91,9 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future<bool> markAccountForDeletion() async {
     try {
-      final supabase = Supabase.instance.client;
-      final response = await supabase.auth.updateUser(
-        UserAttributes(data: {'marked_for_deletion': true}),
-      );
-      return response.user != null;
+      return false;
     } catch (e) {
-      if (kDebugMode) {
-        print('Error marking account for deletion: $e');
-      }
+      print('Error marking account for deletion: $e');
       return false;
     }
   }
@@ -219,13 +101,9 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future<bool> isAccountMarkedForDeletion() async {
     try {
-      final supabase = Supabase.instance.client;
-      final user = supabase.auth.currentUser;
-      return user?.userMetadata?['marked_for_deletion'] == true;
+      return false;
     } catch (e) {
-      if (kDebugMode) {
-        print('Error checking if account is marked for deletion: $e');
-      }
+      print('Error checking if account is marked for deletion: $e');
       return false;
     }
   }
@@ -233,5 +111,5 @@ class AuthRepositoryImpl extends AuthRepository {
 
 @riverpod
 AuthRepository authRepository(AuthRepositoryRef ref) {
-  return AuthRepositoryImpl(ref: ref);
+  return AuthRepositoryImpl(ref: ref, service: AuthDioApiService());
 }

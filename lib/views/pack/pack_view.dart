@@ -76,6 +76,7 @@ class _PackViewState extends ConsumerState<PackView>
           MeditoAppBarLarge(
             scrollController: _scrollController,
             title: pack.title,
+            subTitle: pack.subTitle,
             hasLeading: false,
             coverUrl: pack.coverUrl,
           ),

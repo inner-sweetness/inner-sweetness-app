@@ -1,5 +1,3 @@
-import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:medito/constants/strings/string_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -73,30 +71,13 @@ class ReminderProvider {
         matchDateTimeComponents: DateTimeComponents.time,
       );
     } catch (e, s) {
-      if (kDebugMode) {
-        print('Error scheduling notification: $e');
-        print('Stack trace: $s');
-      }
-    }
-  }
-
-  Future<void> clearBadge() async {
-    if (Platform.isIOS) {
-      const iOSPlatformChannelSpecifics = DarwinNotificationDetails(
-        badgeNumber: 0,
-      );
-      await _flutterLocalNotificationsPlugin.show(
-        0,
-        null,
-        null,
-        const NotificationDetails(iOS: iOSPlatformChannelSpecifics),
-      );
+      print('Error scheduling notification: $e');
+      print('Stack trace: $s');
     }
   }
 
   Future<void> cancelDailyNotification() async {
     await _flutterLocalNotificationsPlugin.cancel(dailyNotificationId);
-    await clearBadge();
   }
 }
 

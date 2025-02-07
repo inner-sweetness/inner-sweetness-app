@@ -8,10 +8,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// ignore: depend_on_referenced_packages
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:medito/constants/constants.dart';
+import 'package:medito/di/app_config.dart';
+import 'package:medito/injection.dart';
 import 'package:medito/providers/player/audio_state_provider.dart';
 import 'package:medito/providers/player/player_provider.dart';
 import 'package:medito/providers/shared_preference/shared_preference_provider.dart';
@@ -19,22 +20,19 @@ import 'package:medito/providers/stats_provider.dart';
 import 'package:medito/routes/routes.dart';
 import 'package:medito/services/network/dio_header_service.dart';
 import 'package:medito/src/audio_pigeon.g.dart';
-import 'package:medito/utils/stats_manager.dart';
-import 'package:medito/views/splash_view.dart';
+import 'package:medito/views/splash_view/splash_view.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'constants/theme/app_theme.dart';
-import 'firebase_options.dart';
-import 'package:medito/providers/device_and_app_info/device_and_app_info_provider.dart';
-import 'package:medito/providers/notification/reminder_provider.dart';
 
 final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 var audioStateNotifier = AudioStateNotifier();
 
 void main() async {
+  configureDependencies();
   WidgetsFlutterBinding.ensureInitialized();
   var appLinks = AppLinks();
-
+  await getIt<AppConfig>().initialize();
   // Handle app links while the app is already started - deep link
   appLinks.uriLinkStream.listen((Uri? uri) {
     if (uri != null) {
@@ -45,15 +43,15 @@ void main() async {
     }
   });
 
-  // await initializeApp();
+  await initializeApp();
   _runAppWithSentry();
 }
 
 Future<void> initializeApp() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp(
-  //   options: DefaultFirebaseOptions.currentPlatform,
-  // );
+  if (Platform.isAndroid) {
+    await Firebase.initializeApp();
+  }
   setupAudioCallback();
   await initializeAudioService();
   usePathUrlStrategy();
@@ -114,17 +112,6 @@ class _ParentWidgetState extends ConsumerState<ParentWidget>
     WidgetsBinding.instance.addObserver(this);
     _initDeepLinkListener();
     _handleInitialUri();
-    _initializeDioHeaderService().then(
-      (_) {
-        _checkInitialConnectivity();
-      },
-    );
-  }
-
-  Future<void> _initializeDioHeaderService() async {
-    final deviceInfo = await ref.read(deviceAndAppInfoProvider.future);
-    dioHeaderService = DioHeaderService(deviceInfo);
-    await dioHeaderService.initialise();
   }
 
   void _initDeepLinkListener() {
@@ -176,54 +163,6 @@ class _ParentWidgetState extends ConsumerState<ParentWidget>
     ));
   }
 
-  Future<void> _checkInitialConnectivity() async {
-    _connectivityListener =
-        InternetConnection().onStatusChange.listen((InternetStatus status) {
-      switch (status) {
-        case InternetStatus.connected:
-          _hideNoConnectionSnackBar();
-          StatsManager().sync().then((_) => ref.invalidate(statsProvider));
-          break;
-        case InternetStatus.disconnected:
-          _showNoConnectionSnackBar();
-          break;
-      }
-    });
-
-    return;
-  }
-
-  void _hideNoConnectionSnackBar() {
-    scaffoldMessengerKey.currentState?.hideCurrentSnackBar();
-  }
-
-  void _showNoConnectionSnackBar() {
-    var currentState = scaffoldMessengerKey.currentState;
-    if (currentState?.mounted ?? false) {
-      currentState!
-        ..hideCurrentSnackBar()
-        ..showSnackBar(
-          SnackBar(
-            content: const Text(StringConstants.noConnectionMessage),
-            duration: const Duration(days: 365),
-            action: SnackBarAction(
-              label: StringConstants.goToDownloads,
-              onPressed: () {
-                currentState.hideCurrentSnackBar();
-                _navigateToDownloads(context);
-              },
-            ),
-          ),
-        );
-    }
-
-    return;
-  }
-
-  void _navigateToDownloads(BuildContext context) {
-    handleNavigation(TypeConstants.flow, ['downloads'], context, ref: ref);
-  }
-
   @override
   void dispose() {
     _connectivityListener.cancel();
@@ -234,6 +173,10 @@ class _ParentWidgetState extends ConsumerState<ParentWidget>
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp(
       debugShowCheckedModeBanner: kDebugMode,
       scaffoldMessengerKey: scaffoldMessengerKey,
@@ -253,7 +196,6 @@ class _ParentWidgetState extends ConsumerState<ParentWidget>
   }
 
   void _onAppForegrounded() {
-    ref.read(reminderProvider).clearBadge();
     ref.invalidate(statsProvider);
   }
 }

@@ -42,7 +42,10 @@ class StatsBottomSheetWidget extends ConsumerWidget {
                 error: (error, stack) => Center(
                   child: GestureDetector(
                     onTap: () => ref.refresh(statsProvider),
-                    child: const Text('help'),
+                    child: const Icon(Icons.play_arrow),
+                    // child: HugeIcon(
+                    //     icon: HugeIcons.strokeRoundedHelpCircle,
+                    //     color: ColorConstants.white),
                   ),
                 ),
                 data: (stats) => _statsList(context, globalKey, stats),
@@ -66,7 +69,7 @@ class StatsBottomSheetWidget extends ConsumerWidget {
       titleStyle: Theme.of(context).textTheme.labelMedium?.copyWith(
             fontSize: 20,
             fontWeight: FontWeight.w600,
-            fontFamily: dmSans,
+            fontFamily: DmSans,
           ),
     );
   }

@@ -12,6 +12,7 @@ abstract class DeviceAndAppInfoModel with _$DeviceAndAppInfoModel {
     required String buildNumber,
     required String appVersion,
     required String languageCode,
+    required String currencySymbol,
     required String currencyName,
   }) = _DeviceAndAppInfoModel;
 
